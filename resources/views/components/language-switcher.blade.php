@@ -10,10 +10,10 @@
 <form method="POST" action="{{ route('locale.update') }}" style="display:inline-block;">
     @csrf
     <select name="option" onchange="this.form.submit()"
-        style="font-family:inherit;font-size:13px;font-weight:600;color:#666B76;background:#fff;
-            border:1px solid #E8EBF0;border-radius:8px;padding:6px 8px;cursor:pointer;color-scheme:light;">
+        style="font-family:inherit;font-size:16px;font-weight:600;color:#666B76;background:#fff;
+            border:1px solid #E8EBF0;border-radius:8px;padding:7px 8px;cursor:pointer;color-scheme:light;">
         @foreach (\App\Support\LocaleOptions::OPTIONS as $key => $option)
-            <option value="{{ $key }}" {{ $key === $currentOption ? 'selected' : '' }} style="background:#fff;color:#14171F;">
+            <option value="{{ $key }}" {{ $key === $currentOption ? 'selected' : '' }} style="background:#fff;color:#14171F;font-size:16px;">
                 {{ $option['flag'] }} {{ $short ? strtoupper($option['locale']) : $option['label'] }}
             </option>
         @endforeach

@@ -64,10 +64,29 @@
   .nav-links a:hover{color:var(--text);}
   .nav-cta{display:flex;gap:12px;align-items:center;}
   @media(max-width:900px){.nav-links{display:none;}}
+
+  .nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;
+    background:none;border:none;cursor:pointer;padding:8px;}
+  .nav-burger span{width:22px;height:2px;background:var(--text);border-radius:2px;display:block;}
+
+  .nav-mobile-panel{display:none;flex-direction:column;padding:8px 20px 20px;
+    border-top:1px solid var(--border);background:#fff;}
+  .nav-mobile-panel.is-open{display:flex;}
+  .nav-mobile-panel > a{padding:13px 4px;font-size:14.5px;color:var(--text-dim);font-weight:500;
+    border-bottom:1px solid var(--bg-soft);}
+  .nav-mobile-panel > a:hover{color:var(--text);}
+  .nav-mobile-actions{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
+  .nav-mobile-actions .btn{width:100%;justify-content:center;}
+  .nav-mobile-actions .btn-ghost{
+    border:1.5px solid #0B6FE0;color:#14171F;
+    box-shadow:0 0 0 3px rgba(11,111,224,.14), 0 2px 10px rgba(11,111,224,.3);
+  }
+  .nav-mobile-lang{margin-top:14px;}
+
   @media(max-width:640px){
-    .nav-inner{padding:14px 20px;flex-wrap:wrap;row-gap:10px;}
-    .nav-cta{flex-wrap:wrap;justify-content:flex-end;gap:8px;}
-    .nav-cta .btn{padding:8px 13px;font-size:13px;}
+    .nav-inner{padding:14px 20px;}
+    .nav-cta{display:none;}
+    .nav-burger{display:flex;}
   }
 
   .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font);
@@ -434,6 +453,17 @@
 </div>
 
 <script>
+  function toggleMobileNav(){
+    var panel = document.getElementById('navMobilePanel');
+    var burger = document.getElementById('navBurgerBtn');
+    var isOpen = panel.classList.toggle('is-open');
+    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+  function closeMobileNav(){
+    document.getElementById('navMobilePanel').classList.remove('is-open');
+    document.getElementById('navBurgerBtn').setAttribute('aria-expanded', 'false');
+  }
+
   function setHeroRole(role){
     var isCreator = role === 'creator';
     document.getElementById('roleClientBtn').classList.toggle('active', !isCreator);
