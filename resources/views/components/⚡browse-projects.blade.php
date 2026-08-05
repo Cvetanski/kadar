@@ -258,6 +258,8 @@ new class extends Component
     </div>
 
     <div class="br-layout">
+        <div class="br-filters-backdrop {{ $showFilters ? 'is-open' : '' }}" wire:click="$set('showFilters', false)"></div>
+
         <aside class="br-filters {{ $showFilters ? 'is-open' : '' }}">
             <div class="br-filters-head">
                 <span>{{ __('Филтри') }}</span>
