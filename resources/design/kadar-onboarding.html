@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding — KADAR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFFFF; --bg-soft:#F6F8FB; --surface:#FFFFFF; --border:#E8EBF0;
+    --text:#14171F; --text-dim:#666B76; --text-faint:#9AA0AB;
+    --blue:#0B6FE0; --blue-dark:#0958B5; --blue-soft:#EAF2FE;
+    --green:#17A673; --green-soft:#E7F8F1; --amber:#F5A524;
+    --shadow-sm:0 1px 2px rgba(20,23,31,0.05), 0 1px 1px rgba(20,23,31,0.04);
+    --shadow-md:0 8px 24px rgba(20,23,31,0.08), 0 2px 6px rgba(20,23,31,0.04);
+    --shadow-lg:0 20px 50px rgba(20,23,31,0.12), 0 4px 12px rgba(20,23,31,0.06);
+    --radius:16px; --font:'Inter', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle, rgba(20,23,31,0.12) 1.4px, transparent 1.4px);
+    background-size:22px 22px;
+    min-height:100vh;
+  }
+  a{text-decoration:none;color:inherit;}
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+
+  .top{display:flex;justify-content:center;padding:28px 0 0;}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;letter-spacing:-0.01em;}
+  .logo .sq{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#2D82E8,#0847A0);
+    display:flex;align-items:center;justify-content:center;}
+  .logo .sq span{width:7px;height:7px;border-radius:2px;background:#fff;}
+
+  .shell{max-width:620px;margin:0 auto;padding:40px 20px 80px;}
+
+  /* progress */
+  .progress-head{margin-bottom:28px;}
+  .progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .progress-label{font-size:13px;font-weight:600;color:var(--text-dim);}
+  .progress-step-name{font-size:13px;font-weight:700;color:var(--blue);}
+  .progress-track{height:6px;background:var(--border);border-radius:999px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(135deg,#2D82E8,#0958B5);border-radius:999px;
+    transition:width .3s ease;width:14.2%;}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+    box-shadow:var(--shadow-lg);padding:36px 32px;}
+  .step-title{font-size:21px;font-weight:800;letter-spacing:-0.01em;margin-bottom:6px;}
+  .step-sub{font-size:14px;color:var(--text-dim);margin-bottom:28px;}
+
+  .step{display:none;}
+  .step.active{display:block;}
+
+  /* STEP 1 - categories as tiles */
+  .tile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  @media(max-width:520px){.tile-grid{grid-template-columns:repeat(2,1fr);}}
+  .tile{
+    position:relative;border:1.5px solid var(--border);border-radius:14px;padding:20px 16px;
+    cursor:pointer;transition:border-color .15s ease, background .15s ease, transform .15s ease;
+    text-align:left;
+  }
+  .tile:hover{transform:translateY(-2px);}
+  .tile .icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-size:18px;margin-bottom:12px;background:var(--bg-soft);}
+  .tile .name{font-weight:700;font-size:14.5px;margin-bottom:4px;}
+  .tile .desc{font-size:12px;color:var(--text-dim);line-height:1.4;}
+  .tile.selected{border-color:var(--blue);background:var(--blue-soft);}
+  .tile.selected .icon{background:#fff;}
+  .tile-check{
+    position:absolute;top:14px;right:14px;width:20px;height:20px;border-radius:6px;
+    border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:12px;color:#fff;
+  }
+  .tile.selected .tile-check{background:var(--blue);border-color:var(--blue);}
+
+  /* STEP 2 - skill pills */
+  .skill-group{margin-bottom:20px;}
+  .skill-group-title{font-size:12.5px;font-weight:700;color:var(--text-faint);text-transform:uppercase;
+    letter-spacing:0.03em;margin-bottom:10px;}
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .pill{
+    border:1.5px solid var(--border);border-radius:999px;padding:8px 16px;font-size:13.5px;font-weight:600;
+    cursor:pointer;transition:all .15s ease;color:var(--text-dim);
+  }
+  .pill.selected{background:var(--blue);border-color:var(--blue);color:#fff;}
+
+  /* forms */
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;margin-top:16px;}
+  label:first-of-type{margin-top:0;}
+  input[type=text], input[type=number], input[type=url], select, textarea{
+    width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:10px;
+    font-family:var(--font);font-size:14.5px;background:var(--bg-soft);transition:border-color .15s ease;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--blue);background:#fff;}
+  textarea{resize:vertical;min-height:90px;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .checkbox-row{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:14px;color:var(--text-dim);}
+  .checkbox-row input{width:auto;}
+
+  /* STEP 5 portfolio */
+  .add-row{display:grid;grid-template-columns:1fr 110px 1fr auto;gap:10px;align-items:end;margin-top:0;}
+  .add-row label{margin-top:0;}
+  .btn-add{background:var(--blue-soft);color:var(--blue-dark);border:none;border-radius:10px;
+    padding:11px 16px;font-weight:700;font-size:13.5px;cursor:pointer;height:fit-content;}
+  .portfolio-list{margin-top:20px;display:flex;flex-direction:column;gap:8px;}
+  .portfolio-item{display:flex;justify-content:space-between;align-items:center;background:var(--bg-soft);
+    border-radius:10px;padding:10px 14px;font-size:13.5px;}
+  .portfolio-item .meta{color:var(--text-faint);font-size:12px;}
+  .remove-btn{background:none;border:none;color:var(--text-faint);cursor:pointer;font-size:16px;}
+  .remove-btn:hover{color:#D64545;}
+  .empty-note{font-size:13px;color:var(--text-faint);margin-top:16px;text-align:center;padding:20px;
+    border:1.5px dashed var(--border);border-radius:12px;}
+
+  /* STEP 7 review */
+  .review-block{border-bottom:1px solid var(--border);padding:16px 0;}
+  .review-block:first-child{padding-top:0;}
+  .review-block:last-child{border-bottom:none;padding-bottom:0;}
+  .review-label{font-size:12px;font-weight:700;color:var(--text-faint);text-transform:uppercase;
+    letter-spacing:0.03em;margin-bottom:8px;}
+  .review-value{font-size:14.5px;color:var(--text);line-height:1.6;}
+  .review-tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .review-tag{background:var(--blue-soft);color:var(--blue-dark);font-size:12.5px;font-weight:600;
+    padding:4px 10px;border-radius:999px;}
+  .verify-note{display:flex;gap:10px;background:var(--green-soft);border-radius:12px;padding:14px 16px;
+    margin-top:20px;font-size:13px;color:var(--green);}
+
+  /* nav buttons */
+  .nav-row{display:flex;justify-content:space-between;margin-top:32px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font);font-weight:700;
+    font-size:14.5px;padding:12px 22px;border-radius:10px;border:none;cursor:pointer;transition:all .15s ease;}
+  .btn-back{background:#fff;color:var(--text-dim);border:1px solid var(--border);}
+  .btn-back:hover{border-color:var(--text-faint);}
+  .btn-back:disabled{opacity:0.4;cursor:not-allowed;}
+  .btn-next{background:linear-gradient(135deg,#2D82E8,#0958B5);color:#fff;box-shadow:var(--shadow-sm);}
+  .btn-next:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="logo"><span class="sq"><span></span></span>KADAR</div>
+</div>
+
+<div class="shell">
+  <div class="progress-head">
+    <div class="progress-row">
+      <div class="progress-label">Чекор <span id="step-num">1</span> од 7</div>
+      <div class="progress-step-name" id="step-name">Категорија</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <div class="card">
+
+    <!-- STEP 1 -->
+    <div class="step active" data-step="1">
+      <div class="step-title">Која е твојата специјалност?</div>
+      <div class="step-sub">Избери една или повеќе категории — профилот ти ќе се појавува во сите.</div>
+      <div class="tile-grid" id="category-grid">
+        <div class="tile" data-cat="video">
+          <div class="tile-check">✓</div>
+          <div class="icon">🎬</div>
+          <div class="name">Видео продукција</div>
+          <div class="desc">Свадби, реклами, настани, спотови</div>
+        </div>
+        <div class="tile" data-cat="photo">
+          <div class="tile-check">✓</div>
+          <div class="icon">📷</div>
+          <div class="name">Фотографија</div>
+          <div class="desc">Продукт, портрет, настан</div>
+        </div>
+        <div class="tile" data-cat="editing">
+          <div class="tile-check">✓</div>
+          <div class="icon">✂️</div>
+          <div class="name">Видео едитинг</div>
+          <div class="desc">Монтажа, колор грејдинг</div>
+        </div>
+        <div class="tile" data-cat="marketing">
+          <div class="tile-check">✓</div>
+          <div class="icon">📈</div>
+          <div class="name">Дигитален маркетинг</div>
+          <div class="desc">Content, раст, рекламирање</div>
+        </div>
+        <div class="tile" data-cat="design">
+          <div class="tile-check">✓</div>
+          <div class="icon">🎨</div>
+          <div class="name">Дизајн</div>
+          <div class="desc">Графички дизајн, брендинг, лого</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" data-step="2">
+      <div class="step-title">Кои се твоите вештини?</div>
+      <div class="step-sub">Прикажани се тагови поврзани со твоите избрани категории.</div>
+      <div id="skills-container"></div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" data-step="3">
+      <div class="step-title">Каде се наоѓаш?</div>
+      <div class="step-sub">Клиентите можат да филтрираат по локација.</div>
+      <label for="country">Земја</label>
+      <select id="country" onchange="updateCities()">
+        <option value="mk">Северна Македонија</option>
+        <option value="rs">Србија</option>
+        <option value="hr">Хрватска</option>
+        <option value="al">Албанија</option>
+        <option value="xk">Косово</option>
+      </select>
+      <label for="city">Град</label>
+      <select id="city"></select>
+      <div class="checkbox-row"><input type="checkbox" id="remote"><label for="remote" style="margin:0;font-weight:400;">Достапен сум и за работа од далечина</label></div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step" data-step="4">
+      <div class="step-title">Кажи ни повеќе за себе</div>
+      <div class="step-sub">Ова ќе биде прикажано на јавниот профил.</div>
+      <label for="headline">Кратка реченица (headline)</label>
+      <input type="text" id="headline" placeholder="Видеограф · Свадби, реклами, настани">
+      <label for="bio">Био</label>
+      <textarea id="bio" placeholder="Раскажи за твоето искуство и стил на работа..."></textarea>
+      <div class="two-col">
+        <div><label for="rate">Цена по час (€)</label><input type="number" id="rate" placeholder="35"></div>
+        <div><label for="experience">Години искуство</label><input type="number" id="experience" placeholder="6"></div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step" data-step="5">
+      <div class="step-title">Прикажи ја твојата работа</div>
+      <div class="step-sub">Долепи линк до постоечка содржина (YouTube, Vimeo, Instagram...). Барем 1 задолжителна.</div>
+      <div class="add-row">
+        <div><label>Наслов</label><input type="text" id="pf-title" placeholder="Свадба - Марија и Стефан"></div>
+        <div><label>Тип</label><select id="pf-type"><option value="video">Видео</option><option value="image">Слика</option></select></div>
+        <div><label>Линк</label><input type="url" id="pf-url" placeholder="https://..."></div>
+        <button class="btn-add" onclick="addPortfolio()">Додади</button>
+      </div>
+      <div class="portfolio-list" id="portfolio-list"></div>
+      <div class="empty-note" id="portfolio-empty">Сеуште нема додадено ставки</div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step" data-step="6">
+      <div class="step-title">Социјални мрежи</div>
+      <div class="step-sub">Опционално, но помага на клиентите да ти веруваат повеќе.</div>
+      <label for="instagram">Instagram</label>
+      <input type="url" id="instagram" placeholder="https://instagram.com/...">
+      <label for="facebook">Facebook</label>
+      <input type="url" id="facebook" placeholder="https://facebook.com/...">
+      <label for="website">Веб-сајт</label>
+      <input type="url" id="website" placeholder="https://...">
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step" data-step="7">
+      <div class="step-title">Прегледај пред да објавиш</div>
+      <div class="step-sub">Провери дали сè е точно пред да го испратиш за верификација.</div>
+      <div id="review-content"></div>
+      <div class="verify-note">🕒 По испраќање, профилот чека рачна верификација (обично до 24 часа) пред да стане јавно видлив.</div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-back" id="btn-back" onclick="changeStep(-1)" disabled>← Назад</button>
+      <button class="btn btn-next" id="btn-next" onclick="changeStep(1)">Следно →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let current = 1;
+const total = 7;
+const stepNames = ['','Категорија','Вештини','Локација','Профил','Портфолио','Социјални мрежи','Преглед'];
+
+const catInfo = {
+  video:{name:'Видео продукција', icon:'🎬'},
+  photo:{name:'Фотографија', icon:'📷'},
+  marketing:{name:'Дигитален маркетинг', icon:'📈'},
+  editing:{name:'Видео едитинг', icon:'✂️'},
+  design:{name:'Дизајн', icon:'🎨'}
+};
+const skillMap = {
+  video:['Свадби','Дрон снимање','Реклами','Настани','Музички спотови'],
+  photo:['Продукт фотографија','Портрет','Настани','Уредничка фотографија'],
+  marketing:['Social media стратегија','SEO','Платено рекламирање','Content creation'],
+  editing:['Колор грејдинг','Моушн графика','Аудио монтажа','Титлување'],
+  design:['Лого дизајн','Брендинг','Social media графики','UI/UX']
+};
+const cityMap = {
+  mk:['Скопје','Битола','Тетово','Охрид','Прилеп'],
+  rs:['Белград','Нови Сад','Ниш'],
+  hr:['Загреб','Сплит','Риека'],
+  al:['Тирана','Драч','Влора'],
+  xk:['Приштина','Призрен']
+};
+
+let selectedCats = new Set();
+let selectedSkills = new Set();
+let portfolio = [];
+
+document.querySelectorAll('.tile').forEach(tile=>{
+  tile.addEventListener('click', ()=>{
+    const cat = tile.dataset.cat;
+    tile.classList.toggle('selected');
+    if(selectedCats.has(cat)) selectedCats.delete(cat); else selectedCats.add(cat);
+  });
+});
+
+function buildSkillsStep(){
+  const container = document.getElementById('skills-container');
+  container.innerHTML = '';
+  if(selectedCats.size === 0){
+    container.innerHTML = '<div class="empty-note">Прво избери барем една категорија во чекор 1</div>';
+    return;
+  }
+  selectedCats.forEach(cat=>{
+    const group = document.createElement('div');
+    group.className = 'skill-group';
+    group.innerHTML = `<div class="skill-group-title">${catInfo[cat].icon} ${catInfo[cat].name}</div>
+      <div class="pill-row">${skillMap[cat].map(s=>`<div class="pill" data-skill="${s}">${s}</div>`).join('')}</div>`;
+    container.appendChild(group);
+  });
+  container.querySelectorAll('.pill').forEach(pill=>{
+    pill.addEventListener('click', ()=>{
+      pill.classList.toggle('selected');
+      const s = pill.dataset.skill;
+      if(selectedSkills.has(s)) selectedSkills.delete(s); else selectedSkills.add(s);
+    });
+  });
+}
+
+function updateCities(){
+  const country = document.getElementById('country').value;
+  const citySelect = document.getElementById('city');
+  citySelect.innerHTML = cityMap[country].map(c=>`<option value="${c}">${c}</option>`).join('');
+}
+updateCities();
+
+function addPortfolio(){
+  const title = document.getElementById('pf-title').value || 'Без наслов';
+  const type = document.getElementById('pf-type').value;
+  const url = document.getElementById('pf-url').value;
+  if(!url) return;
+  portfolio.push({title, type, url});
+  document.getElementById('pf-title').value='';
+  document.getElementById('pf-url').value='';
+  renderPortfolio();
+}
+function removePortfolio(i){
+  portfolio.splice(i,1);
+  renderPortfolio();
+}
+function renderPortfolio(){
+  const list = document.getElementById('portfolio-list');
+  const empty = document.getElementById('portfolio-empty');
+  list.innerHTML = portfolio.map((p,i)=>`
+    <div class="portfolio-item">
+      <div><strong>${p.title}</strong> <span class="meta">· ${p.type === 'video' ? 'Видео' : 'Слика'}</span></div>
+      <button class="remove-btn" onclick="removePortfolio(${i})">✕</button>
+    </div>`).join('');
+  empty.style.display = portfolio.length ? 'none' : 'block';
+}
+renderPortfolio();
+
+function buildReview(){
+  const cats = [...selectedCats].map(c=>catInfo[c].name);
+  const skills = [...selectedSkills];
+  const country = document.getElementById('country').selectedOptions[0].textContent;
+  const city = document.getElementById('city').value;
+  const remote = document.getElementById('remote').checked ? ' · Достапен за далечина' : '';
+  const headline = document.getElementById('headline').value || '—';
+  const bio = document.getElementById('bio').value || '—';
+  const rate = document.getElementById('rate').value || '—';
+  const experience = document.getElementById('experience').value || '—';
+
+  document.getElementById('review-content').innerHTML = `
+    <div class="review-block">
+      <div class="review-label">Категории</div>
+      <div class="review-tags">${cats.map(c=>`<span class="review-tag">${c}</span>`).join('') || '<span class="review-value">—</span>'}</div>
+    </div>
+    <div class="review-block">
+      <div class="review-label">Вештини</div>
+      <div class="review-tags">${skills.map(s=>`<span class="review-tag">${s}</span>`).join('') || '<span class="review-value">—</span>'}</div>
+    </div>
+    <div class="review-block">
+      <div class="review-label">Локација</div>
+      <div class="review-value">${city}, ${country}${remote}</div>
+    </div>
+    <div class="review-block">
+      <div class="review-label">Профил</div>
+      <div class="review-value"><strong>${headline}</strong><br>${bio}<br>${rate}€/ч · ${experience} години искуство</div>
+    </div>
+    <div class="review-block">
+      <div class="review-label">Портфолио</div>
+      <div class="review-value">${portfolio.length} ставки додадени</div>
+    </div>
+  `;
+}
+
+function changeStep(dir){
+  if(dir === 1 && current === 1 && selectedCats.size === 0){
+    alert('Избери барем една категорија за да продолжиш');
+    return;
+  }
+  if(dir === 1 && current === 5 && portfolio.length === 0){
+    alert('Додади барем 1 портфолио ставка за да продолжиш');
+    return;
+  }
+  current += dir;
+  if(current < 1) current = 1;
+  if(current > total){
+    alert('Профилот е испратен за верификација! 🎉');
+    return;
+  }
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.querySelector(`.step[data-step="${current}"]`).classList.add('active');
+  document.getElementById('step-num').textContent = current;
+  document.getElementById('step-name').textContent = stepNames[current];
+  document.getElementById('progress-fill').style.width = (current/total*100) + '%';
+  document.getElementById('btn-back').disabled = current === 1;
+  document.getElementById('btn-next').textContent = current === total ? 'Испрати за верификација →' : 'Следно →';
+
+  if(current === 2) buildSkillsStep();
+  if(current === 7) buildReview();
+}
+</script>
+
+</body>
+</html>

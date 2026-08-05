@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        color-scheme: light;
+    }
+
+    select {
+        background-color: #fff;
+        color: #14171F;
+    }
+
+    option {
+        background-color: #fff;
+        color: #14171F;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}

@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /onboarding
+Disallow: /messages
+Disallow: /welcome
+Disallow: /profile
+Disallow: /projects/create
+Disallow: /projects/*/edit
+
+Sitemap: /sitemap.xml
