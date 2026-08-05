@@ -37,6 +37,7 @@ class User extends Authenticatable
         'avatar_url',
         'country_id',
         'city_id',
+        'email_notifications_enabled',
     ];
 
     /**
@@ -60,6 +61,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'email_notifications_enabled' => 'boolean',
         ];
     }
 

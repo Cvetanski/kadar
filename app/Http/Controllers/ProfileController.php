@@ -32,6 +32,10 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
+        if ($request->user()->role === 'creator') {
+            $request->user()->email_notifications_enabled = $request->boolean('email_notifications_enabled');
+        }
+
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');

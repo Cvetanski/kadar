@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\Proposal;
 use App\Models\Review;
 use App\Models\Skill;
+use App\Services\NewProjectNotifier;
 use App\Services\ProjectDescriptionImproverService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -44,7 +45,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store(StoreProjectRequest $request): RedirectResponse
+    public function store(StoreProjectRequest $request, NewProjectNotifier $notifier): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -65,6 +66,8 @@ class ProjectController extends Controller
 
         $project->categories()->sync($validated['category_ids']);
         $project->skills()->sync($this->skillIdsForCategories($validated['skill_ids'] ?? [], $validated['category_ids']));
+
+        $notifier->notify($project);
 
         return redirect()->route('projects.show', $project)->with('status', __('Огласот е објавен.'));
     }

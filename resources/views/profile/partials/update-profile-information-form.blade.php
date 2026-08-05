@@ -47,6 +47,16 @@
             @endif
         </div>
 
+        @if ($user->role === 'creator')
+            <div>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="email_notifications_enabled" value="1" {{ old('email_notifications_enabled', $user->email_notifications_enabled) ? 'checked' : '' }}
+                        class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    <span class="text-sm text-gray-700">{{ __('Прати ми email известувања за нови огласи во моите категории') }}</span>
+                </label>
+            </div>
+        @endif
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
