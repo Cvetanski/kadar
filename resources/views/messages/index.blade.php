@@ -87,7 +87,7 @@
       .msg-send-btn:hover{transform:translateY(-1px);}
 
       @media(max-width:767px){
-        .msg-shell{height:calc(100vh - 220px);border-radius:0;border-left:none;border-right:none;margin:0 -16px;}
+        .msg-shell{height:calc(100vh - 220px);}
         .msg-sidebar{width:100%;}
         .msg-sidebar.has-selected{display:none;}
         .msg-chat{display:none;}
@@ -97,7 +97,7 @@
     </style>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <livewire:message-inbox :selected-conversation-id="$conversation?->id" />
         </div>
     </div>
