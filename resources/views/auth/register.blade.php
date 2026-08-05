@@ -130,19 +130,21 @@
 
     <div class="divider">{{ __('или') }}</div>
 
+    @php($defaultRole = old('role', request('role', 'client')))
+
     <form method="POST" action="{{ route('register') }}">
       @csrf
 
       <div class="role-label">{{ __('Што бараш на KADAR?') }}</div>
       <div class="role-grid">
-        <label class="role-card{{ old('role', 'client') === 'client' ? ' selected' : '' }}" id="role-client" onclick="selectRole('client')">
-          <input type="radio" name="role" value="client" {{ old('role', 'client') === 'client' ? 'checked' : '' }}>
+        <label class="role-card{{ $defaultRole === 'client' ? ' selected' : '' }}" id="role-client" onclick="selectRole('client')">
+          <input type="radio" name="role" value="client" {{ $defaultRole === 'client' ? 'checked' : '' }}>
           <div class="icon">🔍</div>
           <div class="title">{{ __('Барам креативец') }}</div>
           <div class="desc">{{ __('Отвори проект или пребарувај директно') }}</div>
         </label>
-        <label class="role-card{{ old('role') === 'creator' ? ' selected' : '' }}" id="role-creator" onclick="selectRole('creator')">
-          <input type="radio" name="role" value="creator" {{ old('role') === 'creator' ? 'checked' : '' }}>
+        <label class="role-card{{ $defaultRole === 'creator' ? ' selected' : '' }}" id="role-creator" onclick="selectRole('creator')">
+          <input type="radio" name="role" value="creator" {{ $defaultRole === 'creator' ? 'checked' : '' }}>
           <div class="icon">🎬</div>
           <div class="title">{{ __('Сум креативец') }}</div>
           <div class="desc">{{ __('Изгради профил и најди проекти') }}</div>

@@ -73,55 +73,63 @@
   .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font);
     font-weight:600;font-size:14px;padding:10px 18px;border-radius:10px;
     border:1px solid transparent;cursor:pointer;transition:all .15s ease;}
-  .btn-primary{background:linear-gradient(135deg, #2D82E8, #0958B5);color:#fff;box-shadow:var(--shadow-sm);}
+  .btn-primary{background:linear-gradient(135deg, #2D82E8, #0958B5);color:#fff;box-shadow:var(--shadow-sm);border:none;background-clip:padding-box;}
   .btn-primary:hover{background:linear-gradient(135deg, #1F72D8, #0847A0);transform:translateY(-1px);box-shadow:var(--shadow-md);}
   .btn-ghost{color:var(--text);border-color:var(--border);background:#fff;}
   .btn-ghost:hover{border-color:var(--text-faint);}
   .btn-lg{padding:14px 24px;font-size:15px;border-radius:12px;}
 
-  .hero-section{position:relative;overflow:hidden;}
-  .hero{position:relative;max-width:1160px;margin:0 auto;padding:96px 32px 40px;text-align:center;z-index:1;}
-  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--blue-soft);
-    color:var(--blue-dark);font-size:13px;font-weight:600;padding:7px 14px;
-    border-radius:999px;margin-bottom:26px;}
-  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
-  h1{font-size:clamp(38px,6vw,64px);font-weight:800;letter-spacing:-0.03em;line-height:1.08;
-    max-width:800px;margin:0 auto;}
-  h1 .blue{background:linear-gradient(135deg, #2D82E8, #0847A0);-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .hero-sub{margin:22px auto 0;font-size:18px;color:var(--text-dim);max-width:540px;line-height:1.55;}
-  .hero-actions{display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap;}
-  .hero-note{margin-top:14px;font-size:13px;color:var(--text-faint);}
-
-  .proof-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:44px;}
-  .avatars{display:flex;}
-  .avatars .av{width:34px;height:34px;border-radius:50%;border:2.5px solid #fff;
-    margin-left:-10px;box-shadow:var(--shadow-sm);}
-  .avatars .av:first-child{margin-left:0;}
-  .proof-text{font-size:13.5px;color:var(--text-dim);font-weight:500;}
-
-  .mockup-stage{position:relative;max-width:640px;margin:56px auto 0;height:260px;z-index:1;}
-  .mockup-card{
-    position:absolute;background:var(--surface);border:1px solid var(--border);
-    border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:18px;
+  .hero-wrap{max-width:1160px;margin:0 auto;padding:24px 16px;}
+  .hero-frame{
+    position:relative;border-radius:24px;overflow:hidden;min-height:540px;
+    display:flex;flex-direction:column;justify-content:center;
+    box-shadow:var(--shadow-lg);border:1px solid var(--border);
   }
-  .mc-main{width:400px;max-width:100%;left:50%;top:0;transform:translateX(-50%);z-index:2;text-align:left;}
-  .mc-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-soft);
-    color:var(--green);font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;margin-bottom:12px;}
-  .mc-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
-  .mc-avatar{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#0B6FE0,#5CA8F5);flex-shrink:0;}
-  .mc-name{font-weight:700;font-size:14.5px;}
-  .mc-role{font-size:12px;color:var(--text-faint);}
-  .mc-msg{font-size:13.5px;color:var(--text-dim);line-height:1.5;margin-bottom:14px;}
-  .mc-actions{display:flex;gap:8px;}
-  .mc-btn{font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:8px;}
-  .mc-btn-blue{background:var(--blue);color:#fff;}
-  .mc-btn-ghost{background:var(--bg-soft);color:var(--text-dim);}
-  .mc-side{width:190px;padding:14px;text-align:left;}
-  .mc-side-1{left:20px;top:110px;z-index:1;transform:rotate(-4deg);}
-  .mc-side-2{right:20px;top:130px;z-index:1;transform:rotate(4deg);}
-  .mc-stat{font-size:22px;font-weight:800;color:var(--blue);}
-  .mc-label{font-size:11.5px;color:var(--text-faint);margin-top:2px;font-weight:600;}
-  @media(max-width:680px){.mockup-stage{height:auto;}.mc-side{display:none;}.mc-main{position:static;transform:none;margin:0 auto;}}
+  .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;}
+  .hero-scrim{
+    position:absolute;inset:0;
+    background:linear-gradient(90deg, rgba(6,10,22,0.82) 0%, rgba(7,12,26,0.55) 45%, rgba(8,14,28,0.15) 75%);
+  }
+
+  .hero-content{position:relative;z-index:2;padding:44px 56px;max-width:760px;}
+  h1{font-size:clamp(34px,4.8vw,52px);font-weight:800;letter-spacing:-0.03em;line-height:1.06;color:#fff;}
+  h1 .blue{background:linear-gradient(135deg,#5CA8F5,#8FC4FF);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero-sub{margin:20px 0 0;font-size:16.5px;color:rgba(255,255,255,0.85);max-width:460px;line-height:1.6;font-weight:500;}
+
+  .role-toggle{display:inline-flex;border:1.5px solid rgba(255,255,255,0.45);border-radius:999px;
+    padding:4px;margin-top:104px;gap:2px;}
+  .role-toggle button{
+    border:none;background:transparent;color:rgba(255,255,255,0.85);font-family:var(--font);
+    font-weight:600;font-size:14px;padding:10px 24px;border-radius:999px;cursor:pointer;transition:all .15s ease;
+  }
+  .role-toggle button.active{background:#fff;color:var(--text);}
+
+  .search-bar{
+    display:flex;align-items:center;gap:8px;background:#fff;
+    border-radius:12px;padding:4px 4px 4px 16px;margin-top:16px;max-width:520px;box-shadow:var(--shadow-md);
+  }
+  .search-bar input{flex:1;border:none;outline:none;font-family:var(--font);font-size:14.5px;background:transparent;color:var(--text);}
+  .search-bar input::placeholder{color:var(--text-faint);}
+  .search-bar button{
+    display:flex;align-items:center;gap:8px;background:var(--text);color:#fff;border:none;border-radius:9px;
+    padding:9px 20px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:var(--font);
+    transition:transform .15s ease;white-space:nowrap;
+  }
+  .search-bar button:hover{transform:translateY(-1px);background:#000;}
+
+  .quick-tags{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+  .quick-tags a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#fff;
+    border:1.5px solid rgba(255,255,255,0.4);padding:8px 15px;border-radius:999px;transition:all .15s ease;}
+  .quick-tags a:hover{border-color:#fff;background:rgba(255,255,255,0.1);}
+
+  @media(max-width:760px){
+    .hero-wrap{padding:16px;}
+    .hero-frame{min-height:520px;}
+    .hero-content{padding:36px 24px;}
+    .role-toggle{margin-top:24px;}
+    .search-bar{flex-direction:column;align-items:stretch;padding:12px;}
+    .search-bar button{width:100%;justify-content:center;}
+  }
 
   .section{max-width:1160px;margin:0 auto;padding:110px 32px;}
   .section-eyebrow{font-size:13px;font-weight:700;color:var(--blue);letter-spacing:0.02em;
@@ -246,57 +254,40 @@
 
 <x-public-nav />
 
-<div class="hero-section">
-  <header class="hero">
-    <div class="pill"><span class="dot"></span>{{ __('Ново: верификувани креативци низ цела земја') }}</div>
-    <h1>{{ __('Секој проект заслужува') }} <span class="blue">{{ __('вистински кадар.') }}</span></h1>
-    <p class="hero-sub">{{ __('KADAR поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти. Опиши го проектот, добиј понуди за неколку часа.') }}</p>
-    <div class="hero-actions">
+<div class="hero-wrap">
+  <div class="hero-frame">
+    <img class="hero-bg" src="{{ asset('images/hero-team.webp') }}" alt="{{ __('Тим на креативци и клиенти на KADAR') }}">
+    <div class="hero-scrim"></div>
+
+    <div class="hero-content">
+      <h1>{{ __('Секој проект заслужува') }}<br><span class="blue">{{ __('вистински кадар.') }}</span></h1>
+      <p class="hero-sub">{{ __('KADAR поврзува видеографи, фотографи, дизајнери, дигитални маркетери, содржина креатори и едитори директно со клиенти.') }}</p>
+
+      <div class="role-toggle">
+        <button type="button" class="active" id="roleClientBtn" onclick="setHeroRole('client')">{{ __('Барам креативец') }}</button>
+        <button type="button" id="roleCreatorBtn" onclick="setHeroRole('creator')">{{ __('Сум креативец') }}</button>
+      </div>
+
+      <form class="search-bar" id="heroSearchForm" action="{{ route('creators.index') }}" method="GET">
+        <input type="text" name="search" id="heroSearchInput" placeholder="{{ __('Опиши што ти треба...') }}">
+        <button type="submit">🔍 {{ __('Барај') }}</button>
+      </form>
+
+      <div class="quick-tags" id="heroQuickTags">
+        @foreach ($categories as $category)
+          <a href="{{ route('creators.index', ['category_ids' => [$category->id]]) }}"
+            data-creator-href="{{ route('creators.index', ['category_ids' => [$category->id]]) }}"
+            data-project-href="{{ route('projects.browse', ['categoryIds' => [$category->id]]) }}">{{ $category->name }} →</a>
+        @endforeach
+      </div>
+
       @auth
-        <a href="{{ route('dashboard') }}" class="btn btn-primary btn-lg">{{ __('Оди на контролна табла →') }}</a>
+        <a href="{{ route('dashboard') }}" class="btn btn-primary" style="margin-top:20px;">{{ __('Оди на контролна табла →') }}</a>
       @else
-        <a href="{{ route('register') }}" class="btn btn-primary btn-lg">{{ __('Регистрирај се бесплатно →') }}</a>
+        <a href="{{ route('register') }}" class="btn btn-primary" style="margin-top:20px;" id="heroRegisterBtn">{{ __('Регистрирај се бесплатно →') }}</a>
       @endauth
-      <a href="#kreativci" class="btn btn-ghost btn-lg">{{ __('Најди Креативци') }}</a>
     </div>
-    <div class="hero-note">{{ __('Бесплатно · Без картичка · Откажи кога сакаш') }}</div>
-
-    <div class="proof-row">
-      <div class="avatars">
-        <div class="av" style="background:linear-gradient(135deg,#0B6FE0,#7CC4FF)"></div>
-        <div class="av" style="background:linear-gradient(135deg,#17A673,#7BE0BC)"></div>
-        <div class="av" style="background:linear-gradient(135deg,#F5A524,#FBD08A)"></div>
-        <div class="av" style="background:linear-gradient(135deg,#0B6FE0,#5CA8F5)"></div>
-      </div>
-      <div class="proof-text">{{ __('Креативци веќе градат портфолио на KADAR') }}</div>
-    </div>
-
-    <div class="mockup-stage">
-      <div class="mockup-card mc-side mc-side-1">
-        <div class="mc-stat">2.100</div>
-        <div class="mc-label">{{ __('ЗАВРШЕНИ ПРОЕКТИ') }}</div>
-      </div>
-      <div class="mockup-card mc-main">
-        <div class="mc-badge"><span>●</span> {{ __('Ново совпаѓање') }}</div>
-        <div class="mc-head">
-          <div class="mc-avatar"></div>
-          <div>
-            <div class="mc-name">Дамјан Т.</div>
-            <div class="mc-role">Видеограф · Скопје</div>
-          </div>
-        </div>
-        <div class="mc-msg">„Го видов проектот за свадбено видео — достапен сум наредниот викенд и работам во истиот стил.“</div>
-        <div class="mc-actions">
-          <div class="btn mc-btn mc-btn-blue">{{ __('Прикажи профил') }}</div>
-          <div class="btn mc-btn mc-btn-ghost">{{ __('Прескокни') }}</div>
-        </div>
-      </div>
-      <div class="mockup-card mc-side mc-side-2">
-        <div class="mc-stat">4.8 / 5</div>
-        <div class="mc-label">{{ __('ПРОСЕЧНА ОЦЕНКА') }}</div>
-      </div>
-    </div>
-  </header>
+  </div>
 </div>
 
 <section class="section" id="kategorii">
@@ -436,6 +427,30 @@
 </div>
 
 <script>
+  function setHeroRole(role){
+    var isCreator = role === 'creator';
+    document.getElementById('roleClientBtn').classList.toggle('active', !isCreator);
+    document.getElementById('roleCreatorBtn').classList.toggle('active', isCreator);
+
+    var form = document.getElementById('heroSearchForm');
+    var input = document.getElementById('heroSearchInput');
+    form.action = isCreator ? @json(route('projects.browse')) : @json(route('creators.index'));
+    input.placeholder = isCreator
+      ? @json(__('Пребарај огласи по наслов или опис...'))
+      : @json(__('Опиши што ти треба...'));
+
+    document.querySelectorAll('#heroQuickTags a').forEach(function (a) {
+      a.href = isCreator ? a.dataset.projectHref : a.dataset.creatorHref;
+    });
+
+    var registerBtn = document.getElementById('heroRegisterBtn');
+    if (registerBtn) {
+      registerBtn.href = isCreator
+        ? @json(route('register', ['role' => 'creator']))
+        : @json(route('register', ['role' => 'client']));
+    }
+  }
+
   function openMeetingModal(){
     document.getElementById('meetOverlay').classList.add('is-open');
     document.getElementById('meetDate').min = new Date().toISOString().split('T')[0];
