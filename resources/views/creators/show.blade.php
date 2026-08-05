@@ -20,65 +20,41 @@
                 <div class="bg-green-50 text-green-700 text-sm rounded-md p-4">{{ session('status') }}</div>
             @endif
 
-            <style>
-                .profile-head{
-                    display:grid;grid-template-columns:auto 1fr;column-gap:16px;row-gap:12px;
-                    grid-template-areas:"avatar title" "tags tags" "actions actions";
-                }
-                .profile-head .ph-avatar{grid-area:avatar;}
-                .profile-head .ph-title{grid-area:title;align-self:center;min-width:0;}
-                .profile-head .ph-tags{grid-area:tags;min-width:0;}
-                .profile-head .ph-actions{grid-area:actions;}
-                @media(min-width:640px){
-                    .profile-head{
-                        grid-template-columns:auto 1fr auto;row-gap:2px;
-                        grid-template-areas:"avatar title actions" "avatar tags actions";
-                    }
-                    .profile-head .ph-avatar, .profile-head .ph-actions{align-self:start;}
-                }
-            </style>
-
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <div class="profile-head">
-                    <div class="ph-avatar">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+                    <div class="flex gap-4">
                         <x-avatar :user="$creatorProfile->user" size="w-20 h-20" textSize="text-2xl" />
+                        <div class="min-w-0">
+                            <p class="text-lg font-medium text-gray-900">
+                                {{ $creatorProfile->headline }}
+                                @if ($creatorProfile->verified)
+                                    <span class="ms-1 text-xs font-semibold bg-blue-100 text-blue-700 px-2 py-1 rounded-full align-middle">{{ __('Верифициран') }}</span>
+                                @endif
+                            </p>
+                            <p class="text-sm text-gray-500 mt-1">
+                                {{ $creatorProfile->categories->pluck('name')->join(', ') }}
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="ph-title">
-                        <p class="text-lg font-medium text-gray-900">
-                            {{ $creatorProfile->headline }}
-                            @if ($creatorProfile->verified)
-                                <span class="ms-1 text-xs font-semibold bg-blue-100 text-blue-700 px-2 py-1 rounded-full align-middle">{{ __('Верифициран') }}</span>
-                            @endif
-                        </p>
-                    </div>
-
-                    <div class="ph-tags">
-                        <p class="text-sm text-gray-500">
-                            {{ $creatorProfile->categories->pluck('name')->join(', ') }}
-                        </p>
-                    </div>
-
-                    <div class="ph-actions">
-                        @if ($isOwnProfile)
-                            <a href="{{ route('creators.edit', $creatorProfile) }}">
-                                <x-secondary-button type="button">✏️ {{ __('Уреди профил') }}</x-secondary-button>
-                            </a>
-                        @else
-                            <div class="flex flex-wrap gap-2">
-                                <form method="POST" action="{{ route('favorites.toggle', $creatorProfile) }}">
-                                    @csrf
-                                    <x-secondary-button type="submit">
-                                        {{ $isFavorited ? __('Зачувано ✓') : __('Зачувај') }}
-                                    </x-secondary-button>
-                                </form>
-                                <form method="POST" action="{{ route('messages.start', $creatorProfile) }}">
-                                    @csrf
-                                    <x-primary-button type="submit">{{ __('Прати порака') }}</x-primary-button>
-                                </form>
-                            </div>
-                        @endif
-                    </div>
+                    @if ($isOwnProfile)
+                        <a href="{{ route('creators.edit', $creatorProfile) }}">
+                            <x-secondary-button type="button">✏️ {{ __('Уреди профил') }}</x-secondary-button>
+                        </a>
+                    @else
+                        <div class="flex flex-wrap gap-2">
+                            <form method="POST" action="{{ route('favorites.toggle', $creatorProfile) }}">
+                                @csrf
+                                <x-secondary-button type="submit">
+                                    {{ $isFavorited ? __('Зачувано ✓') : __('Зачувај') }}
+                                </x-secondary-button>
+                            </form>
+                            <form method="POST" action="{{ route('messages.start', $creatorProfile) }}">
+                                @csrf
+                                <x-primary-button type="submit">{{ __('Прати порака') }}</x-primary-button>
+                            </form>
+                        </div>
+                    @endif
                 </div>
 
                 <p class="text-sm text-gray-700 mt-4 whitespace-pre-line">{{ $creatorProfile->bio }}</p>
