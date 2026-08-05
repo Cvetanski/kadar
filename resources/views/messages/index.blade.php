@@ -12,7 +12,7 @@
       .msg-sidebar-search{padding:14px;border-bottom:1px solid #E8EBF0;}
       .msg-sidebar-search input{
         width:100%;padding:9px 12px;border:1px solid #E8EBF0;border-radius:10px;font-family:'Inter',sans-serif;
-        font-size:13.5px;background:#F6F8FB;
+        font-size:16px;background:#F6F8FB;
       }
       .msg-sidebar-search input:focus{outline:2px solid #0B6FE0;outline-offset:1px;background:#fff;}
       .msg-list{flex:1;overflow-y:auto;}
@@ -76,7 +76,7 @@
         position:sticky;bottom:0;background:#fff;}
       .msg-compose textarea{
         flex:1;resize:none;border:1px solid #E8EBF0;border-radius:12px;padding:10px 14px;font-family:'Inter',sans-serif;
-        font-size:13.5px;background:#F6F8FB;max-height:120px;
+        font-size:16px;background:#F6F8FB;max-height:120px;
       }
       .msg-compose textarea:focus{outline:none;border-color:#0B6FE0;background:#fff;}
       .msg-send-btn{
@@ -93,8 +93,6 @@
         .msg-chat{display:none;}
         .msg-chat.is-active{display:flex;}
         .msg-chat-header .back-btn{display:inline-block;}
-        /* iOS Safari auto-zooms on focus when an input's font-size is under 16px */
-        .msg-compose textarea, .msg-sidebar-search input{font-size:16px;}
       }
     </style>
 
