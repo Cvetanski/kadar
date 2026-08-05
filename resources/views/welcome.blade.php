@@ -127,7 +127,6 @@
     .hero-frame{min-height:520px;}
     .hero-content{padding:36px 24px;}
     .hero-scrim{background:linear-gradient(90deg, rgba(8,14,28,0.25) 0%, rgba(7,12,26,0.6) 50%, rgba(6,10,22,0.88) 100%);}
-    h1{text-shadow:0 2px 16px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.5);}
     .role-toggle{margin-top:64px;border:none;background:rgba(20,23,31,0.55);backdrop-filter:blur(6px);}
     .search-bar button{border-radius:50%;width:40px;height:40px;padding:0;justify-content:center;}
     .search-bar .search-btn-label{display:none;}
