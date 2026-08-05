@@ -21,10 +21,10 @@
             @endif
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <div class="flex justify-between items-start">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                     <div class="flex gap-4">
                         <x-avatar :user="$creatorProfile->user" size="w-20 h-20" textSize="text-2xl" />
-                        <div>
+                        <div class="min-w-0">
                             <p class="text-lg font-medium text-gray-900">
                                 {{ $creatorProfile->headline }}
                                 @if ($creatorProfile->verified)
@@ -42,7 +42,7 @@
                             <x-secondary-button type="button">✏️ {{ __('Уреди профил') }}</x-secondary-button>
                         </a>
                     @else
-                        <div class="flex gap-2">
+                        <div class="flex flex-wrap gap-2">
                             <form method="POST" action="{{ route('favorites.toggle', $creatorProfile) }}">
                                 @csrf
                                 <x-secondary-button type="submit">
@@ -114,7 +114,7 @@
                                 <p class="font-medium text-gray-900">{{ $item->title ?: __('Без наслов') }}</p>
                                 <p class="text-sm text-gray-500">
                                     {{ $item->media_type === 'video' ? __('Видео') : __('Слика') }} —
-                                    <a href="{{ $item->media_url }}" target="_blank" class="underline">{{ $item->media_url }}</a>
+                                    <a href="{{ $item->media_url }}" target="_blank" class="underline break-all">{{ $item->media_url }}</a>
                                 </p>
                             </div>
                         @endforeach
