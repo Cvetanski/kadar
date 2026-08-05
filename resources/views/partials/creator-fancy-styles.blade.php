@@ -6,8 +6,10 @@
     background-image:radial-gradient(circle, rgba(20,23,31,0.07) 1.2px, transparent 1.2px);
     background-size:20px 20px;
     border-radius:20px;
-    padding:28px 24px;
-    margin:-24px -24px 0;
+    padding:20px 16px;
+    margin:-24px 0 0;
+    max-width:100%;
+    overflow-x:hidden;
   }
   @media(min-width:640px){ .kf-wrap{ padding:32px; margin:-24px -24px 0; } }
 
