@@ -93,6 +93,8 @@
         .msg-chat{display:none;}
         .msg-chat.is-active{display:flex;}
         .msg-chat-header .back-btn{display:inline-block;}
+        /* iOS Safari auto-zooms on focus when an input's font-size is under 16px */
+        .msg-compose textarea, .msg-sidebar-search input{font-size:16px;}
       }
     </style>
 
