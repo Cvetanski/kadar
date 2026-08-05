@@ -255,6 +255,11 @@ new class extends Component
         unset($this->selectedCreator, $this->isSelectedFavorited);
     }
 
+    public function closeDetails(): void
+    {
+        $this->selectedCreatorId = null;
+    }
+
     public function toggleFavorite(): void
     {
         if (! $this->selectedCreatorId) {
@@ -360,7 +365,7 @@ new class extends Component
             </label>
         </aside>
 
-        <section class="br-list">
+        <section class="br-list {{ $selectedCreatorId ? 'has-selected' : '' }}">
             <p class="br-count">{{ __('Најдени :count креативци', ['count' => $this->creators->total()]) }}</p>
 
             @if ($this->creators->isEmpty())
@@ -402,11 +407,12 @@ new class extends Component
             @endif
         </section>
 
-        <section class="br-details">
+        <section class="br-details {{ $selectedCreatorId ? 'is-active' : '' }}">
             @if (! $this->selectedCreator)
                 <div class="br-details-empty">{{ __('Избери креативец од листата за да видиш детали.') }}</div>
             @else
                 @php($creator = $this->selectedCreator)
+                <button type="button" class="br-details-back" wire:click="closeDetails">← {{ __('Назад кон листата') }}</button>
                 <div class="br-details-person">
                     <x-avatar :user="$creator->user" size="w-14 h-14" textSize="text-lg" />
                     <div class="br-details-person-info">

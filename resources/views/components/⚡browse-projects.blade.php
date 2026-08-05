@@ -308,7 +308,7 @@ new class extends Component
             </label>
         </aside>
 
-        <section class="br-list">
+        <section class="br-list {{ $selectedProjectId ? 'has-selected' : '' }}">
             <p class="br-count">{{ __('Најдени :count огласи', ['count' => $this->projects->total()]) }}</p>
 
             @if ($this->projects->isEmpty())
@@ -348,11 +348,12 @@ new class extends Component
             @endif
         </section>
 
-        <section class="br-details">
+        <section class="br-details {{ $selectedProjectId ? 'is-active' : '' }}">
             @if (! $this->selectedProject)
                 <div class="br-details-empty">{{ __('Избери оглас од листата за да видиш детали.') }}</div>
             @else
                 @php($project = $this->selectedProject)
+                <button type="button" class="br-details-back" wire:click="closeDetails">← {{ __('Назад кон листата') }}</button>
                 <div class="br-details-head">
                     <h2>{{ $project->title }}</h2>
                     <span class="kf-status kf-status-open">{{ __('Отворен') }}</span>
