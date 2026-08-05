@@ -52,6 +52,7 @@
     transition:border-color .15s ease;
   }
   input[type=text]:focus, input[type=email]:focus, select:focus, textarea:focus{border-color:var(--blue);background:#fff;}
+  @media(max-width:640px){input[type=text], input[type=email], select, textarea{font-size:16px;}}
   input.has-error, select.has-error, textarea.has-error{border-color:var(--error);}
   textarea{resize:vertical;min-height:120px;}
 

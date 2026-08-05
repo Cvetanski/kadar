@@ -72,6 +72,9 @@
     padding:9px 12px;border:1px solid #E8EBF0;border-radius:10px;font-family:'Inter',sans-serif;
     font-size:13.5px;background:#F6F8FB;min-width:120px;}
   .kf-filter-bar select:focus, .kf-filter-bar input:focus{outline:2px solid #0B6FE0;outline-offset:1px;}
+  @media(max-width:767px){
+    .kf-filter-bar select, .kf-filter-bar input[type=number], .kf-filter-bar input[type=text]{font-size:16px;}
+  }
   .kf-filter-bar .kf-btn{background:linear-gradient(135deg,#2D82E8,#0958B5);color:#fff;border:none;border-radius:10px;
     padding:10px 20px;font-weight:700;font-size:13.5px;font-family:'Inter',sans-serif;cursor:pointer;
     box-shadow:0 1px 2px rgba(20,23,31,.05);}
@@ -107,6 +110,9 @@
     width:100%;padding:11px 14px;border:1px solid #E8EBF0;border-radius:10px;font-family:'Inter',sans-serif;
     font-size:14.5px;background:#F6F8FB;transition:border-color .15s ease;}
   .kf-form input:focus, .kf-form textarea:focus{outline:none;border-color:#0B6FE0;background:#fff;}
+  @media(max-width:767px){
+    .kf-form input[type=text], .kf-form input[type=number], .kf-form input[type=url], .kf-form textarea{font-size:16px;}
+  }
   .kf-form textarea{resize:vertical;min-height:100px;}
   .kf-field{margin-bottom:20px;}
   .kf-two-col{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}

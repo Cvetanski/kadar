@@ -52,6 +52,7 @@
     transition:border-color .15s ease;
   }
   input[type=email]:focus{border-color:var(--blue);background:#fff;}
+  @media(max-width:640px){input[type=email]{font-size:16px;}}
   input.has-error{border-color:var(--error);}
 
   .field-error{color:var(--error);font-size:12.5px;margin-top:6px;}

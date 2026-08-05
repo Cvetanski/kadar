@@ -93,6 +93,7 @@
     font-family:var(--font);font-size:14.5px;background:var(--bg-soft);color:var(--text);transition:border-color .15s ease;
   }
   input:focus, select:focus, textarea:focus{border-color:var(--blue);background:#fff;}
+  @media(max-width:640px){input[type=text], input[type=number], input[type=url], select, textarea{font-size:16px;}}
   option{background:#fff;color:var(--text);}
   textarea{resize:vertical;min-height:90px;}
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}

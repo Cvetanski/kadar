@@ -71,6 +71,7 @@
     transition:border-color .15s ease;
   }
   input[type=text]:focus, input[type=email]:focus, input[type=password]:focus{border-color:var(--blue);background:#fff;}
+  @media(max-width:640px){input[type=text], input[type=email], input[type=password]{font-size:16px;}}
   input.has-error{border-color:var(--error);}
 
   .field-error{color:var(--error);font-size:12.5px;margin-top:6px;}

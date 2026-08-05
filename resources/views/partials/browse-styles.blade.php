@@ -139,6 +139,7 @@
     @media (max-width:767px){
         .br-filters-toggle{display:inline-block;}
         .br-layout{grid-template-columns:1fr;grid-template-areas:"list" "details";}
+        .br-searchbox input, .br-filter-group select, .br-filter-group input{font-size:16px;}
 
         .br-filters-backdrop{
             position:fixed;inset:0;background:rgba(20,23,31,.5);z-index:59;
