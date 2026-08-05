@@ -1,5 +1,6 @@
 <style>
-    .br-wrap{font-family:'Inter',sans-serif;}
+    .br-wrap{font-family:'Inter',sans-serif;padding:0 16px;}
+    @media (min-width:640px){ .br-wrap{padding:0;} }
 
     .br-toolbar{display:flex;gap:12px;margin-bottom:16px;align-items:center;}
     .br-searchbox{flex:1;position:relative;display:flex;align-items:center;}
