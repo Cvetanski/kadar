@@ -126,9 +126,14 @@
     .hero-wrap{padding:16px;}
     .hero-frame{min-height:520px;}
     .hero-content{padding:36px 24px;}
-    .role-toggle{margin-top:24px;}
-    .search-bar{flex-direction:column;align-items:stretch;padding:12px;}
-    .search-bar button{width:100%;justify-content:center;}
+    .hero-scrim{background:linear-gradient(90deg, rgba(8,14,28,0.25) 0%, rgba(7,12,26,0.6) 50%, rgba(6,10,22,0.88) 100%);}
+    h1{text-shadow:0 2px 16px rgba(0,0,0,0.55), 0 1px 4px rgba(0,0,0,0.5);}
+    .role-toggle{margin-top:64px;border:none;background:rgba(20,23,31,0.55);backdrop-filter:blur(6px);}
+    .search-bar button{border-radius:50%;width:40px;height:40px;padding:0;justify-content:center;}
+    .search-bar .search-btn-label{display:none;}
+    .quick-tags{gap:16px;}
+    .quick-tags a{border:none;padding:0;border-radius:0;color:rgba(255,255,255,0.9);}
+    .quick-tags a:hover{border-color:transparent;background:none;color:#fff;}
   }
 
   .section{max-width:1160px;margin:0 auto;padding:110px 32px;}
@@ -256,7 +261,10 @@
 
 <div class="hero-wrap">
   <div class="hero-frame">
-    <img class="hero-bg" src="{{ asset('images/hero-team.webp') }}" alt="{{ __('Тим на креативци и клиенти на KADAR') }}">
+    <picture>
+      <source media="(max-width:760px)" srcset="{{ asset('images/hero-team-mobile.webp') }}">
+      <img class="hero-bg" src="{{ asset('images/hero-team.webp') }}" alt="{{ __('Тим на креативци и клиенти на KADAR') }}">
+    </picture>
     <div class="hero-scrim"></div>
 
     <div class="hero-content">
@@ -270,7 +278,7 @@
 
       <form class="search-bar" id="heroSearchForm" action="{{ route('creators.index') }}" method="GET">
         <input type="text" name="search" id="heroSearchInput" placeholder="{{ __('Опиши што ти треба...') }}">
-        <button type="submit">🔍 {{ __('Барај') }}</button>
+        <button type="submit" aria-label="{{ __('Барај') }}">🔍 <span class="search-btn-label">{{ __('Барај') }}</span></button>
       </form>
 
       <div class="quick-tags" id="heroQuickTags">
