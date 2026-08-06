@@ -5,7 +5,7 @@
       <a href="#kategorii">{{ __('Категории') }}</a>
       <a href="#kreativci">{{ __('Креативци') }}</a>
       <a href="#kako">{{ __('Како функционира') }}</a>
-      <a href="#zanas">{{ __('За нас') }}</a>
+      {{-- "За нас" е привремено исклучено заедно со секцијата на landing page-от. --}}
     </div>
     <div class="nav-cta">
       @auth
@@ -26,7 +26,6 @@
     <a href="#kategorii" onclick="closeMobileNav()">{{ __('Категории') }}</a>
     <a href="#kreativci" onclick="closeMobileNav()">{{ __('Креативци') }}</a>
     <a href="#kako" onclick="closeMobileNav()">{{ __('Како функционира') }}</a>
-    <a href="#zanas" onclick="closeMobileNav()">{{ __('За нас') }}</a>
     <div class="nav-mobile-actions">
       @auth
         <a href="{{ route('dashboard') }}" class="btn btn-primary">{{ __('Оди на контролна табла') }}</a>

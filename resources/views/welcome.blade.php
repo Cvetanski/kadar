@@ -399,6 +399,10 @@
      пресметки (CreatorProfile::where('verified', true)->count(), Contract::where('status','completed')->count(),
      Review::avg('rating')). --}}
 
+{{-- "За нас" секцијата (+ придружниот "закажи состанок" modal) е привремено исклучена на барање.
+     За да се врати: одмотај го овој коментар и врати го "За нас" линкот во public-nav.blade.php,
+     плус ги врати ги openMeetingModal/closeMeetingModal + нивните event listeners во <script> подолу. --}}
+{{--
 <section class="section" id="zanas">
   <div class="section-eyebrow">{{ __('За нас') }}</div>
   <div class="section-title">{{ __('Изградено од креативец, за креативци') }}</div>
@@ -454,6 +458,7 @@
     </form>
   </div>
 </div>
+--}}
 
 <script>
   function toggleMobileNav(){
@@ -491,6 +496,9 @@
     }
   }
 
+  /* Закажи-состанок modal логиката е исклучена заедно со "За нас" секцијата (види ја HTML
+     секцијата погоре) — самиот елемент #meetOverlay/#meetForm не постои во DOM додека е
+     исклучено, па овие listener-и остануваат закоментирани за да не фрлат JS грешка.
   function openMeetingModal(){
     document.getElementById('meetOverlay').classList.add('is-open');
     document.getElementById('meetDate').min = new Date().toISOString().split('T')[0];
@@ -548,6 +556,7 @@
         submitBtn.disabled = false;
       });
   });
+  */
 </script>
 
 <div class="cta-band">
