@@ -16,7 +16,7 @@ class LocaleOptions
         'sr' => ['locale' => 'sr', 'flag' => '🇷🇸', 'label' => 'Српски'],
         'hr' => ['locale' => 'hr', 'flag' => '🇭🇷', 'label' => 'Hrvatski'],
         'sq_al' => ['locale' => 'sq', 'flag' => '🇦🇱', 'label' => 'Shqip (Shqipëri)'],
-        'sq_xk' => ['locale' => 'sq', 'flag' => '🇽🇰', 'label' => 'Shqip (Kosovë)'],
+        // 'sq_xk' => ['locale' => 'sq', 'flag' => '🇽🇰', 'label' => 'Shqip (Kosovë)'], // привремено исклучено
         'bg' => ['locale' => 'bg', 'flag' => '🇧🇬', 'label' => 'Български'],
         'el' => ['locale' => 'el', 'flag' => '🇬🇷', 'label' => 'Ελληνικά'],
     ];
@@ -43,8 +43,9 @@ class LocaleOptions
     }
 
     /**
-     * OPTIONS reordered so the visitor's current/detected option comes
-     * first, followed by the rest sorted alphabetically by locale code.
+     * OPTIONS reordered: the visitor's current/detected option first, then
+     * English (unless it's already the current option), then the rest
+     * sorted alphabetically by locale code.
      *
      * @return array<string, array{locale: string, flag: string, label: string}>
      */
@@ -57,8 +58,17 @@ class LocaleOptions
         $rest = self::OPTIONS;
         unset($rest[$currentOption]);
 
+        $english = [];
+        foreach ($rest as $key => $option) {
+            if ($option['locale'] === 'en') {
+                $english = [$key => $option];
+                unset($rest[$key]);
+                break;
+            }
+        }
+
         uasort($rest, fn (array $a, array $b) => $a['locale'] <=> $b['locale']);
 
-        return [$currentOption => self::OPTIONS[$currentOption]] + $rest;
+        return [$currentOption => self::OPTIONS[$currentOption]] + $english + $rest;
     }
 }
