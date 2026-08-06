@@ -41,4 +41,24 @@ class LocaleOptions
 
         return 'mk';
     }
+
+    /**
+     * OPTIONS reordered so the visitor's current/detected option comes
+     * first, followed by the rest sorted alphabetically by locale code.
+     *
+     * @return array<string, array{locale: string, flag: string, label: string}>
+     */
+    public static function orderedOptions(string $currentOption): array
+    {
+        if (! isset(self::OPTIONS[$currentOption])) {
+            $currentOption = 'mk';
+        }
+
+        $rest = self::OPTIONS;
+        unset($rest[$currentOption]);
+
+        uasort($rest, fn (array $a, array $b) => $a['locale'] <=> $b['locale']);
+
+        return [$currentOption => self::OPTIONS[$currentOption]] + $rest;
+    }
 }
