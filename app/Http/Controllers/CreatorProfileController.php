@@ -63,7 +63,7 @@ class CreatorProfileController extends Controller
         abort_unless($request->user()->id === $creatorProfile->user_id, 403);
 
         $validated = $request->validate([
-            'avatar' => ['nullable', 'image', 'max:2048'],
+            'avatar' => ['nullable', 'image', 'max:9216'],
             'headline' => ['required', 'string', 'max:100'],
             'bio' => ['nullable', 'string', 'max:2000'],
             'hourly_rate' => ['nullable', 'numeric', 'min:0', 'max:9999'],

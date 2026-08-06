@@ -75,10 +75,10 @@
   @media(max-width:767px){
     .kf-filter-bar select, .kf-filter-bar input[type=number], .kf-filter-bar input[type=text]{font-size:16px;}
   }
-  .kf-filter-bar .kf-btn{background:linear-gradient(135deg,#2D82E8,#0958B5);color:#fff;border:none;border-radius:10px;
+  .kf-btn{background:linear-gradient(135deg,#2D82E8,#0958B5);color:#fff;border:none;border-radius:10px;
     padding:10px 20px;font-weight:700;font-size:13.5px;font-family:'Inter',sans-serif;cursor:pointer;
     box-shadow:0 1px 2px rgba(20,23,31,.05);}
-  .kf-filter-bar .kf-btn:hover{transform:translateY(-1px);}
+  .kf-btn:hover{transform:translateY(-1px);}
   .kf-check{display:flex;align-items:center;gap:8px;font-size:13px;color:#666B76;font-weight:600;padding-bottom:9px;cursor:pointer;}
   .kf-check input[type=checkbox]{width:16px;height:16px;flex-shrink:0;accent-color:#0B6FE0;}
   .kf-clear{display:inline-flex;align-items:center;font-size:13px;color:#666B76;font-weight:600;

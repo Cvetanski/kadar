@@ -32,7 +32,7 @@ class ClientWelcomeController extends Controller
         }
 
         $validated = $request->validate([
-            'avatar' => ['nullable', 'image', 'max:2048'],
+            'avatar' => ['nullable', 'image', 'max:9216'],
             'city_id' => ['nullable', 'exists:cities,id'],
         ]);
 

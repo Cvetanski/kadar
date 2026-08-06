@@ -25,7 +25,7 @@
                             <input type="file" name="avatar" id="kf-avatar-input" accept="image/*" style="display:none" onchange="kfPreviewAvatar(event)">
                             <div>
                                 <p class="kf-card-title" style="margin-bottom:2px;">{{ __('Профилна слика') }}</p>
-                                <p class="kf-card-meta" style="margin-bottom:0;">{{ __('JPG или PNG, максимум 2MB') }}</p>
+                                <p class="kf-card-meta" style="margin-bottom:0;">{{ __('JPG или PNG, максимум 9MB') }}</p>
                                 <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
                             </div>
                         </div>
