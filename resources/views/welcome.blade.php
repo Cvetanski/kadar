@@ -136,6 +136,8 @@
   }
   .search-bar button:hover{transform:translateY(-1px);background:#000;}
 
+  .hero-sub-short{display:none;}
+
   .quick-tags{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
   .quick-tags a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#fff;
     border:1.5px solid rgba(255,255,255,0.4);padding:8px 15px;border-radius:999px;transition:all .15s ease;}
@@ -145,13 +147,13 @@
     .hero-wrap{padding:16px;}
     .hero-frame{min-height:520px;}
     .hero-content{padding:36px 24px;}
-    .hero-scrim{background:linear-gradient(90deg, rgba(8,14,28,0.25) 0%, rgba(7,12,26,0.6) 50%, rgba(6,10,22,0.88) 100%);}
-    .role-toggle{margin-top:64px;border:none;background:rgba(20,23,31,0.55);backdrop-filter:blur(6px);}
+    .hero-scrim{background:linear-gradient(90deg, rgba(8,14,28,0.02) 0%, rgba(7,12,26,0.45) 55%, rgba(6,10,22,0.88) 100%);}
+    .role-toggle{margin-top:96px;border:none;background:rgba(20,23,31,0.55);backdrop-filter:blur(6px);}
     .search-bar button{border-radius:50%;width:40px;height:40px;padding:0;justify-content:center;}
     .search-bar .search-btn-label{display:none;}
-    .quick-tags{gap:16px;}
-    .quick-tags a{border:none;padding:0;border-radius:0;color:rgba(255,255,255,0.9);}
-    .quick-tags a:hover{border-color:transparent;background:none;color:#fff;}
+
+    .hero-sub-full{display:none;}
+    .hero-sub-short{display:block;}
   }
 
   .section{max-width:1160px;margin:0 auto;padding:110px 32px;}
@@ -287,7 +289,8 @@
 
     <div class="hero-content">
       <h1>{{ __('Секој проект заслужува') }}<br><span class="blue">{{ __('вистински кадар.') }}</span></h1>
-      <p class="hero-sub">{{ __('KADAR поврзува видеографи, фотографи, дизајнери, дигитални маркетери, содржина креатори и едитори директно со клиенти.') }}</p>
+      <p class="hero-sub hero-sub-full">{{ __('KADAR поврзува видеографи, фотографи, дизајнери, дигитални маркетери, содржина креатори и едитори директно со клиенти.') }}</p>
+      <p class="hero-sub hero-sub-short">{{ __('KADAR поврзува креативци со клиенти.') }}</p>
 
       <div class="role-toggle">
         <button type="button" class="active" id="roleClientBtn" onclick="setHeroRole('client')">{{ __('Барам креативец') }}</button>
