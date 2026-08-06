@@ -41,8 +41,8 @@ class WelcomeTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('KADAR');
-        $response->assertSee('вистински кадар', false);
+        $response->assertSee('CreatorSpot');
+        $response->assertSee('вистински талент', false);
     }
 
     public function test_guest_sees_register_and_login_buttons(): void

@@ -1,6 +1,6 @@
 <nav>
   <div class="nav-inner">
-    <a href="{{ route('welcome') }}" class="logo"><span class="sq"><span></span></span>KADAR<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;">Beta</span></a>
+    <a href="{{ route('welcome') }}" class="logo"><span class="sq"><span></span></span>CreatorSpot<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;">Beta</span></a>
     <div class="nav-links">
       <a href="#{{ \App\Support\AnchorSlugs::for('kategorii') }}">{{ __('Категории') }}</a>
       <a href="#{{ \App\Support\AnchorSlugs::for('kreativci') }}">{{ __('Креативци') }}</a>

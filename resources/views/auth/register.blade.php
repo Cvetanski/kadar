@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ __('Регистрирај се') }} — KADAR</title>
+<title>{{ __('Регистрирај се') }} — CreatorSpot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -109,7 +109,7 @@
 
 <div class="top-bar">
   <a href="{{ route('welcome') }}" class="back">← {{ __('Назад кон почетна') }}</a>
-  <a href="{{ route('welcome') }}" class="logo"><span class="sq"><span></span></span>KADAR<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;">Beta</span></a>
+  <a href="{{ route('welcome') }}" class="logo"><span class="sq"><span></span></span>CreatorSpot<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;">Beta</span></a>
   <div class="lang-slot"><x-language-switcher short /></div>
 </div>
 
@@ -135,7 +135,7 @@
     <form method="POST" action="{{ route('register') }}">
       @csrf
 
-      <div class="role-label">{{ __('Што бараш на KADAR?') }}</div>
+      <div class="role-label">{{ __('Што бараш на CreatorSpot?') }}</div>
       <div class="role-grid">
         <label class="role-card{{ $defaultRole === 'client' ? ' selected' : '' }}" id="role-client" onclick="selectRole('client')">
           <input type="radio" name="role" value="client" {{ $defaultRole === 'client' ? 'checked' : '' }}>
@@ -178,7 +178,7 @@
       <button type="submit" class="btn-submit">{{ __('Регистрирај се бесплатно →') }}</button>
     </form>
 
-    <p class="terms">{{ __('Со регистрација се согласуваш со') }} <a href="{{ route('legal.terms') }}" target="_blank" rel="noopener">{{ __('Условите') }}</a> {{ __('и') }} <a href="{{ route('legal.privacy') }}" target="_blank" rel="noopener">{{ __('Приватноста') }}</a> {{ __('на KADAR.') }}</p>
+    <p class="terms">{{ __('Со регистрација се согласуваш со') }} <a href="{{ route('legal.terms') }}" target="_blank" rel="noopener">{{ __('Условите') }}</a> {{ __('и') }} <a href="{{ route('legal.privacy') }}" target="_blank" rel="noopener">{{ __('Приватноста') }}</a> {{ __('на CreatorSpot.') }}</p>
     <p class="footer-link">{{ __('Веќе имаш акаунт?') }} <a href="{{ route('login') }}">{{ __('Најави се') }}</a></p>
   </div>
 </div>

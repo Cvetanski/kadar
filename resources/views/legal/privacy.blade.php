@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ __('Политика за приватност') }} — KADAR</title>
+<title>{{ __('Политика за приватност') }} — CreatorSpot</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -54,7 +54,7 @@
 <body>
 
 <div class="top">
-  <a href="{{ route('welcome') }}" class="logo"><span class="sq"><span></span></span>KADAR<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;margin-left:2px;">Beta</span></a>
+  <a href="{{ route('welcome') }}" class="logo"><span class="sq"><span></span></span>CreatorSpot<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;margin-left:2px;">Beta</span></a>
 </div>
 
 <div class="wrap">
@@ -104,7 +104,7 @@
     <p>{{ __('За остварување на овие права, контактирај нѐ преку контакт формата.') }}</p>
 
     <h2>9. {{ __('Безбедност') }}</h2>
-    <p>{{ __('Лозинките се чуваат криптирани. Пристапот до податоците е ограничен само на персоналот на KADAR кому му е потребен за работа на платформата.') }}</p>
+    <p>{{ __('Лозинките се чуваат криптирани. Пристапот до податоците е ограничен само на персоналот на CreatorSpot кому му е потребен за работа на платформата.') }}</p>
 
     <h2>10. {{ __('Измени на политиката') }}</h2>
     <p>{{ __('Можеме да ја ажурираме оваа политика повремено. Значајни измени ќе бидат објавени на оваа страница со нов датум на ажурирање.') }}</p>

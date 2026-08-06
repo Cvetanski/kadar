@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body style="font-family: sans-serif; color:#14171F; line-height:1.6;">
-    <h2 style="margin-bottom:4px;">Ново барање за состанок преку KADAR</h2>
+    <h2 style="margin-bottom:4px;">Ново барање за состанок преку CreatorSpot</h2>
     <p style="color:#666B76;margin-top:0;">Некој сакаше да закаже состанок со тебе преку страницата „За нас".</p>
 
     <table cellpadding="6" cellspacing="0" style="margin:16px 0;">

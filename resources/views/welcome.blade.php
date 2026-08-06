@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>KADAR — {{ __('Пронајди го твојот следен креативец') }}</title>
-<meta name="description" content="{{ __('KADAR поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот. Опиши го проектот, добиј понуди за неколку часа.') }}">
+<title>CreatorSpot — {{ __('Пронајди го твојот следен креативец') }}</title>
+<meta name="description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот. Опиши го проектот, добиј понуди за неколку часа.') }}">
 <link rel="canonical" href="{{ url()->current() }}">
 
-<meta property="og:title" content="KADAR — {{ __('Пронајди го твојот следен креативец') }}">
-<meta property="og:description" content="{{ __('KADAR поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.') }}">
+<meta property="og:title" content="CreatorSpot — {{ __('Пронајди го твојот следен креативец') }}">
+<meta property="og:description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.') }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url()->current() }}">
 
@@ -283,14 +283,14 @@
   <div class="hero-frame">
     <picture>
       <source media="(max-width:760px)" srcset="{{ asset('images/hero-team-mobile.webp') }}">
-      <img class="hero-bg" src="{{ asset('images/hero-team.webp') }}" alt="{{ __('Тим на креативци и клиенти на KADAR') }}">
+      <img class="hero-bg" src="{{ asset('images/hero-team.webp') }}" alt="{{ __('Тим на креативци и клиенти на CreatorSpot') }}">
     </picture>
     <div class="hero-scrim"></div>
 
     <div class="hero-content">
-      <h1>{{ __('Секој проект заслужува') }}<br><span class="blue">{{ __('вистински кадар.') }}</span></h1>
-      <p class="hero-sub hero-sub-full">{{ __('KADAR поврзува видеографи, фотографи, дизајнери, дигитални маркетери, содржина креатори и едитори директно со клиенти.') }}</p>
-      <p class="hero-sub hero-sub-short">{{ __('KADAR поврзува креативци со клиенти.') }}</p>
+      <h1>{{ __('Секој проект заслужува') }}<br><span class="blue">{{ __('вистински талент.') }}</span></h1>
+      <p class="hero-sub hero-sub-full">{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери, содржина креатори и едитори директно со клиенти.') }}</p>
+      <p class="hero-sub hero-sub-short">{{ __('CreatorSpot поврзува креативци со клиенти.') }}</p>
 
       <div class="role-toggle">
         <button type="button" class="active" id="roleClientBtn" onclick="setHeroRole('client')">{{ __('Барам креативец') }}</button>
@@ -406,11 +406,11 @@
 <section class="section" id="zanas">
   <div class="section-eyebrow">{{ __('За нас') }}</div>
   <div class="section-title">{{ __('Изградено од креативец, за креативци') }}</div>
-  <p class="section-sub">{{ __('KADAR не е уште една платформа од табела, туку одговор на проблем што основачот лично го живееше.') }}</p>
+  <p class="section-sub">{{ __('CreatorSpot не е уште една платформа од табела, туку одговор на проблем што основачот лично го живееше.') }}</p>
   <div class="founder-card">
     <div class="founder-avatar"><img src="{{ asset('images/cvetanski.jpg') }}" alt="Cvetanskifootage"></div>
-    <p class="founder-text">{{ __('Основачот на KADAR, Cvetanskifootage, самиот работеше како видео креативец и знаеше од прва рака колку е тешко да се најдат вистински клиенти на почетокот, со часови бараење, несигурни договори и изгубено време. Кога сфати дека истата борба ја живеат стотици други креативци и клиенти низ регионот, реши да ја изгради платформата што самиот ја бараше: место каде креативците лесно ги наоѓаат вистинските клиенти, а клиентите ги наоѓаат вистинските креативци.') }}</p>
-    <p class="founder-sig">Cvetanskifootage, {{ __('основач на KADAR') }}</p>
+    <p class="founder-text">{{ __('Основачот на CreatorSpot, Cvetanskifootage, самиот работеше како видео креативец и знаеше од прва рака колку е тешко да се најдат вистински клиенти на почетокот, со часови бараење, несигурни договори и изгубено време. Кога сфати дека истата борба ја живеат стотици други креативци и клиенти низ регионот, реши да ја изгради платформата што самиот ја бараше: место каде креативците лесно ги наоѓаат вистинските клиенти, а клиентите ги наоѓаат вистинските креативци.') }}</p>
+    <p class="founder-sig">Cvetanskifootage, {{ __('основач на CreatorSpot') }}</p>
     <div class="founder-cta">
       <button type="button" class="btn btn-primary" onclick="openMeetingModal()">{{ __('Закажи состанок со основачот') }}</button>
     </div>
@@ -578,11 +578,11 @@
 </div>
 
 <footer>
-  <div class="logo"><span class="sq"><span></span></span>KADAR<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;">Beta</span></div>
+  <div class="logo"><span class="sq"><span></span></span>CreatorSpot<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;">Beta</span></div>
   <div class="flinks">
     <a href="{{ route('legal.terms') }}" target="_blank" rel="noopener">{{ __('Услови') }}</a><a href="{{ route('legal.privacy') }}" target="_blank" rel="noopener">{{ __('Приватност') }}</a><a href="{{ route('contact.create') }}">{{ __('Контакт') }}</a>
   </div>
-  <div>© {{ date('Y') }} KADAR</div>
+  <div>© {{ date('Y') }} CreatorSpot</div>
 </footer>
 
 </body>

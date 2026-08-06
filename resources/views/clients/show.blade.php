@@ -10,7 +10,7 @@
                     <x-avatar :user="$client" size="w-20 h-20" textSize="text-2xl" />
                     <div>
                         <p class="text-lg font-medium text-gray-900">{{ $client->name }}</p>
-                        <p class="text-sm text-gray-500 mt-1">{{ __('Клиент на KADAR') }} &middot; {{ __('се приклучи') }} {{ $client->created_at->format('d.m.Y') }}</p>
+                        <p class="text-sm text-gray-500 mt-1">{{ __('Клиент на CreatorSpot') }} &middot; {{ __('се приклучи') }} {{ $client->created_at->format('d.m.Y') }}</p>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-<x-app-layout :title="__('Пораки')" :description="__('Твоите разговори на KADAR.')">
+<x-app-layout :title="__('Пораки')" :description="__('Твоите разговори на CreatorSpot.')">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Пораки') }}</h2>
     </x-slot>

@@ -16,7 +16,7 @@
             <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
                     <td style="width:26px;height:26px;background:rgba(255,255,255,.22);border-radius:8px;text-align:center;vertical-align:middle;font-size:13px;">⚡</td>
-                    <td style="padding-left:10px;color:#ffffff;font-size:19px;font-weight:800;letter-spacing:-0.02em;">KADAR</td>
+                    <td style="padding-left:10px;color:#ffffff;font-size:19px;font-weight:800;letter-spacing:-0.02em;">CreatorSpot</td>
                 </tr>
             </table>
         </td>
@@ -37,7 +37,7 @@
     </tr>
     <tr>
         <td style="padding:0 32px 24px;">
-            <p style="margin:0;color:#666B76;font-size:14px;line-height:1.6;">{{ __('Објавен е нов оглас што одговара на категориите што ги следиш на KADAR.') }}</p>
+            <p style="margin:0;color:#666B76;font-size:14px;line-height:1.6;">{{ __('Објавен е нов оглас што одговара на категориите што ги следиш на CreatorSpot.') }}</p>
         </td>
     </tr>
 
@@ -96,7 +96,7 @@
     <tr>
         <td style="padding:24px 32px 28px;border-top:1px solid #E8EBF0;margin-top:8px;">
             <p style="margin:20px 0 0;color:#9AA0AB;font-size:11.5px;line-height:1.6;">
-                {{ __('Го добиваш ова затоа што си верифициран креативец во оваа категорија на KADAR. Известувањата можеш да ги исклучиш во твоите поставки.') }}
+                {{ __('Го добиваш ова затоа што си верифициран креативец во оваа категорија на CreatorSpot. Известувањата можеш да ги исклучиш во твоите поставки.') }}
             </p>
         </td>
     </tr>
