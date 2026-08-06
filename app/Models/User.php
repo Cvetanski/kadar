@@ -90,10 +90,18 @@ class User extends Authenticatable
 
                 $path = Str::contains($value, '/storage/') ? Str::after($value, '/storage/') : $value;
 
-                // Root-relative on purpose: an absolute URL built from APP_URL would break
-                // whenever the app is actually served from a different host/port (e.g. the
+                $url = Storage::disk('public')->url($path);
+
+                // When backed by object storage (S3-compatible), the URL points at the
+                // bucket's own host and must be returned in full. For local disk storage,
+                // stay root-relative on purpose: an absolute URL built from APP_URL would
+                // break whenever the app is served from a different host/port (e.g. the
                 // dev server's port vs whatever APP_URL happens to say).
-                return '/'.ltrim(parse_url(Storage::disk('public')->url($path), PHP_URL_PATH), '/');
+                if (config('filesystems.disks.public.driver') === 's3') {
+                    return $url;
+                }
+
+                return '/'.ltrim(parse_url($url, PHP_URL_PATH), '/');
             },
             set: function (?string $value) {
                 if (! $value) {

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\ImageManager;
 
 class AvatarUploadService
@@ -15,12 +16,12 @@ class AvatarUploadService
     {
         $path = 'avatars/'.Str::uuid().'.jpg';
 
-        Storage::disk('public')->makeDirectory('avatars');
-
-        (new ImageManager(new Driver()))
+        $encoded = (new ImageManager(new Driver))
             ->decode($file)
             ->cover(400, 400)
-            ->save(Storage::disk('public')->path($path), quality: 85);
+            ->encode(new JpegEncoder(quality: 85));
+
+        Storage::disk('public')->put($path, (string) $encoded);
 
         return $path;
     }
@@ -45,13 +46,13 @@ class AvatarUploadService
 
         $path = 'avatars/'.Str::uuid().'.jpg';
 
-        Storage::disk('public')->makeDirectory('avatars');
-
         try {
-            (new ImageManager(new Driver()))
+            $encoded = (new ImageManager(new Driver))
                 ->decode($response->body())
                 ->cover(400, 400)
-                ->save(Storage::disk('public')->path($path), quality: 85);
+                ->encode(new JpegEncoder(quality: 85));
+
+            Storage::disk('public')->put($path, (string) $encoded);
         } catch (\Throwable) {
             return null;
         }
