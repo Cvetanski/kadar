@@ -102,6 +102,9 @@
         box-shadow:0 0 0 4px rgba(11,111,224,.2), 0 6px 18px rgba(11,111,224,.4);}
     .br-details-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:4px;}
     .br-details-head h2{font-size:18px;font-weight:800;color:#14171F;margin:0;line-height:1.35;}
+    .br-details-head-badges{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+    .br-applied-badge{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap;
+        background:#EAF2FE;color:#0958B5;}
     .br-details-posted{font-size:12px;color:#9AA0AB;margin:0 0 16px;}
     .br-details-budget{font-size:22px;font-weight:800;color:#14171F;margin-bottom:12px;letter-spacing:-.01em;}
     .br-details-meta{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#666B76;font-weight:600;

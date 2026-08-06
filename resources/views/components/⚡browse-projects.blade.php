@@ -4,6 +4,7 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Project;
+use App\Models\Proposal;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
@@ -197,10 +198,28 @@ new class extends Component
         return Auth::user()->savedProjects()->where('project_id', $this->selectedProjectId)->exists();
     }
 
+    #[Computed]
+    public function hasAppliedToSelected(): bool
+    {
+        if (! $this->selectedProjectId) {
+            return false;
+        }
+
+        $creatorProfile = Auth::user()->creatorProfile;
+
+        if (! $creatorProfile) {
+            return false;
+        }
+
+        return Proposal::where('project_id', $this->selectedProjectId)
+            ->where('creator_profile_id', $creatorProfile->id)
+            ->exists();
+    }
+
     public function selectProject(int $projectId): void
     {
         $this->selectedProjectId = $projectId;
-        unset($this->selectedProject, $this->isSelectedSaved);
+        unset($this->selectedProject, $this->isSelectedSaved, $this->hasAppliedToSelected);
     }
 
     public function closeDetails(): void
@@ -356,7 +375,12 @@ new class extends Component
                 <button type="button" class="br-details-back" wire:click="closeDetails">← {{ __('Назад кон листата') }}</button>
                 <div class="br-details-head">
                     <h2>{{ $project->title }}</h2>
-                    <span class="kf-status kf-status-open">{{ __('Отворен') }}</span>
+                    <div class="br-details-head-badges">
+                        @if ($this->hasAppliedToSelected)
+                            <span class="br-applied-badge">{{ __('Веќе аплициравте') }}</span>
+                        @endif
+                        <span class="kf-status kf-status-open">{{ __('Отворен') }}</span>
+                    </div>
                 </div>
                 <p class="br-details-posted">{{ __('Објавен :time', ['time' => $project->created_at->locale(app()->getLocale())->diffForHumans()]) }}</p>
 
