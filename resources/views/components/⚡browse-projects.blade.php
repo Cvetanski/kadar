@@ -382,6 +382,9 @@ new class extends Component
                     @endforeach
                 </div>
 
+                <h3 class="br-section-title">{{ __('Опис') }}</h3>
+                <p class="br-details-desc">{{ $project->description }}</p>
+
                 @if ($project->skills->isNotEmpty())
                     <h3 class="br-section-title">{{ __('Потребни вештини') }}</h3>
                     <div class="br-pill-row">
@@ -390,9 +393,6 @@ new class extends Component
                         @endforeach
                     </div>
                 @endif
-
-                <h3 class="br-section-title">{{ __('Опис') }}</h3>
-                <p class="br-details-desc">{{ $project->description }}</p>
 
                 <div class="br-actions">
                     <a href="{{ route('projects.show', $project) }}" class="br-btn-primary">
