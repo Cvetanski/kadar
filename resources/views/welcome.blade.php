@@ -384,8 +384,8 @@
     </div>
     <div class="flow-step">
       <div class="flow-num">3</div>
-      <div class="flow-title">{{ __('Прими и плати') }}</div>
-      <div class="flow-desc">{{ __('Одобри ја испораката и плати безбедно преку платформата.') }}</div>
+      <div class="flow-title">{{ __('Прими и оцени') }}</div>
+      <div class="flow-desc">{{ __('Одобри ја испораката и остави оценка за креативецот') }}</div>
     </div>
   </div>
 </section>
