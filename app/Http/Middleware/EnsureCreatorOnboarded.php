@@ -20,7 +20,7 @@ class EnsureCreatorOnboarded
         if ($user && $user->role === 'creator') {
             $profile = $user->creatorProfile;
 
-            if (! $profile || ! $profile->onboarding_completed_at) {
+            if (! $profile || (! $profile->onboarding_completed_at && ! $profile->onboarding_skipped_at)) {
                 return redirect()->route('onboarding');
             }
         }

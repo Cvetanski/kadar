@@ -26,6 +26,7 @@ class CreatorProfile extends Model
         'facebook_url',
         'website_url',
         'onboarding_completed_at',
+        'onboarding_skipped_at',
     ];
 
     protected function casts(): array
@@ -40,6 +41,7 @@ class CreatorProfile extends Model
             'languages' => 'array',
             'equipment' => 'array',
             'onboarding_completed_at' => 'datetime',
+            'onboarding_skipped_at' => 'datetime',
         ];
     }
 

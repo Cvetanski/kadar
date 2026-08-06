@@ -29,24 +29,34 @@ new class extends Component
 
     // Step 3 — location
     public ?int $countryId = null;
+
     public ?int $cityId = null;
+
     public bool $remoteOk = false;
 
     // Step 4 — profile
     public string $headline = '';
+
     public string $bio = '';
+
     public ?float $hourlyRate = null;
+
     public ?int $experienceYears = null;
 
     // Step 5 — portfolio (kept only in component state until final submit)
     public array $portfolioItems = [];
+
     public string $newPortfolioTitle = '';
+
     public string $newPortfolioType = 'video';
+
     public string $newPortfolioUrl = '';
 
     // Step 6 — social
     public ?string $instagramUrl = null;
+
     public ?string $facebookUrl = null;
+
     public ?string $websiteUrl = null;
 
     /**
@@ -259,6 +269,18 @@ new class extends Component
         }
     }
 
+    public function skip()
+    {
+        $user = Auth::user();
+
+        $user->creatorProfile()->firstOrCreate(['user_id' => $user->id])
+            ->update(['onboarding_skipped_at' => now()]);
+
+        session()->flash('status', __('Може да го завршиш профилот кога сакаш — потсетниците ќе ти помогнат да не заборавиш.'));
+
+        return redirect()->route('dashboard');
+    }
+
     public function submit()
     {
         $rules = array_merge(
@@ -327,6 +349,12 @@ new class extends Component
             <div class="progress-step-name">{{ $this->stepName() }}</div>
         </div>
         <div class="progress-track"><div class="progress-fill" style="width: {{ $step / 7 * 100 }}%"></div></div>
+        <div style="text-align:right;margin-top:8px;">
+            <button type="button" wire:click="skip" onclick="return confirm('{{ __('Прескокни за сега? Ќе можеш да го завршиш профилот подоцна од твојата контролна табла.') }}')"
+                style="background:none;border:none;font-size:12.5px;color:var(--text-dim,#666B76);text-decoration:underline;cursor:pointer;padding:0;">
+                {{ __('Прескокни за сега') }} →
+            </button>
+        </div>
     </div>
 
     <div class="card">

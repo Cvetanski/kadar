@@ -8,13 +8,24 @@
             @include('partials.creator-fancy-styles')
             <div class="kf-wrap">
 
-                @if ($profile && ! $profile->verified)
+                @if ($profile && $profile->onboarding_completed_at && ! $profile->verified)
                     <div class="kf-card" style="margin-bottom:24px;border-color:#FDE68A;background:#FFFBEB;">
                         <p class="kf-card-title" style="margin-bottom:2px;">🕒 {{ __('Твојот профил чека верификација') }}</p>
                         <p class="kf-card-meta" style="margin-bottom:0;">{{ __('По поднесувањето, профилот чека рачна верификација од нашиот тим, обично до 24 часа. Верифицираните профили имаат поголема шанса да бидат ангажирани од клиенти.') }}</p>
                         @unless (Auth::user()->avatar_url)
                             <p class="text-xs font-semibold mt-2" style="color:#B45309;">{{ __('Задолжително додади профилна слика, без неа профилот не може да биде верификуван.') }}</p>
                         @endunless
+                    </div>
+                @endif
+
+                @if ($profile && ! $profile->onboarding_completed_at && $profile->onboarding_skipped_at)
+                    <div class="kf-onboarding-reminder">
+                        <div class="kf-onboarding-reminder-icon">✨</div>
+                        <div class="kf-onboarding-reminder-body">
+                            <p class="kf-onboarding-reminder-title">{{ __('Го прескокна поставувањето на профилот') }}</p>
+                            <p class="kf-onboarding-reminder-desc">{{ __('Клиентите не можат да те најдат додека профилот не е завршен и верифициран. Ти треба само неколку минути.') }}</p>
+                        </div>
+                        <a href="{{ route('onboarding') }}" class="kf-btn" style="flex-shrink:0;text-decoration:none;">{{ __('Дополни го профилот') }}</a>
                     </div>
                 @endif
 

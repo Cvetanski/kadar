@@ -39,6 +39,20 @@
     display:block;color:inherit;}
   .kf-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(20,23,31,.08), 0 2px 6px rgba(20,23,31,.04);border-color:#B8D3F7;}
 
+  .kf-onboarding-reminder{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding:18px 20px;border-radius:16px;
+    background:linear-gradient(135deg,#EAF2FE,#F6FAFF);border:1px solid #CFE2FB;
+    box-shadow:0 1px 2px rgba(20,23,31,.05);}
+  .kf-onboarding-reminder-icon{flex-shrink:0;width:44px;height:44px;border-radius:12px;background:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 1px 2px rgba(20,23,31,.08);}
+  .kf-onboarding-reminder-body{flex:1;min-width:0;}
+  .kf-onboarding-reminder-title{font-weight:700;font-size:14.5px;color:#14171F;margin-bottom:2px;}
+  .kf-onboarding-reminder-desc{font-size:12.5px;color:#3A5A85;line-height:1.5;}
+  @media(max-width:640px){
+    .kf-onboarding-reminder{flex-wrap:wrap;}
+    .kf-onboarding-reminder-body{flex-basis:100%;order:2;}
+    .kf-onboarding-reminder a.kf-btn{order:3;flex-basis:100%;text-align:center;}
+  }
+
   .kf-cat-icon{width:36px;height:36px;border-radius:10px;background:#F6F8FB;display:flex;align-items:center;
     justify-content:center;font-size:16px;margin-bottom:12px;}
   .kf-card-title{font-weight:700;font-size:15px;color:#14171F;margin-bottom:4px;line-height:1.35;}

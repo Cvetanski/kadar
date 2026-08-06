@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\CreatorProfile;
 use App\Models\Skill;
 use App\Models\User;
+use App\Services\GeoIpService;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\CitySeeder;
 use Database\Seeders\CountrySeeder;
@@ -272,7 +273,7 @@ class OnboardingTest extends TestCase
     {
         $mk = Country::where('code', 'MK')->firstOrFail();
 
-        $this->mock(\App\Services\GeoIpService::class, function ($mock) {
+        $this->mock(GeoIpService::class, function ($mock) {
             $mock->shouldReceive('guessCountryCode')->once()->andReturn('MK');
         });
 
@@ -285,7 +286,7 @@ class OnboardingTest extends TestCase
 
     public function test_country_is_left_unselected_when_geoip_lookup_fails(): void
     {
-        $this->mock(\App\Services\GeoIpService::class, function ($mock) {
+        $this->mock(GeoIpService::class, function ($mock) {
             $mock->shouldReceive('guessCountryCode')->once()->andReturn(null);
         });
 
@@ -294,5 +295,65 @@ class OnboardingTest extends TestCase
         $component = Livewire::actingAs($creator)->test('onboarding-wizard');
 
         $this->assertNull($component->get('countryId'));
+    }
+
+    public function test_skip_marks_the_profile_as_skipped_and_redirects_to_dashboard(): void
+    {
+        $creator = $this->creator();
+
+        Livewire::actingAs($creator)->test('onboarding-wizard')
+            ->call('skip')
+            ->assertRedirect(route('dashboard', absolute: false));
+
+        $this->assertNotNull($creator->creatorProfile->fresh()->onboarding_skipped_at);
+        $this->assertNull($creator->creatorProfile->fresh()->onboarding_completed_at);
+    }
+
+    public function test_skipped_creator_is_no_longer_forced_into_onboarding(): void
+    {
+        $creator = $this->creator();
+        $creator->creatorProfile->update(['onboarding_skipped_at' => now()]);
+
+        $this->actingAs($creator)->get('/dashboard')->assertStatus(200);
+        $this->actingAs($creator)->get('/browse')->assertStatus(200);
+    }
+
+    public function test_skipped_creator_can_still_open_onboarding_to_finish_later(): void
+    {
+        $creator = $this->creator();
+        $creator->creatorProfile->update(['onboarding_skipped_at' => now()]);
+
+        $response = $this->actingAs($creator)->get('/onboarding');
+
+        $response->assertStatus(200);
+        $response->assertSee('Која е твојата специјалност?');
+    }
+
+    public function test_not_yet_started_creator_is_still_forced_into_onboarding(): void
+    {
+        $creator = $this->creator();
+
+        $this->actingAs($creator)->get('/dashboard')->assertRedirect(route('onboarding', absolute: false));
+    }
+
+    public function test_dashboard_shows_reminder_banner_for_skipped_incomplete_profile(): void
+    {
+        $creator = $this->creator();
+        $creator->creatorProfile->update(['onboarding_skipped_at' => now()]);
+
+        $response = $this->actingAs($creator)->get('/dashboard');
+
+        $response->assertSee('Го прескокна поставувањето на профилот');
+        $response->assertSee(route('onboarding'), false);
+    }
+
+    public function test_dashboard_does_not_show_reminder_banner_once_onboarding_is_completed(): void
+    {
+        $creator = $this->creator();
+        $creator->creatorProfile->update(['onboarding_completed_at' => now()]);
+
+        $response = $this->actingAs($creator)->get('/dashboard');
+
+        $response->assertDontSee('Го прескокна поставувањето на профилот');
     }
 }
