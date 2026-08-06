@@ -351,7 +351,12 @@ new class extends Component
         <div class="progress-track"><div class="progress-fill" style="width: {{ $step / 7 * 100 }}%"></div></div>
         <div style="text-align:right;margin-top:8px;">
             <button type="button" wire:click="skip" onclick="return confirm('{{ __('Прескокни за сега? Ќе можеш да го завршиш профилот подоцна од твојата контролна табла.') }}')"
-                style="background:none;border:none;font-size:12.5px;color:var(--text-dim,#666B76);text-decoration:underline;cursor:pointer;padding:0;">
+                style="background:transparent;color:#D6249F;font-size:11.5px;font-weight:800;letter-spacing:0.04em;
+                    padding:5px 14px;border-radius:999px;border:1px solid #D6249F;cursor:pointer;
+                    box-shadow:0 0 8px rgba(214,36,159,.5), 0 0 2px rgba(214,36,159,.8);
+                    transition:box-shadow .15s ease, transform .15s ease;"
+                onmouseover="this.style.boxShadow='0 0 14px rgba(214,36,159,.75), 0 0 4px rgba(214,36,159,.9)'"
+                onmouseout="this.style.boxShadow='0 0 8px rgba(214,36,159,.5), 0 0 2px rgba(214,36,159,.8)'">
                 {{ __('Прескокни за сега') }} →
             </button>
         </div>
