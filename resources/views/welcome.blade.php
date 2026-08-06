@@ -8,6 +8,11 @@
 <meta name="description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот. Опиши го проектот, добиј понуди за неколку часа.') }}">
 <link rel="canonical" href="{{ url()->current() }}">
 
+<link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon-16x16.png') }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32x32.png') }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/apple-touch-icon.png') }}">
+
 <meta property="og:title" content="CreatorSpot — {{ __('Пронајди го твојот следен креативец') }}">
 <meta property="og:description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.') }}">
 <meta property="og:type" content="website">
