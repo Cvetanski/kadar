@@ -24,9 +24,30 @@ class SetLocale
     }
 
     /**
+     * Country (ISO 3166-1 alpha-2, from Cloudflare's CF-IPCountry header) to
+     * app locale. Countries not listed here fall through to the
+     * Accept-Language guess, then the app default.
+     */
+    private const COUNTRY_LOCALES = [
+        'MK' => 'mk',
+        'RS' => 'sr',
+        'ME' => 'sr',
+        'BA' => 'sr',
+        'HR' => 'hr',
+        'AL' => 'sq',
+        'XK' => 'sq',
+        'BG' => 'bg',
+        'GR' => 'el',
+        'CY' => 'el',
+    ];
+
+    /**
      * Priority: an authenticated user's saved preference, then the guest
-     * locale cookie, then a best-effort guess from the browser's
-     * Accept-Language header, then the app default.
+     * locale cookie, then the visitor's country (from Cloudflare's
+     * CF-IPCountry header — more reliable than browser language for
+     * Balkan visitors whose OS/browser is set to English), then a
+     * best-effort guess from the Accept-Language header, then the app
+     * default.
      */
     private function resolveLocale(Request $request): string
     {
@@ -42,7 +63,20 @@ class SetLocale
             return $cookie;
         }
 
-        return $this->detectFromAcceptLanguage($request) ?? config('app.locale');
+        return $this->detectFromCountry($request)
+            ?? $this->detectFromAcceptLanguage($request)
+            ?? config('app.locale');
+    }
+
+    private function detectFromCountry(Request $request): ?string
+    {
+        $country = $request->headers->get('CF-IPCountry');
+
+        if (! is_string($country)) {
+            return null;
+        }
+
+        return self::COUNTRY_LOCALES[strtoupper($country)] ?? null;
     }
 
     private function detectFromAcceptLanguage(Request $request): ?string

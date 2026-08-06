@@ -56,6 +56,47 @@ class LocaleTest extends TestCase
         $response->assertSee('lang="bg"', false);
     }
 
+    public function test_detects_locale_from_cloudflare_country_header(): void
+    {
+        // English browser language, but visiting from Macedonia — country
+        // detection should win over the browser's Accept-Language guess.
+        $response = $this->withHeaders([
+            'Accept-Language' => 'en-US,en;q=0.9',
+            'CF-IPCountry' => 'MK',
+        ])->get('/login');
+
+        $response->assertSee('lang="mk"', false);
+    }
+
+    public function test_country_detection_takes_priority_over_accept_language(): void
+    {
+        $response = $this->withHeaders([
+            'Accept-Language' => 'en-US,en;q=0.9',
+            'CF-IPCountry' => 'GR',
+        ])->get('/login');
+
+        $response->assertSee('lang="el"', false);
+    }
+
+    public function test_locale_cookie_takes_priority_over_country_header(): void
+    {
+        $response = $this->withHeaders(['CF-IPCountry' => 'GR'])
+            ->withCookie('locale', 'bg')
+            ->get('/login');
+
+        $response->assertSee('lang="bg"', false);
+    }
+
+    public function test_unmapped_country_falls_back_to_accept_language(): void
+    {
+        $response = $this->withHeaders([
+            'Accept-Language' => 'sr-RS,sr;q=0.9',
+            'CF-IPCountry' => 'DE',
+        ])->get('/login');
+
+        $response->assertSee('lang="sr"', false);
+    }
+
     public function test_authenticated_users_saved_locale_takes_priority_over_cookie(): void
     {
         $user = User::factory()->create(['role' => 'client', 'locale' => 'el']);
