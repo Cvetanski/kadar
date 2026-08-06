@@ -349,8 +349,8 @@ new class extends Component
             <div class="progress-step-name">{{ $this->stepName() }}</div>
         </div>
         <div class="progress-track"><div class="progress-fill" style="width: {{ $step / 7 * 100 }}%"></div></div>
-        <div style="text-align:right;margin-top:8px;">
-            <button type="button" wire:click="skip" onclick="return confirm('{{ __('Прескокни за сега? Ќе можеш да го завршиш профилот подоцна од твојата контролна табла.') }}')"
+        <div style="text-align:right;margin-top:8px;" x-data>
+            <button type="button" x-on:click="$dispatch('open-modal', 'confirm-skip-onboarding')"
                 style="background:transparent;color:#D6249F;font-size:11.5px;font-weight:800;letter-spacing:0.04em;
                     padding:5px 14px;border-radius:999px;border:1px solid #D6249F;cursor:pointer;
                     box-shadow:0 0 8px rgba(214,36,159,.5), 0 0 2px rgba(214,36,159,.8);
@@ -360,6 +360,28 @@ new class extends Component
                 {{ __('Прескокни за сега') }} →
             </button>
         </div>
+
+        <x-modal name="confirm-skip-onboarding" focusable>
+            <div class="p-6">
+                <h2 class="text-lg font-medium text-gray-900">
+                    {{ __('Прескокни за сега?') }}
+                </h2>
+
+                <p class="mt-1 text-sm text-gray-600">
+                    {{ __('Ќе можеш да го завршиш профилот подоцна од твојата контролна табла. Клиентите нема да те гледаат додека профилот не е завршен и верифициран.') }}
+                </p>
+
+                <div class="mt-6 flex justify-end gap-3">
+                    <x-secondary-button type="button" x-on:click="$dispatch('close')">
+                        {{ __('Откажи') }}
+                    </x-secondary-button>
+
+                    <x-primary-button type="button" wire:click="skip">
+                        {{ __('Прескокни за сега') }}
+                    </x-primary-button>
+                </div>
+            </div>
+        </x-modal>
     </div>
 
     <div class="card">
