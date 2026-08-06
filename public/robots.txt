@@ -2,10 +2,24 @@ User-agent: *
 Disallow: /dashboard
 Disallow: /admin
 Disallow: /onboarding
-Disallow: /messages
+Disallow: /choose-role
 Disallow: /welcome
+Disallow: /messages
 Disallow: /profile
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /confirm-password
+Disallow: /verify-email
+Disallow: /auth/
 Disallow: /projects/create
 Disallow: /projects/*/edit
+Disallow: /creators/*/edit
+Disallow: /browse
+Disallow: /saved-projects
+Disallow: /proposals
+Disallow: /favorites
+Disallow: /clients/
 
-Sitemap: /sitemap.xml
+Sitemap: https://creatorspot.io/sitemap.xml

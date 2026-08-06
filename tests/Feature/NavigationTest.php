@@ -46,12 +46,39 @@ class NavigationTest extends TestCase
 
         $response = $this->actingAs($admin)->get('/dashboard');
 
-        $response->assertSee('Верификации');
         $response->assertSee('Корисници');
         $response->assertDontSee('Барај креативци');
         $response->assertDontSee('Мои Огласи');
         $response->assertDontSee('Најди Работа');
         $response->assertDontSee('Мои апликации');
+    }
+
+    public function test_admin_users_page_links_to_verifications_tab(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+
+        $response = $this->actingAs($admin)->get('/admin/users');
+
+        $response->assertSee('Корисници за верификација');
+        $response->assertSee(route('admin.users', ['role' => 'pending_verification']), false);
+    }
+
+    public function test_admin_users_pending_verification_tab_renders_in_place(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+        $creator = User::factory()->create(['role' => 'creator']);
+        CreatorProfile::create([
+            'user_id' => $creator->id,
+            'headline' => 'Видео монтажер',
+            'onboarding_completed_at' => now(),
+            'verified' => false,
+        ]);
+
+        $response = $this->actingAs($admin)->get('/admin/users?role=pending_verification');
+
+        $response->assertOk();
+        $response->assertSee('Видео монтажер');
+        $response->assertSee(route('admin.verifications.verify', $creator->creatorProfile), false);
     }
 
     public function test_admin_sees_messages_link(): void
@@ -72,7 +99,6 @@ class NavigationTest extends TestCase
 
         $response->assertSee('Најди Работа');
         $response->assertSee('Мои апликации');
-        $response->assertSee('Верификации');
         $response->assertSee('Корисници');
     }
 

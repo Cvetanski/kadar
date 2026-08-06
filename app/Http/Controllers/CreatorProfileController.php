@@ -24,8 +24,8 @@ class CreatorProfileController extends Controller
         $creatorProfile->load(['user', 'categories', 'skills', 'portfolioItems']);
 
         $user = $request->user();
-        $isOwnProfile = $user->id === $creatorProfile->user_id;
-        $isFavorited = ! $isOwnProfile && $user->favorites()->where('creator_profile_id', $creatorProfile->id)->exists();
+        $isOwnProfile = $user?->id === $creatorProfile->user_id;
+        $isFavorited = $user && ! $isOwnProfile && $user->favorites()->where('creator_profile_id', $creatorProfile->id)->exists();
 
         $reviews = Review::where('reviewee_id', $creatorProfile->user_id)
             ->with('reviewer')

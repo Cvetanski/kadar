@@ -71,4 +71,22 @@ class LocaleOptions
 
         return [$currentOption => self::OPTIONS[$currentOption]] + $english + $rest;
     }
+
+    /**
+     * Open Graph / og:locale value (language_TERRITORY) for the given app
+     * locale, e.g. 'mk' -> 'mk_MK'.
+     */
+    public static function ogLocale(string $locale): string
+    {
+        return match ($locale) {
+            'mk' => 'mk_MK',
+            'sr' => 'sr_RS',
+            'hr' => 'hr_HR',
+            'sq' => 'sq_AL',
+            'bg' => 'bg_BG',
+            'el' => 'el_GR',
+            'en' => 'en_US',
+            default => 'mk_MK',
+        };
+    }
 }

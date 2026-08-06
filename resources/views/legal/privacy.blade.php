@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ __('Политика за приватност') }} — CreatorSpot</title>
+<meta name="description" content="{{ __('Политиката за приватност на CreatorSpot — како ги обработуваме твоите податоци на платформата.') }}">
+<link rel="canonical" href="{{ url()->current() }}">
+<meta property="og:title" content="{{ __('Политика за приватност') }} — CreatorSpot">
+<meta property="og:description" content="{{ __('Политиката за приватност на CreatorSpot — како ги обработуваме твоите податоци на платформата.') }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:site_name" content="CreatorSpot">
+<meta property="og:locale" content="{{ \App\Support\LocaleOptions::ogLocale(app()->getLocale()) }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -54,7 +62,7 @@
 <body>
 
 <div class="top">
-  <a href="{{ route('welcome') }}" class="logo"><span class="sq"><span></span></span>CreatorSpot<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;margin-left:2px;">Beta</span></a>
+  <a href="{{ route('welcome') }}" class="logo"><img src="{{ asset('images/logo2.svg') }}" alt="CreatorSpot" style="width:66px;height:66px;border-radius:6px;object-fit:contain;">CreatorSpot<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;margin-left:2px;">Beta</span></a>
 </div>
 
 <div class="wrap">

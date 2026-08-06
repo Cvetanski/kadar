@@ -5,6 +5,10 @@
 
     <div class="py-12">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <a href="{{ route('admin.users', ['role' => 'pending_verification']) }}" class="inline-flex items-center gap-1 text-sm text-indigo-600 hover:underline mb-6">
+                ← {{ __('Назад кон Корисници') }}
+            </a>
+
             @if (session('status'))
                 <div class="bg-green-50 text-green-700 text-sm rounded-md p-4 mb-6">{{ session('status') }}</div>
             @endif

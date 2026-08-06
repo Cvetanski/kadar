@@ -97,4 +97,17 @@ class CreatorSearchTest extends TestCase
 
         $response->assertDontSee('Прати порака');
     }
+
+    public function test_guest_can_view_creator_search_and_profile(): void
+    {
+        $creatorProfile = $this->onboardedCreator('Public Creator', verified: true);
+
+        $this->get('/creators')
+            ->assertOk()
+            ->assertSee('Public Creator');
+
+        $this->get("/creators/{$creatorProfile->id}")
+            ->assertOk()
+            ->assertSee('Public Creator');
+    }
 }

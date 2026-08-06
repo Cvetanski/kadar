@@ -14,6 +14,37 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $creatorProfile->user->name }}</h2>
     </x-slot>
 
+    <script type="application/ld+json">
+        {!! json_encode(array_filter([
+            '@@context' => 'https://schema.org',
+            '@type' => 'Person',
+            'name' => $creatorProfile->user->name,
+            'url' => route('creators.show', $creatorProfile),
+            'image' => $creatorProfile->user->avatar_url,
+            'jobTitle' => $creatorProfile->headline,
+            'description' => $creatorProfile->bio,
+            'address' => ($creatorProfile->user->city || $creatorProfile->user->country) ? array_filter([
+                '@type' => 'PostalAddress',
+                'addressLocality' => $creatorProfile->user->city?->name,
+                'addressCountry' => $creatorProfile->user->country?->name,
+            ]) : null,
+            'knowsAbout' => $creatorProfile->categories->pluck('name')->all() ?: null,
+            'makesOffer' => $creatorProfile->hourly_rate ? [
+                '@type' => 'Offer',
+                'priceCurrency' => 'EUR',
+                'price' => (string) $creatorProfile->hourly_rate,
+                'description' => __('Час. тарифа'),
+            ] : null,
+            'aggregateRating' => $reviews->isNotEmpty() ? [
+                '@type' => 'AggregateRating',
+                'ratingValue' => round($averageRating, 1),
+                'reviewCount' => $reviews->count(),
+                'bestRating' => 5,
+                'worstRating' => 1,
+            ] : null,
+        ]), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    </script>
+
     <div class="py-12">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))

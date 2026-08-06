@@ -36,6 +36,10 @@ Route::get('/contact', [ContactController::class, 'create'])->name('contact.crea
 Route::post('/contact', [ContactController::class, 'store'])
     ->middleware('throttle:5,1')->name('contact.store');
 
+// Public so verified creator profiles can be indexed by search engines.
+Route::get('/creators', [CreatorProfileController::class, 'index'])->name('creators.index');
+Route::get('/creators/{creatorProfile}', [CreatorProfileController::class, 'show'])->name('creators.show');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', 'onboarded'])->name('dashboard');
 
@@ -75,10 +79,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/clients/{user}', [ClientProfileController::class, 'show'])->name('clients.show');
     Route::post('/clients/{client}/message', [MessageController::class, 'startWithClient'])->name('messages.startWithClient');
 
-    Route::get('/creators', [CreatorProfileController::class, 'index'])->name('creators.index');
     Route::get('/creators/{creatorProfile}/edit', [CreatorProfileController::class, 'edit'])->name('creators.edit');
     Route::patch('/creators/{creatorProfile}', [CreatorProfileController::class, 'update'])->name('creators.update');
-    Route::get('/creators/{creatorProfile}', [CreatorProfileController::class, 'show'])->name('creators.show');
     Route::post('/creators/{creatorProfile}/message', [MessageController::class, 'startWithCreator'])->name('messages.start');
     Route::post('/creators/{creatorProfile}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 

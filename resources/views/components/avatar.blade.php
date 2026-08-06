@@ -5,7 +5,7 @@
         style="background: linear-gradient(135deg, {{ $user->avatar_gradient }})">
         {{ $user->initials }}
     </span>
-    <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}"
+    <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" loading="lazy"
         {{ $attributes->merge(['class' => "$size rounded-full object-cover flex-shrink-0"]) }}
         onerror="this.style.display='none';this.previousElementSibling.classList.remove('hidden');this.previousElementSibling.classList.add('flex');">
 @else

@@ -12,6 +12,40 @@
 <meta property="og:description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.') }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:site_name" content="CreatorSpot">
+<meta property="og:locale" content="{{ \App\Support\LocaleOptions::ogLocale(app()->getLocale()) }}">
+<meta property="og:image" content="{{ asset('images/hero-team.webp') }}">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CreatorSpot — {{ __('Пронајди го твојот следен креативец') }}">
+<meta name="twitter:description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.') }}">
+<meta name="twitter:image" content="{{ asset('images/hero-team.webp') }}">
+
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "CreatorSpot",
+    "url": "{{ route('welcome') }}",
+    "description": {!! json_encode(__('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.')) !!}
+}
+</script>
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "CreatorSpot",
+    "url": "{{ route('welcome') }}",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "{{ route('creators.index') }}?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+    }
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -52,42 +86,10 @@
   a:focus-visible, button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
   .wrap{max-width:1160px;margin:0 auto;padding:0 32px;}
 
-  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.9);
-    backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
-  .nav-inner{max-width:1160px;margin:0 auto;padding:16px 32px;
-    display:flex;align-items:center;justify-content:space-between;}
-  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;letter-spacing:-0.01em;}
-  .logo .sq{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg, #2D82E8, #0847A0);
-    display:flex;align-items:center;justify-content:center;}
-  .logo .sq span{width:7px;height:7px;border-radius:2px;background:#fff;}
-  .nav-links{display:flex;gap:32px;font-size:14.5px;color:var(--text-dim);font-weight:500;}
-  .nav-links a:hover{color:var(--text);}
-  .nav-cta{display:flex;gap:12px;align-items:center;}
-  @media(max-width:900px){.nav-links{display:none;}}
-
-  .nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;
-    background:none;border:none;cursor:pointer;padding:8px;}
-  .nav-burger span{width:22px;height:2px;background:var(--text);border-radius:2px;display:block;}
-
-  .nav-mobile-panel{display:none;flex-direction:column;padding:8px 20px 20px;
-    border-top:1px solid var(--border);background:#fff;}
-  .nav-mobile-panel.is-open{display:flex;}
-  .nav-mobile-panel > a{padding:13px 4px;font-size:14.5px;color:var(--text-dim);font-weight:500;
-    border-bottom:1px solid var(--bg-soft);}
-  .nav-mobile-panel > a:hover{color:var(--text);}
-  .nav-mobile-actions{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
-  .nav-mobile-actions .btn{width:100%;justify-content:center;}
-  .nav-mobile-actions .btn-ghost{
-    border:1.5px solid #0B6FE0;color:#14171F;
-    box-shadow:0 0 0 3px rgba(11,111,224,.14), 0 2px 10px rgba(11,111,224,.3);
-  }
-  .nav-mobile-lang{margin-top:14px;}
-
-  @media(max-width:640px){
-    .nav-inner{padding:14px 20px;}
-    .nav-cta{display:none;}
-    .nav-burger{display:flex;}
-  }
+  {{-- Nav CSS (nav, .logo, .nav-links, .nav-cta, .nav-burger, .nav-mobile-*) now lives
+       inside the <x-public-nav /> component itself, since that component is also used
+       on pages outside welcome.blade.php (e.g. the public creator profile) that don't
+       load this <style> block. --}}
 
   .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font);
     font-weight:600;font-size:14px;padding:10px 18px;border-radius:10px;
@@ -343,7 +345,7 @@
       <a href="{{ route('creators.show', $creator) }}" class="creator-card">
         <div class="cc-top">
           @if ($creator->user->avatar_url)
-            <img src="{{ $creator->user->avatar_url }}" alt="{{ $creator->user->name }}" class="cc-avatar" style="object-fit:cover;">
+            <img src="{{ $creator->user->avatar_url }}" alt="{{ $creator->user->name }}" class="cc-avatar" style="object-fit:cover;" loading="lazy">
           @else
             <div class="cc-avatar {{ $creator->avatarClass }}" style="display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;">{{ $creator->user->initials }}</div>
           @endif
@@ -461,17 +463,6 @@
 --}}
 
 <script>
-  function toggleMobileNav(){
-    var panel = document.getElementById('navMobilePanel');
-    var burger = document.getElementById('navBurgerBtn');
-    var isOpen = panel.classList.toggle('is-open');
-    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  }
-  function closeMobileNav(){
-    document.getElementById('navMobilePanel').classList.remove('is-open');
-    document.getElementById('navBurgerBtn').setAttribute('aria-expanded', 'false');
-  }
-
   function setHeroRole(role){
     var isCreator = role === 'creator';
     document.getElementById('roleClientBtn').classList.toggle('active', !isCreator);
@@ -578,7 +569,7 @@
 </div>
 
 <footer>
-  <div class="logo"><span class="sq"><span></span></span>CreatorSpot<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;">Beta</span></div>
+  <div class="logo"><img src="{{ asset('images/logo2.svg') }}" alt="CreatorSpot" style="width:66px;height:66px;border-radius:6px;object-fit:contain;">CreatorSpot<span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;">Beta</span></div>
   <div class="flinks">
     <a href="{{ route('legal.terms') }}" target="_blank" rel="noopener">{{ __('Услови') }}</a><a href="{{ route('legal.privacy') }}" target="_blank" rel="noopener">{{ __('Приватност') }}</a><a href="{{ route('contact.create') }}">{{ __('Контакт') }}</a>
   </div>

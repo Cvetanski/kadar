@@ -242,7 +242,7 @@ new class extends Component
     #[Computed]
     public function isSelectedFavorited(): bool
     {
-        if (! $this->selectedCreatorId) {
+        if (! $this->selectedCreatorId || ! Auth::check()) {
             return false;
         }
 
@@ -262,7 +262,7 @@ new class extends Component
 
     public function toggleFavorite(): void
     {
-        if (! $this->selectedCreatorId) {
+        if (! $this->selectedCreatorId || ! Auth::check()) {
             return;
         }
 

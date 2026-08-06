@@ -38,20 +38,35 @@ class AdminController extends Controller
     public function users(Request $request): View
     {
         $role = $request->input('role', 'creator');
-        $role = in_array($role, ['creator', 'client'], true) ? $role : 'creator';
+        $role = in_array($role, ['creator', 'client', 'pending_verification'], true) ? $role : 'creator';
 
-        $users = User::where('role', $role)
-            ->when($role === 'creator', fn ($q) => $q->with('creatorProfile'))
-            ->when($role === 'client', fn ($q) => $q->withCount('projects'))
-            ->latest()
-            ->paginate(20)
-            ->withQueryString();
+        $users = null;
+        $pending = null;
+
+        if ($role === 'pending_verification') {
+            $pending = CreatorProfile::whereNotNull('onboarding_completed_at')
+                ->where('verified', false)
+                ->with('user')
+                ->orderBy('onboarding_completed_at')
+                ->get();
+        } else {
+            $users = User::where('role', $role)
+                ->when($role === 'creator', fn ($q) => $q->with('creatorProfile'))
+                ->when($role === 'client', fn ($q) => $q->withCount('projects'))
+                ->latest()
+                ->paginate(20)
+                ->withQueryString();
+        }
 
         return view('admin.users', [
             'users' => $users,
+            'pending' => $pending,
             'role' => $role,
             'creatorCount' => User::where('role', 'creator')->count(),
             'clientCount' => User::where('role', 'client')->count(),
+            'pendingVerificationCount' => CreatorProfile::whereNotNull('onboarding_completed_at')
+                ->where('verified', false)
+                ->count(),
         ]);
     }
 

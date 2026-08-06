@@ -13,11 +13,24 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Најди Креативци') }}</h2>
-            @if (Auth::user()->role === 'client')
+            @if (Auth::user()?->role === 'client')
                 <a href="{{ route('favorites.index') }}" class="text-sm text-indigo-600 hover:underline">{{ __('Зачувани креативци →') }}</a>
             @endif
         </div>
     </x-slot>
+
+    @if ($seoFilterCategory)
+        <script type="application/ld+json">
+            {!! json_encode([
+                '@@context' => 'https://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => __('Барај Креативци'), 'item' => route('creators.index')],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => $seoFilterCategory->name, 'item' => route('creators.index', ['category_ids' => [$seoFilterCategory->id]])],
+                ],
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+        </script>
+    @endif
 
     @include('partials.creator-fancy-styles')
     @include('partials.browse-styles')

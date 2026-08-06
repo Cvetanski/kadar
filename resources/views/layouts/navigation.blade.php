@@ -1,11 +1,12 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+        <div class="flex justify-between h-20">
+            <div class="flex min-w-0">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                        <img src="{{ asset('images/logo2.svg') }}" alt="CreatorSpot" style="width:66px;height:66px;border-radius:6px;object-fit:contain;">
                         CreatorSpot
                         <span style="background:transparent;color:#D6249F;font-size:9px;font-weight:800;letter-spacing:0.06em;padding:2px 11px;border-radius:999px;text-transform:uppercase;border:1px solid #D6249F;">Beta</span>
                     </a>
@@ -34,10 +35,7 @@
                     @endif
 
                     @if (Auth::user()->is_admin)
-                        <x-nav-link :href="route('admin.verifications')" :active="request()->routeIs('admin.verifications')">
-                            {{ __('Верификации') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                        <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users') || request()->routeIs('admin.verifications')">
                             {{ __('Корисници') }}
                         </x-nav-link>
                         <x-nav-link :href="route('admin.contact-messages')" :active="request()->routeIs('admin.contact-messages')">
@@ -51,7 +49,7 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-2">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-2 shrink-0">
                 <a href="{{ route('messages.index') }}"
                     class="relative inline-flex items-center p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition ease-in-out duration-150">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -142,10 +140,7 @@
             @endif
 
             @if (Auth::user()->is_admin)
-                <x-responsive-nav-link :href="route('admin.verifications')" :active="request()->routeIs('admin.verifications')">
-                    {{ __('Верификации') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users') || request()->routeIs('admin.verifications')">
                     {{ __('Корисници') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.contact-messages')" :active="request()->routeIs('admin.contact-messages')">

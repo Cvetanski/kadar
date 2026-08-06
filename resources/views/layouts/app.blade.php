@@ -25,8 +25,17 @@
         <meta property="og:description" content="{{ $description }}">
         <meta property="og:type" content="{{ $type }}">
         <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:site_name" content="CreatorSpot">
+        <meta property="og:locale" content="{{ \App\Support\LocaleOptions::ogLocale(app()->getLocale()) }}">
         @if ($image)
             <meta property="og:image" content="{{ $image }}">
+        @endif
+
+        <meta name="twitter:card" content="{{ $image ? 'summary_large_image' : 'summary' }}">
+        <meta name="twitter:title" content="{{ $pageTitle }}">
+        <meta name="twitter:description" content="{{ $description }}">
+        @if ($image)
+            <meta name="twitter:image" content="{{ $image }}">
         @endif
 
         <!-- Fonts -->
@@ -40,7 +49,11 @@
         <div class="min-h-screen" style="background-color:#F6F8FB;
             background-image:radial-gradient(circle, rgba(11,111,224,0.12) 1.4px, transparent 1.4px);
             background-size:22px 22px;">
-            @include('layouts.navigation')
+            @auth
+                @include('layouts.navigation')
+            @else
+                <x-public-nav />
+            @endauth
 
             <!-- Page Heading -->
             @isset($header)
