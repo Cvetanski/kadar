@@ -18,6 +18,8 @@ new class extends Component
 
     public int $step = 1;
 
+    public bool $showSkipConfirm = false;
+
     // Step 4 — avatar
     public $avatarUpload = null;
 
@@ -349,8 +351,8 @@ new class extends Component
             <div class="progress-step-name">{{ $this->stepName() }}</div>
         </div>
         <div class="progress-track"><div class="progress-fill" style="width: {{ $step / 7 * 100 }}%"></div></div>
-        <div style="text-align:right;margin-top:8px;" x-data>
-            <button type="button" x-on:click="$dispatch('open-modal', 'confirm-skip-onboarding')"
+        <div style="text-align:right;margin-top:8px;">
+            <button type="button" wire:click="$set('showSkipConfirm', true)"
                 style="background:transparent;color:#D6249F;font-size:11.5px;font-weight:800;letter-spacing:0.04em;
                     padding:5px 14px;border-radius:999px;border:1px solid #D6249F;cursor:pointer;
                     box-shadow:0 0 8px rgba(214,36,159,.5), 0 0 2px rgba(214,36,159,.8);
@@ -361,27 +363,21 @@ new class extends Component
             </button>
         </div>
 
-        <x-modal name="confirm-skip-onboarding" focusable>
-            <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900">
-                    {{ __('Прескокни за сега?') }}
-                </h2>
-
-                <p class="mt-1 text-sm text-gray-600">
-                    {{ __('Ќе можеш да го завршиш профилот подоцна од твојата контролна табла. Клиентите нема да те гледаат додека профилот не е завршен и верифициран.') }}
-                </p>
-
-                <div class="mt-6 flex justify-end gap-3">
-                    <x-secondary-button type="button" x-on:click="$dispatch('close')">
-                        {{ __('Откажи') }}
-                    </x-secondary-button>
-
-                    <x-primary-button type="button" wire:click="skip">
-                        {{ __('Прескокни за сега') }}
-                    </x-primary-button>
+        @if ($showSkipConfirm)
+            <div style="position:fixed;inset:0;background:rgba(20,23,31,.5);z-index:100;display:flex;
+                align-items:center;justify-content:center;padding:16px;" wire:click.self="$set('showSkipConfirm', false)">
+                <div class="card" style="max-width:420px;width:100%;padding:28px;">
+                    <h3 style="font-size:18px;font-weight:800;margin-bottom:8px;">{{ __('Прескокни за сега?') }}</h3>
+                    <p style="font-size:14px;color:var(--text-dim);line-height:1.55;margin-bottom:22px;">
+                        {{ __('Ќе можеш да го завршиш профилот подоцна од твојата контролна табла. Клиентите нема да те гледаат додека профилот не е завршен и верифициран.') }}
+                    </p>
+                    <div style="display:flex;justify-content:flex-end;gap:10px;">
+                        <button type="button" class="btn btn-back" wire:click="$set('showSkipConfirm', false)">{{ __('Откажи') }}</button>
+                        <button type="button" class="btn btn-next" wire:click="skip">{{ __('Прескокни за сега') }}</button>
+                    </div>
                 </div>
             </div>
-        </x-modal>
+        @endif
     </div>
 
     <div class="card">
