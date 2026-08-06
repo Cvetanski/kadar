@@ -319,7 +319,7 @@
   </div>
 </div>
 
-<section class="section" id="kategorii">
+<section class="section" id="{{ \App\Support\AnchorSlugs::for('kategorii') }}">
   <div class="section-eyebrow">{{ __('Категории') }}</div>
   <div class="section-title">{{ __('6 фокуси, еден стандард за квалитет') }}</div>
   <p class="section-sub">{{ __('Секоја категорија има сопствен процес на верификација на портфолио пред да се објави профилот.') }}</p>
@@ -334,7 +334,7 @@
   </div>
 </section>
 
-<section class="section" id="kreativci" style="background:var(--bg-soft);border-radius:32px;max-width:1096px;">
+<section class="section" id="{{ \App\Support\AnchorSlugs::for('kreativci') }}" style="background:var(--bg-soft);border-radius:32px;max-width:1096px;">
   <div class="section-eyebrow">{{ __('Во фокус') }}</div>
   <div class="section-title">{{ __('Препорачани креативци') }}</div>
   <p class="section-sub">{{ __('Профили верификувани преку портфолио и претходни клиенти.') }}</p>
@@ -368,7 +368,7 @@
   </div>
 </section>
 
-<section class="section" id="kako">
+<section class="section" id="{{ \App\Support\AnchorSlugs::for('kako') }}">
   <div class="section-eyebrow">{{ __('Процес') }}</div>
   <div class="section-title">{{ __('Три чекори. Ништо повеќе.') }}</div>
   <p class="section-sub">{{ __('Од идеја до готов проект за денови, не недели, со целосна контрола над секој чекор.') }}</p>
@@ -568,7 +568,7 @@
     @else
       <a href="{{ route('register') }}" class="btn btn-primary btn-lg">{{ __('Регистрирај се бесплатно →') }}</a>
     @endauth
-    <a href="#kreativci" class="btn btn-ghost btn-lg">{{ __('Најди Креативци') }}</a>
+    <a href="#{{ \App\Support\AnchorSlugs::for('kreativci') }}" class="btn btn-ghost btn-lg">{{ __('Најди Креативци') }}</a>
   </div>
   <div class="cta-checks">
     <div class="cta-check">✓ {{ __('Без картичка') }}</div>
