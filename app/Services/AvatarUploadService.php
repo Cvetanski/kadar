@@ -16,8 +16,16 @@ class AvatarUploadService
     {
         $path = 'avatars/'.Str::uuid().'.jpg';
 
+        // Read raw bytes through the file's own accessor rather than handing
+        // Intervention Image the file object directly: Livewire's
+        // TemporaryUploadedFile resolves getRealPath()/getPathname() against
+        // whatever disk its temp upload lives on, which isn't a real local
+        // path when that disk is S3-backed, and Intervention's decoder
+        // assumes a local filesystem path in that case.
+        $contents = method_exists($file, 'get') ? $file->get() : file_get_contents($file->getRealPath());
+
         $encoded = (new ImageManager(new Driver))
-            ->decode($file)
+            ->decode($contents)
             ->cover(400, 400)
             ->encode(new JpegEncoder(quality: 85));
 
