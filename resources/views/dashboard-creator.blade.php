@@ -56,8 +56,11 @@
 
                     @if ($recommendedProjects->isEmpty())
                         <div class="kf-empty">
-                            {{ __('Сѐ уште нема отворени огласи во твоите категории.') }}
-                            <a href="{{ route('projects.browse') }}" style="color:#0B6FE0;font-weight:700;">{{ __('Разгледај ги сите отворени огласи →') }}</a>
+                            {{ __('🚀 CreatorSpot штотуку почна во твојот регион. Твојот профил е меѓу првите — секој нов проект во твојата категорија прво стигнува до рани членови како тебе.') }}
+                            <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px;">
+                                <a href="{{ route('creators.edit', $profile) }}" class="kf-btn" style="text-decoration:none;">{{ __('Дополни го профилот') }}</a>
+                                <a href="{{ route('projects.browse') }}" class="kf-clear">{{ __('Прегледај ги сите категории') }}</a>
+                            </div>
                         </div>
                     @else
                         <div class="kf-grid">
