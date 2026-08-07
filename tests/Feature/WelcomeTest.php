@@ -10,6 +10,7 @@ use App\Models\Review;
 use App\Models\User;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class WelcomeTest extends TestCase
@@ -25,7 +26,11 @@ class WelcomeTest extends TestCase
 
     private function verifiedCreator(string $name): CreatorProfile
     {
-        $user = User::factory()->create(['role' => 'creator', 'name' => $name]);
+        $user = User::factory()->create([
+            'role' => 'creator',
+            'name' => $name,
+            'avatar_url' => 'avatars/'.Str::uuid().'.jpg',
+        ]);
 
         return CreatorProfile::create([
             'user_id' => $user->id,
@@ -111,6 +116,25 @@ class WelcomeTest extends TestCase
         $response->assertSee('Verified Person');
         $response->assertDontSee('Unverified Person');
         $response->assertSee(route('creators.show', $verified), false);
+    }
+
+    public function test_landing_page_hides_verified_creators_without_a_profile_photo(): void
+    {
+        $withPhoto = $this->verifiedCreator('Has Photo');
+
+        $noPhotoUser = User::factory()->create(['role' => 'creator', 'name' => 'No Photo', 'avatar_url' => null]);
+        CreatorProfile::create([
+            'user_id' => $noPhotoUser->id,
+            'headline' => 'No photo headline',
+            'verified' => true,
+            'onboarding_completed_at' => now(),
+        ]);
+
+        $response = $this->get('/');
+
+        $response->assertSee('Has Photo');
+        $response->assertDontSee('No Photo');
+        $response->assertSee(route('creators.show', $withPhoto), false);
     }
 
     public function test_landing_page_shows_new_badge_for_creator_without_reviews(): void
