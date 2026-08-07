@@ -36,7 +36,7 @@ class WelcomeController extends Controller
         });
 
         $creators = CreatorProfile::where('verified', true)
-            ->whereHas('user', fn ($query) => $query->whereNotNull('avatar_url'))
+            ->whereHas('user', fn ($query) => $query->whereNotNull('avatar_url')->where('avatar_url', '!=', ''))
             ->with(['user.country', 'user.city', 'categories'])
             ->inRandomOrder()
             ->limit(6)

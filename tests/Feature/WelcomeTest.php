@@ -137,6 +137,25 @@ class WelcomeTest extends TestCase
         $response->assertSee(route('creators.show', $withPhoto), false);
     }
 
+    public function test_landing_page_hides_verified_creators_with_an_empty_avatar_url(): void
+    {
+        $withPhoto = $this->verifiedCreator('Has Photo Too');
+
+        $emptyAvatarUser = User::factory()->create(['role' => 'creator', 'name' => 'Empty Avatar', 'avatar_url' => '']);
+        CreatorProfile::create([
+            'user_id' => $emptyAvatarUser->id,
+            'headline' => 'Empty avatar headline',
+            'verified' => true,
+            'onboarding_completed_at' => now(),
+        ]);
+
+        $response = $this->get('/');
+
+        $response->assertSee('Has Photo Too');
+        $response->assertDontSee('Empty Avatar');
+        $response->assertSee(route('creators.show', $withPhoto), false);
+    }
+
     public function test_landing_page_shows_new_badge_for_creator_without_reviews(): void
     {
         $this->verifiedCreator('No Reviews Person');
