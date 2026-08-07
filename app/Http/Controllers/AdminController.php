@@ -26,10 +26,6 @@ class AdminController extends Controller
     {
         abort_unless($creatorProfile->onboarding_completed_at !== null, 403);
 
-        if (! $creatorProfile->user->avatar_url) {
-            return back()->with('error', __('Не може да се верификува, креативецот нема поставено профилна слика.'));
-        }
-
         $creatorProfile->update(['verified' => true]);
 
         return back()->with('status', __('Креативецот е верификуван.'));

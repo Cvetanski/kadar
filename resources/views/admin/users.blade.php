@@ -51,7 +51,7 @@
                                     </div>
                                     <form method="POST" action="{{ route('admin.verifications.verify', $profile) }}">
                                         @csrf
-                                        <x-primary-button type="submit" :disabled="! $profile->user->avatar_url">{{ __('Верификувај') }}</x-primary-button>
+                                        <x-primary-button type="submit">{{ __('Верификувај') }}</x-primary-button>
                                     </form>
                                 </div>
                             @endforeach
