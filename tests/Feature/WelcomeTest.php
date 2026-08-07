@@ -72,8 +72,25 @@ class WelcomeTest extends TestCase
         $response->assertSee('Дигитален маркетинг');
         $response->assertSee('Видео едитинг');
         $response->assertSee('Дизајн');
+    }
 
+    public function test_guest_clicking_a_category_is_sent_to_register_instead_of_browsing_creators(): void
+    {
         $category = Category::where('slug', 'video-production')->first();
+
+        $response = $this->get('/');
+
+        $response->assertDontSee(route('creators.index', ['category_ids' => [$category->id]]), false);
+        $response->assertSee(route('register', ['role' => 'client']), false);
+    }
+
+    public function test_authenticated_user_clicking_a_category_is_sent_to_browse_creators(): void
+    {
+        $user = User::factory()->create(['role' => 'client']);
+        $category = Category::where('slug', 'video-production')->first();
+
+        $response = $this->actingAs($user)->get('/');
+
         $response->assertSee(route('creators.index', ['category_ids' => [$category->id]]), false);
     }
 

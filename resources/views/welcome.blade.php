@@ -311,9 +311,9 @@
 
       <div class="quick-tags" id="heroQuickTags">
         @foreach ($categories as $category)
-          <a href="{{ route('creators.index', ['category_ids' => [$category->id]]) }}"
-            data-creator-href="{{ route('creators.index', ['category_ids' => [$category->id]]) }}"
-            data-project-href="{{ route('projects.browse', ['categoryIds' => [$category->id]]) }}">{{ $category->name }} →</a>
+          <a href="{{ Auth::check() ? route('creators.index', ['category_ids' => [$category->id]]) : route('register', ['role' => 'client']) }}"
+            data-creator-href="{{ Auth::check() ? route('creators.index', ['category_ids' => [$category->id]]) : route('register', ['role' => 'client']) }}"
+            data-project-href="{{ Auth::check() ? route('projects.browse', ['categoryIds' => [$category->id]]) : route('register', ['role' => 'creator']) }}">{{ $category->name }} →</a>
         @endforeach
       </div>
 
@@ -332,7 +332,7 @@
   <p class="section-sub">{{ __('Секоја категорија има сопствен процес на верификација на портфолио пред да се објави профилот.') }}</p>
   <div class="cat-grid">
     @foreach ($categories as $category)
-      <a href="{{ route('creators.index', ['category_ids' => [$category->id]]) }}" class="cat-card">
+      <a href="{{ Auth::check() ? route('creators.index', ['category_ids' => [$category->id]]) : route('register', ['role' => 'client']) }}" class="cat-card">
         <div class="cat-icon i{{ ($loop->index % 6) + 1 }}">{{ $category->icon }}</div>
         <div class="cat-name">{{ $category->name }}</div>
         <div class="cat-desc">{{ $category->description }}</div>
