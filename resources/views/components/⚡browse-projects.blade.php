@@ -3,6 +3,7 @@
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\CreatorProfile;
 use App\Models\Project;
 use App\Models\Proposal;
 use Illuminate\Support\Facades\Auth;
@@ -189,6 +190,12 @@ new class extends Component
     }
 
     #[Computed]
+    public function creatorProfile(): ?CreatorProfile
+    {
+        return Auth::user()->role === 'creator' ? Auth::user()->creatorProfile : null;
+    }
+
+    #[Computed]
     public function isSelectedSaved(): bool
     {
         if (! $this->selectedProjectId) {
@@ -331,7 +338,17 @@ new class extends Component
             <p class="br-count">{{ __('Најдени :count огласи', ['count' => $this->projects->total()]) }}</p>
 
             @if ($this->projects->isEmpty())
-                <div class="br-empty">{{ __('Нема отворени огласи што одговараат на филтрите.') }}</div>
+                @if ($this->creatorProfile)
+                    <div class="br-empty">
+                        {{ __('🚀 CreatorSpot штотуку почна во твојот регион. Твојот профил е меѓу првите — секој нов проект во твојата категорија прво стигнува до рани членови како тебе.') }}
+                        <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px;">
+                            <a href="{{ $this->creatorProfile->onboarding_completed_at ? route('creators.edit', $this->creatorProfile) : route('onboarding') }}" class="kf-btn" style="text-decoration:none;">{{ __('Дополни го профилот') }}</a>
+                            <a href="{{ route('projects.browse') }}" class="kf-clear">{{ __('Прегледај ги сите категории') }}</a>
+                        </div>
+                    </div>
+                @else
+                    <div class="br-empty">{{ __('Нема отворени огласи што одговараат на филтрите.') }}</div>
+                @endif
             @else
                 <div class="br-rows">
                     @foreach ($this->projects as $project)
