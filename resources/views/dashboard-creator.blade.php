@@ -56,7 +56,7 @@
 
                     @if ($recommendedProjects->isEmpty())
                         <div class="kf-empty">
-                            {{ __('🚀 CreatorSpot штотуку почна во твојот регион. Твојот профил е меѓу првите — секој нов проект во твојата категорија прво стигнува до рани членови како тебе.') }}
+                            <span style="color:#14171F;font-weight:600;">{{ __('🚀 CreatorSpot штотуку почна во твојот регион. Твојот профил е меѓу првите — секој нов проект во твојата категорија прво стигнува до рани членови како тебе.') }}</span>
                             <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px;">
                                 <a href="{{ $profile && $profile->onboarding_completed_at ? route('creators.edit', $profile) : route('onboarding') }}" class="kf-btn" style="text-decoration:none;">{{ __('Дополни го профилот') }}</a>
                                 <a href="{{ route('projects.browse') }}" class="kf-clear">{{ __('Прегледај ги сите категории') }}</a>
