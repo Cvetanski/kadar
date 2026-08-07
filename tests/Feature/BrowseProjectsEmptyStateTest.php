@@ -22,10 +22,10 @@ class BrowseProjectsEmptyStateTest extends TestCase
         $this->seed([CategorySeeder::class, CountrySeeder::class, CitySeeder::class]);
     }
 
-    public function test_onboarded_creator_sees_the_positive_empty_state_with_edit_profile_link(): void
+    public function test_onboarded_creator_sees_the_positive_empty_state_without_the_finish_profile_button(): void
     {
         $user = User::factory()->create(['role' => 'creator']);
-        $profile = CreatorProfile::create([
+        CreatorProfile::create([
             'user_id' => $user->id,
             'headline' => 'Видео продукција',
             'onboarding_completed_at' => now(),
@@ -34,7 +34,7 @@ class BrowseProjectsEmptyStateTest extends TestCase
         Livewire::actingAs($user)
             ->test('browse-projects')
             ->assertSee('CreatorSpot штотуку почна')
-            ->assertSee(route('creators.edit', $profile), false)
+            ->assertDontSee('Дополни го профилот')
             ->assertDontSee('Нема отворени огласи што одговараат на филтрите.');
     }
 
@@ -50,6 +50,19 @@ class BrowseProjectsEmptyStateTest extends TestCase
             ->test('browse-projects')
             ->assertSee('CreatorSpot штотуку почна')
             ->assertSee(route('onboarding'), false);
+    }
+
+    public function test_browse_all_categories_link_is_not_shown_since_the_page_already_shows_everything(): void
+    {
+        $user = User::factory()->create(['role' => 'creator']);
+        CreatorProfile::create([
+            'user_id' => $user->id,
+            'onboarding_completed_at' => now(),
+        ]);
+
+        Livewire::actingAs($user)
+            ->test('browse-projects')
+            ->assertDontSee('Прегледај ги сите категории');
     }
 
     public function test_client_sees_the_generic_empty_state_instead(): void

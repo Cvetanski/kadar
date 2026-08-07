@@ -356,4 +356,27 @@ class OnboardingTest extends TestCase
 
         $response->assertDontSee('Го прескокна поставувањето на профилот');
     }
+
+    public function test_dashboard_empty_state_shows_finish_profile_button_when_onboarding_incomplete(): void
+    {
+        $creator = $this->creator();
+        $creator->creatorProfile->update(['onboarding_skipped_at' => now()]);
+
+        $response = $this->actingAs($creator)->get('/dashboard');
+
+        $response->assertSee('CreatorSpot штотуку почна');
+        $response->assertSee(route('onboarding'), false);
+    }
+
+    public function test_dashboard_empty_state_hides_finish_profile_button_once_onboarding_completed(): void
+    {
+        $creator = $this->creator();
+        $creator->creatorProfile->update(['onboarding_completed_at' => now()]);
+
+        $response = $this->actingAs($creator)->get('/dashboard');
+
+        $response->assertSee('CreatorSpot штотуку почна');
+        $response->assertSee('Прегледај ги сите категории');
+        $response->assertDontSee('Дополни го профилот');
+    }
 }

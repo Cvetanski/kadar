@@ -341,10 +341,11 @@ new class extends Component
                 @if ($this->creatorProfile)
                     <div class="br-empty">
                         <span style="color:#14171F;font-weight:600;">{{ __('🚀 CreatorSpot штотуку почна во твојот регион. Твојот профил е меѓу првите — секој нов проект во твојата категорија прво стигнува до рани членови како тебе.') }}</span>
-                        <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px;">
-                            <a href="{{ $this->creatorProfile->onboarding_completed_at ? route('creators.edit', $this->creatorProfile) : route('onboarding') }}" class="kf-btn" style="text-decoration:none;">{{ __('Дополни го профилот') }}</a>
-                            <a href="{{ route('projects.browse') }}" class="kf-clear">{{ __('Прегледај ги сите категории') }}</a>
-                        </div>
+                        @unless ($this->creatorProfile->onboarding_completed_at)
+                            <div style="display:flex;justify-content:center;margin-top:18px;">
+                                <a href="{{ route('onboarding') }}" class="kf-btn" style="text-decoration:none;">{{ __('Дополни го профилот') }}</a>
+                            </div>
+                        @endunless
                     </div>
                 @else
                     <div class="br-empty">{{ __('Нема отворени огласи што одговараат на филтрите.') }}</div>
