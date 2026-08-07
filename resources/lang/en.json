@@ -548,5 +548,9 @@
     "Ова трајно ќе го избрише корисникот заедно со сите негови огласи, понуди, договори и пораки. Ова дејство не може да се врати.": "This will permanently delete the user along with all their listings, proposals, contracts and messages. This action cannot be undone.",
     "Да, избриши": "Yes, delete",
     "Не можеш да го избришеш сопствениот акаунт.": "You can't delete your own account.",
-    ":name е избришан.": ":name has been deleted."
+    ":name е избришан.": ":name has been deleted.",
+    "Додади барем 1 линк кон твоја работа.": "Add at least 1 link to your work.",
+    "Внеси линк.": "Enter a link.",
+    "Ова не е валиден линк.": "This is not a valid link.",
+    "Избери тип на содржина.": "Choose a content type."
 }

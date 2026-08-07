@@ -195,7 +195,7 @@ new class extends Component
         $this->validate([
             'newPortfolioUrl' => ['required', 'url', 'max:2048'],
             'newPortfolioType' => ['required', 'in:video,image'],
-        ]);
+        ], $this->validationMessages());
 
         $this->portfolioItems[] = [
             'title' => $this->newPortfolioTitle !== '' ? $this->newPortfolioTitle : __('Без наслов'),
@@ -261,6 +261,13 @@ new class extends Component
     {
         return [
             'skillIds.min' => __('Избери барем 3 вештини вкупно.'),
+            'portfolioItems.min' => __('Додади барем 1 линк кон твоја работа.'),
+            'newPortfolioUrl.required' => __('Внеси линк.'),
+            'newPortfolioUrl.url' => __('Ова не е валиден линк.'),
+            'newPortfolioType.required' => __('Избери тип на содржина.'),
+            'instagramUrl.url' => __('Ова не е валиден линк.'),
+            'facebookUrl.url' => __('Ова не е валиден линк.'),
+            'websiteUrl.url' => __('Ова не е валиден линк.'),
         ];
     }
 

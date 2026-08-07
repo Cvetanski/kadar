@@ -548,5 +548,9 @@
     "Ова трајно ќе го избрише корисникот заедно со сите негови огласи, понуди, договори и пораки. Ова дејство не може да се врати.": "Ovo će trajno izbrisati korisnika zajedno sa svim njegovim oglasima, ponudama, ugovorima i porukama. Ova radnja se ne može poništiti.",
     "Да, избриши": "Da, izbriši",
     "Не можеш да го избришеш сопствениот акаунт.": "Ne možeš izbrisati vlastiti račun.",
-    ":name е избришан.": ":name je izbrisan/a."
+    ":name е избришан.": ":name je izbrisan/a.",
+    "Додади барем 1 линк кон твоја работа.": "Dodaj barem 1 poveznicu na svoj rad.",
+    "Внеси линк.": "Unesi poveznicu.",
+    "Ова не е валиден линк.": "Ovo nije valjana poveznica.",
+    "Избери тип на содржина.": "Odaberi vrstu sadržaja."
 }

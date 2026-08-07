@@ -187,10 +187,15 @@ class OnboardingTest extends TestCase
     {
         $creator = $this->creator();
 
-        Livewire::actingAs($creator)->test('onboarding-wizard')
+        $component = Livewire::actingAs($creator)->test('onboarding-wizard')
             ->set('step', 5)
             ->call('nextStep')
             ->assertHasErrors('portfolioItems');
+
+        $this->assertSame(
+            'Додади барем 1 линк кон твоја работа.',
+            $component->errors()->first('portfolioItems')
+        );
     }
 
     public function test_can_add_and_remove_a_portfolio_item(): void
@@ -217,6 +222,21 @@ class OnboardingTest extends TestCase
             ->set('newPortfolioUrl', 'not-a-url')
             ->call('addPortfolioItem')
             ->assertHasErrors('newPortfolioUrl');
+    }
+
+    public function test_adding_a_portfolio_item_without_a_url_shows_a_friendly_message(): void
+    {
+        $creator = $this->creator();
+
+        $component = Livewire::actingAs($creator)->test('onboarding-wizard')
+            ->set('newPortfolioType', 'video')
+            ->call('addPortfolioItem')
+            ->assertHasErrors('newPortfolioUrl');
+
+        $this->assertSame(
+            'Внеси линк.',
+            $component->errors()->first('newPortfolioUrl')
+        );
     }
 
     public function test_full_wizard_submission_persists_everything_in_one_transaction(): void
