@@ -89,15 +89,45 @@
                                     </div>
                                 </div>
 
-                                @if ($role === 'creator' && $user->creatorProfile)
-                                    <a href="{{ route('creators.show', $user->creatorProfile) }}">
-                                        <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>
-                                    </a>
-                                @elseif ($role === 'client')
-                                    <a href="{{ route('clients.show', $user) }}">
-                                        <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>
-                                    </a>
-                                @endif
+                                <div class="flex items-center gap-2">
+                                    @if ($role === 'creator' && $user->creatorProfile)
+                                        <a href="{{ route('creators.show', $user->creatorProfile) }}">
+                                            <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>
+                                        </a>
+                                    @elseif ($role === 'client')
+                                        <a href="{{ route('clients.show', $user) }}">
+                                            <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>
+                                        </a>
+                                    @endif
+
+                                    <x-danger-button type="button" x-data x-on:click="$dispatch('open-modal', 'confirm-delete-user-{{ $user->id }}')">
+                                        {{ __('Избриши') }}
+                                    </x-danger-button>
+                                </div>
+
+                                <x-modal name="confirm-delete-user-{{ $user->id }}" focusable>
+                                    <div class="p-6">
+                                        <h2 class="text-lg font-medium text-gray-900">
+                                            {{ __('Избриши го :name?', ['name' => $user->name]) }}
+                                        </h2>
+
+                                        <p class="mt-1 text-sm text-gray-600">
+                                            {{ __('Ова трајно ќе го избрише корисникот заедно со сите негови огласи, понуди, договори и пораки. Ова дејство не може да се врати.') }}
+                                        </p>
+
+                                        <div class="mt-6 flex justify-end gap-3">
+                                            <x-secondary-button type="button" x-on:click="$dispatch('close')">
+                                                {{ __('Откажи') }}
+                                            </x-secondary-button>
+
+                                            <form method="POST" action="{{ route('admin.users.destroy', $user) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <x-danger-button type="submit">{{ __('Да, избриши') }}</x-danger-button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </x-modal>
                             </div>
                         @endforeach
                     </div>

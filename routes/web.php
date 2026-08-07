@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\ChooseRoleController;
 use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\ClientProfileController;
-use App\Http\Controllers\Auth\ChooseRoleController;
 use App\Http\Controllers\ClientWelcomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContractController;
@@ -98,6 +98,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/verifications', [AdminController::class, 'verifications'])->name('admin.verifications');
     Route::post('/admin/verifications/{creatorProfile}', [AdminController::class, 'verify'])->name('admin.verifications.verify');
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
     Route::get('/admin/contact-messages', [AdminController::class, 'contactMessages'])->name('admin.contact-messages');
     Route::patch('/admin/contact-messages/{contactMessage}', [AdminController::class, 'updateContactMessageStatus'])->name('admin.contact-messages.update');
 });

@@ -7,6 +7,7 @@ use App\Models\CreatorProfile;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class AdminController extends Controller
@@ -64,6 +65,23 @@ class AdminController extends Controller
                 ->where('verified', false)
                 ->count(),
         ]);
+    }
+
+    public function destroyUser(User $user): RedirectResponse
+    {
+        if ($user->id === Auth::id()) {
+            return back()->with('error', __('Не можеш да го избришеш сопствениот акаунт.'));
+        }
+
+        abort_unless(in_array($user->role, ['creator', 'client'], true), 403);
+
+        $role = $user->role;
+        $name = $user->name;
+
+        $user->delete();
+
+        return redirect()->route('admin.users', ['role' => $role])
+            ->with('status', __(':name е избришан.', ['name' => $name]));
     }
 
     public function contactMessages(Request $request): View
