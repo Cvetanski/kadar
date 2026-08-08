@@ -251,7 +251,6 @@
     "Проектот": "Projekt",
     "Проектот е remote (не бара физичко присуство)": "Projekt je remote (ne zahtijeva fizičku prisutnost)",
     "Пронајди верификувани": "Pronađi verificirane",
-    "Пронајди го твојот следен креативец": "Pronađi svog sljedećeg kreativca",
     "Профил": "Profil",
     "Профил со слика добива многу повеќе доверба и одговори од креативците.": "Profil sa slikom dobiva mnogo više povjerenja i odgovora kreativaca.",
     "Профили верификувани преку портфолио и претходни клиенти.": "Profili verificirani kroz portfolio i prethodne klijente.",
@@ -557,5 +556,6 @@
     "Краткиот опис може да има највеќе 100 карактери.": "Kratki opis može imati najviše 100 znakova.",
     "Избери земја.": "Odaberi državu.",
     "Избери валидна земја.": "Odaberi valjanu državu.",
-    "Избери валиден град.": "Odaberi valjani grad."
+    "Избери валиден град.": "Odaberi valjani grad.",
+    "Местото каде креативци и клиенти се среќаваат": "Mjesto gdje se kreativci i klijenti susreću"
 }

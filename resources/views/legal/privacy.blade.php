@@ -12,6 +12,11 @@
 <meta property="og:url" content="{{ url()->current() }}">
 <meta property="og:site_name" content="CreatorSpot">
 <meta property="og:locale" content="{{ \App\Support\LocaleOptions::ogLocale(app()->getLocale()) }}">
+<meta property="og:image" content="{{ asset('images/shareImage.jpg') }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ __('Политика за приватност') }} — CreatorSpot">
+<meta name="twitter:description" content="{{ __('Политиката за приватност на CreatorSpot — како ги обработуваме твоите податоци на платформата.') }}">
+<meta name="twitter:image" content="{{ asset('images/shareImage.jpg') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>

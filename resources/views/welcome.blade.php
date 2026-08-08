@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>CreatorSpot — {{ __('Пронајди го твојот следен креативец') }}</title>
+<title>CreatorSpot — {{ __('Местото каде креативци и клиенти се среќаваат') }}</title>
 <meta name="description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот. Опиши го проектот, добиј понуди за неколку часа.') }}">
 <link rel="canonical" href="{{ url()->current() }}">
 
@@ -13,18 +13,18 @@
 <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32x32.png') }}">
 <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/apple-touch-icon.png') }}">
 
-<meta property="og:title" content="CreatorSpot — {{ __('Пронајди го твојот следен креативец') }}">
+<meta property="og:title" content="CreatorSpot — {{ __('Местото каде креативци и клиенти се среќаваат') }}">
 <meta property="og:description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.') }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url()->current() }}">
 <meta property="og:site_name" content="CreatorSpot">
 <meta property="og:locale" content="{{ \App\Support\LocaleOptions::ogLocale(app()->getLocale()) }}">
-<meta property="og:image" content="{{ asset('images/hero-team.webp') }}">
+<meta property="og:image" content="{{ asset('images/shareImage.jpg') }}">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="CreatorSpot — {{ __('Пронајди го твојот следен креативец') }}">
+<meta name="twitter:title" content="CreatorSpot — {{ __('Местото каде креативци и клиенти се среќаваат') }}">
 <meta name="twitter:description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.') }}">
-<meta name="twitter:image" content="{{ asset('images/hero-team.webp') }}">
+<meta name="twitter:image" content="{{ asset('images/shareImage.jpg') }}">
 
 <script type="application/ld+json">
 {

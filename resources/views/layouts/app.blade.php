@@ -7,7 +7,8 @@
 
 @php
     $description ??= __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.');
-    $pageTitle = $title ? "{$title} | CreatorSpot" : 'CreatorSpot — '.__('Пронајди го твојот следен креативец');
+    $image ??= asset('images/shareImage.jpg');
+    $pageTitle = $title ? "{$title} | CreatorSpot" : 'CreatorSpot — '.__('Местото каде креативци и клиенти се среќаваат');
 @endphp
 
 <!DOCTYPE html>
