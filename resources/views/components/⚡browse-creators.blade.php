@@ -447,6 +447,11 @@ new class extends Component
                     @endforeach
                 </div>
 
+                @if ($creator->bio)
+                    <h3 class="br-section-title">{{ __('За креативецот') }}</h3>
+                    <p class="br-details-desc">{{ $creator->bio }}</p>
+                @endif
+
                 @if ($creator->skills->isNotEmpty())
                     <h3 class="br-section-title">{{ __('Вештини') }}</h3>
                     <div class="br-pill-row">
@@ -454,11 +459,6 @@ new class extends Component
                             <span class="kf-pill">{{ $skill->name }}</span>
                         @endforeach
                     </div>
-                @endif
-
-                @if ($creator->bio)
-                    <h3 class="br-section-title">{{ __('За креативецот') }}</h3>
-                    <p class="br-details-desc">{{ $creator->bio }}</p>
                 @endif
 
                 <div class="br-actions">
