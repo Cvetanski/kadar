@@ -10,6 +10,7 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CreatorProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\HelpController;
 use App\Http\Controllers\LegalController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MeetingRequestController;
@@ -49,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding');
+
+    Route::get('/help', [HelpController::class, 'index'])->name('help');
 
     Route::get('/choose-role', [ChooseRoleController::class, 'create'])->name('choose-role');
     Route::post('/choose-role', [ChooseRoleController::class, 'store'])->name('choose-role.store');

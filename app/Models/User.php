@@ -38,6 +38,7 @@ class User extends Authenticatable
         'country_id',
         'city_id',
         'email_notifications_enabled',
+        'video_intro_dismissed',
     ];
 
     /**
@@ -62,6 +63,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_admin' => 'boolean',
             'email_notifications_enabled' => 'boolean',
+            'video_intro_dismissed' => 'boolean',
         ];
     }
 

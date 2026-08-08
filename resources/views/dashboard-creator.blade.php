@@ -8,6 +8,8 @@
             @include('partials.creator-fancy-styles')
             <div class="kf-wrap">
 
+                <livewire:video-intro-banner />
+
                 @if ($profile && $profile->onboarding_completed_at && ! $profile->verified)
                     <div class="kf-card" style="margin-bottom:24px;border-color:#FDE68A;background:#FFFBEB;">
                         <p class="kf-card-title" style="margin-bottom:2px;">🕒 {{ __('Твојот профил чека верификација') }}</p>

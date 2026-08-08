@@ -88,6 +88,10 @@
                             {{ __('Поставки') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('help')">
+                            {{ __('Помош') }}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -180,6 +184,10 @@
 
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Поставки') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('help')">
+                    {{ __('Помош') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

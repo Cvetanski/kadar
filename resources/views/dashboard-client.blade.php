@@ -8,6 +8,8 @@
             @include('partials.creator-fancy-styles')
             <div class="kf-wrap">
 
+                <livewire:video-intro-banner />
+
                 <div class="kf-stats">
                     <div class="kf-stat kf-accent">
                         <div class="kf-num">{{ $stats['open_projects'] }}</div>

@@ -556,5 +556,11 @@
     "Краткиот опис може да има највеќе 100 карактери.": "The short description can be at most 100 characters.",
     "Избери земја.": "Choose a country.",
     "Избери валидна земја.": "Choose a valid country.",
-    "Избери валиден град.": "Choose a valid city."
+    "Избери валиден град.": "Choose a valid city.",
+    "Демо видео": "Demo video",
+    "Пушти видео": "Play video",
+    "Како функционира CreatorSpot": "How CreatorSpot works",
+    "Помош": "Help",
+    "👋 Прв пат тука? Погледни како работи CreatorSpot": "👋 First time here? See how CreatorSpot works",
+    "Погледни како да го искористиш максимумот од CreatorSpot.": "Watch how to get the most out of CreatorSpot."
 }
