@@ -6,6 +6,7 @@ use App\Models\Country;
 use App\Models\CreatorProfile;
 use App\Models\Project;
 use App\Models\Proposal;
+use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
@@ -28,6 +29,9 @@ new class extends Component
 
     #[Url(history: true)]
     public array $categoryIds = [];
+
+    #[Url(history: true)]
+    public array $skillIds = [];
 
     #[Url(history: true)]
     public ?int $countryId = null;
@@ -54,6 +58,11 @@ new class extends Component
     }
 
     public function updatingCategoryIds(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSkillIds(): void
     {
         $this->resetPage();
     }
@@ -86,7 +95,7 @@ new class extends Component
 
     public function resetFilters(): void
     {
-        $this->reset(['search', 'categoryIds', 'countryId', 'cityId', 'budgetMin', 'budgetMax', 'remoteOnly']);
+        $this->reset(['search', 'categoryIds', 'skillIds', 'countryId', 'cityId', 'budgetMin', 'budgetMax', 'remoteOnly']);
         $this->resetPage();
     }
 
@@ -98,12 +107,32 @@ new class extends Component
             $this->categoryIds[] = $categoryId;
         }
 
+        // Drop skill selections that no longer belong to a selected category.
+        if ($this->skillIds !== []) {
+            $validSkillIds = Skill::whereHas('categories', fn ($q) => $q->whereIn('categories.id', $this->categoryIds))
+                ->pluck('id')
+                ->all();
+            $this->skillIds = array_values(array_intersect($this->skillIds, $validSkillIds));
+        }
+
         $this->resetPage();
     }
 
     public function clearCategories(): void
     {
         $this->categoryIds = [];
+        $this->skillIds = [];
+        $this->resetPage();
+    }
+
+    public function toggleSkill(int $skillId): void
+    {
+        if (in_array($skillId, $this->skillIds, true)) {
+            $this->skillIds = array_values(array_diff($this->skillIds, [$skillId]));
+        } else {
+            $this->skillIds[] = $skillId;
+        }
+
         $this->resetPage();
     }
 
@@ -111,6 +140,21 @@ new class extends Component
     public function categories()
     {
         return Category::orderBy('slug')->get();
+    }
+
+    #[Computed]
+    public function skillsByCategory()
+    {
+        if ($this->categoryIds === []) {
+            return collect();
+        }
+
+        return Category::whereIn('id', $this->categoryIds)
+            ->with('skills')
+            ->orderBy('id')
+            ->get()
+            ->mapWithKeys(fn ($category) => [$category->id => $category->skills])
+            ->filter(fn ($skills) => $skills->isNotEmpty());
     }
 
     #[Computed]
@@ -140,6 +184,10 @@ new class extends Component
 
         if ($this->categoryIds !== []) {
             $query->whereHas('categories', fn ($q) => $q->whereIn('categories.id', $this->categoryIds));
+        }
+
+        if ($this->skillIds !== []) {
+            $query->whereHas('skills', fn ($q) => $q->whereIn('skills.id', $this->skillIds));
         }
 
         if ($this->countryId) {
@@ -283,13 +331,25 @@ new class extends Component
         @endforeach
     </div>
 
+    @if ($this->skillsByCategory->isNotEmpty())
+        <div class="br-chips" style="margin-top:-10px;">
+            @foreach ($this->skillsByCategory->flatten()->unique('id') as $skill)
+                <button type="button" wire:key="skill-chip-{{ $skill->id }}"
+                    class="br-chip br-chip-sm {{ in_array($skill->id, $skillIds, true) ? 'is-active' : '' }}"
+                    wire:click="toggleSkill({{ $skill->id }})">
+                    {{ $skill->name }}
+                </button>
+            @endforeach
+        </div>
+    @endif
+
     <div class="br-layout">
         <div class="br-filters-backdrop {{ $showFilters ? 'is-open' : '' }}" wire:click="$set('showFilters', false)"></div>
 
         <aside class="br-filters {{ $showFilters ? 'is-open' : '' }}">
             <div class="br-filters-head">
                 <span>{{ __('Филтри') }}</span>
-                @if ($search !== '' || $categoryIds !== [] || $countryId || $cityId || $budgetMin || $budgetMax || $remoteOnly)
+                @if ($search !== '' || $categoryIds !== [] || $skillIds !== [] || $countryId || $cityId || $budgetMin || $budgetMax || $remoteOnly)
                     <button type="button" class="br-reset" wire:click="resetFilters">{{ __('Ресетирај') }}</button>
                 @endif
             </div>

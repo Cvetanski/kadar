@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Skill;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SkillSeeder extends Seeder
@@ -24,6 +23,9 @@ class SkillSeeder extends Seeder
                 'muzicki-spotovi' => ['mk' => 'Музички спотови', 'sr' => 'Музички спотови', 'hr' => 'Glazbeni spotovi', 'sq' => 'Video-klipe muzikore', 'bg' => 'Музикални клипове', 'el' => 'Μουσικά βίντεο κλιπ', 'en' => 'Music videos'],
                 'vlog-produkcija' => ['mk' => 'Влог продукција', 'sr' => 'Влог продукција', 'hr' => 'Vlog produkcija', 'sq' => 'Produksion vlogesh', 'bg' => 'Влог продукция', 'el' => 'Παραγωγή vlog', 'en' => 'Vlog production'],
                 'podkast-produkcija' => ['mk' => 'Подкаст продукција', 'sr' => 'Подкаст продукција', 'hr' => 'Podcast produkcija', 'sq' => 'Produksion podkastesh', 'bg' => 'Подкаст продукция', 'el' => 'Παραγωγή podcast', 'en' => 'Podcast production'],
+                'adobe-premiere-pro' => ['mk' => 'Adobe Premiere Pro', 'sr' => 'Adobe Premiere Pro', 'hr' => 'Adobe Premiere Pro', 'sq' => 'Adobe Premiere Pro', 'bg' => 'Adobe Premiere Pro', 'el' => 'Adobe Premiere Pro', 'en' => 'Adobe Premiere Pro'],
+                'capcut' => ['mk' => 'CapCut', 'sr' => 'CapCut', 'hr' => 'CapCut', 'sq' => 'CapCut', 'bg' => 'CapCut', 'el' => 'CapCut', 'en' => 'CapCut'],
+                'davinci-resolve' => ['mk' => 'DaVinci Resolve', 'sr' => 'DaVinci Resolve', 'hr' => 'DaVinci Resolve', 'sq' => 'DaVinci Resolve', 'bg' => 'DaVinci Resolve', 'el' => 'DaVinci Resolve', 'en' => 'DaVinci Resolve'],
             ],
             'photography' => [
                 'svadbena-fotografija' => ['mk' => 'Свадбена фотографија', 'sr' => 'Свадбена фотографија', 'hr' => 'Vjenčana fotografija', 'sq' => 'Fotografi dasme', 'bg' => 'Сватбена фотография', 'el' => 'Φωτογραφία γάμου', 'en' => 'Wedding photography'],
@@ -37,6 +39,8 @@ class SkillSeeder extends Seeder
                 'studiska-fotografija' => ['mk' => 'Студиска фотографија', 'sr' => 'Студијска фотографија', 'hr' => 'Studijska fotografija', 'sq' => 'Fotografi studioje', 'bg' => 'Студийна фотография', 'el' => 'Φωτογράφιση στούντιο', 'en' => 'Studio photography'],
                 'produkt-fotografija' => ['mk' => 'Продукт фотографија', 'sr' => 'Продукт фотографија', 'hr' => 'Produktna fotografija', 'sq' => 'Fotografi produktesh', 'bg' => 'Продуктова фотография', 'el' => 'Φωτογράφιση προϊόντων', 'en' => 'Product photography'],
                 'urednicka-fotografija' => ['mk' => 'Уредничка фотографија', 'sr' => 'Уреднička фотографија', 'hr' => 'Urednička fotografija', 'sq' => 'Fotografi editoriale', 'bg' => 'Редакционна фотография', 'el' => 'Συντακτική φωτογραφία', 'en' => 'Editorial photography'],
+                'adobe-lightroom' => ['mk' => 'Adobe Lightroom', 'sr' => 'Adobe Lightroom', 'hr' => 'Adobe Lightroom', 'sq' => 'Adobe Lightroom', 'bg' => 'Adobe Lightroom', 'el' => 'Adobe Lightroom', 'en' => 'Adobe Lightroom'],
+                'adobe-photoshop' => ['mk' => 'Adobe Photoshop', 'sr' => 'Adobe Photoshop', 'hr' => 'Adobe Photoshop', 'sq' => 'Adobe Photoshop', 'bg' => 'Adobe Photoshop', 'el' => 'Adobe Photoshop', 'en' => 'Adobe Photoshop'],
             ],
             'digital-marketing' => [
                 'social-media-menadzment' => ['mk' => 'Social media менаџмент', 'sr' => 'Social media менаџмент', 'hr' => 'Social media menadžment', 'sq' => 'Menaxhim i social media', 'bg' => 'Social media мениджмънт', 'el' => 'Διαχείριση social media', 'en' => 'Social media management'],
@@ -99,6 +103,9 @@ class SkillSeeder extends Seeder
         // skill_category pivot exists for, no duplicate skill needed.
         $additionalCategoryAttachments = [
             'vlog-produkcija' => ['content-creator'],
+            'adobe-premiere-pro' => ['video-editing'],
+            'capcut' => ['video-editing'],
+            'davinci-resolve' => ['video-editing'],
         ];
 
         foreach ($additionalCategoryAttachments as $skillSlug => $categorySlugs) {
