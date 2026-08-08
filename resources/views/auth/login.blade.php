@@ -39,7 +39,12 @@
   .back{font-size:13.5px;color:var(--text-dim);display:flex;align-items:center;gap:6px;justify-self:start;}
   .back:hover{color:var(--text);}
   .lang-slot{justify-self:end;}
-  @media(max-width:480px){.top-bar{padding:18px 14px 0;gap:6px;}.back{font-size:12.5px;}.logo{font-size:16px;}}
+  @media(max-width:480px){
+    .top-bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;padding:18px 14px 0;row-gap:14px;column-gap:6px;}
+    .back{font-size:12.5px;order:1;}
+    .lang-slot{order:2;}
+    .logo{font-size:16px;order:3;flex-basis:100%;justify-content:center;}
+  }
 
   .wrap{display:flex;justify-content:center;padding:40px 20px 80px;}
   .card{
