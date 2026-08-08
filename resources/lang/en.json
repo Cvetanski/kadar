@@ -150,7 +150,6 @@
     "Контакт": "Contact",
     "Корисници": "Users",
     "Која е твојата специјалност?": "What is your specialty?",
-    "Кратка реченица (headline)": "Short sentence (headline)",
     "Креативец": "Creative",
     "Креативци": "Creatives",
     "Креативци веќе градат портфолио на CreatorSpot": "Creatives are already building portfolios on CreatorSpot",
@@ -552,5 +551,11 @@
     "Додади барем 1 линк кон твоја работа.": "Add at least 1 link to your work.",
     "Внеси линк.": "Enter a link.",
     "Ова не е валиден линк.": "This is not a valid link.",
-    "Избери тип на содржина.": "Choose a content type."
+    "Избери тип на содржина.": "Choose a content type.",
+    "Краток опис (headline)": "Short description (headline)",
+    "Внеси краток опис.": "Enter a short description.",
+    "Краткиот опис може да има највеќе 100 карактери.": "The short description can be at most 100 characters.",
+    "Избери земја.": "Choose a country.",
+    "Избери валидна земја.": "Choose a valid country.",
+    "Избери валиден град.": "Choose a valid city."
 }

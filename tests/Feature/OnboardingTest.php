@@ -144,7 +144,7 @@ class OnboardingTest extends TestCase
             ->assertSet('step', 3);
     }
 
-    public function test_location_step_requires_city_unless_remote(): void
+    public function test_location_step_allows_advancing_without_a_city(): void
     {
         $creator = $this->creator();
         $country = Country::first();
@@ -153,7 +153,24 @@ class OnboardingTest extends TestCase
             ->set('step', 3)
             ->set('countryId', $country->id)
             ->call('nextStep')
-            ->assertHasErrors('cityId');
+            ->assertHasNoErrors()
+            ->assertSet('step', 4);
+    }
+
+    public function test_location_step_requires_a_country_with_a_friendly_message(): void
+    {
+        $creator = $this->creator();
+
+        $component = Livewire::actingAs($creator)->test('onboarding-wizard')
+            ->set('step', 3)
+            ->call('nextStep')
+            ->assertHasErrors('countryId')
+            ->assertSet('step', 3);
+
+        $this->assertSame(
+            'Избери земја.',
+            $component->errors()->first('countryId')
+        );
     }
 
     public function test_location_step_allows_remote_without_city(): void
@@ -181,6 +198,22 @@ class OnboardingTest extends TestCase
             ->set('cityId', $cityA->id)
             ->set('countryId', Country::where('id', '!=', $countryA->id)->first()->id)
             ->assertSet('cityId', null);
+    }
+
+    public function test_about_step_requires_a_headline_with_a_friendly_message(): void
+    {
+        $creator = $this->creator();
+
+        $component = Livewire::actingAs($creator)->test('onboarding-wizard')
+            ->set('step', 4)
+            ->call('nextStep')
+            ->assertHasErrors('headline')
+            ->assertSet('step', 4);
+
+        $this->assertSame(
+            'Внеси краток опис.',
+            $component->errors()->first('headline')
+        );
     }
 
     public function test_portfolio_step_requires_at_least_one_item(): void

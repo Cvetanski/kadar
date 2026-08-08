@@ -150,7 +150,6 @@
     "Контакт": "Kontakti",
     "Корисници": "Përdoruesit",
     "Која е твојата специјалност?": "Cila është specialiteti yt?",
-    "Кратка реченица (headline)": "Fjali e shkurtër (headline)",
     "Креативец": "Krijues",
     "Креативци": "Krijues",
     "Креативци веќе градат портфолио на CreatorSpot": "Krijuesit tashmë po ndërtojnë portofol në CreatorSpot",
@@ -552,5 +551,11 @@
     "Додади барем 1 линк кон твоја работа.": "Shto të paktën 1 lidhje te puna jote.",
     "Внеси линк.": "Vendos një lidhje.",
     "Ова не е валиден линк.": "Kjo nuk është një lidhje e vlefshme.",
-    "Избери тип на содржина.": "Zgjidh llojin e përmbajtjes."
+    "Избери тип на содржина.": "Zgjidh llojin e përmbajtjes.",
+    "Краток опис (headline)": "Përshkrim i shkurtër (headline)",
+    "Внеси краток опис.": "Vendos një përshkrim të shkurtër.",
+    "Краткиот опис може да има највеќе 100 карактери.": "Përshkrimi i shkurtër mund të ketë më së shumti 100 karaktere.",
+    "Избери земја.": "Zgjidh një shtet.",
+    "Избери валидна земја.": "Zgjidh një shtet të vlefshëm.",
+    "Избери валиден град.": "Zgjidh një qytet të vlefshëm."
 }

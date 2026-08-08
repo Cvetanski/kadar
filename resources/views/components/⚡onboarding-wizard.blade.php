@@ -227,7 +227,7 @@ new class extends Component
             ],
             3 => [
                 'countryId' => ['required', 'exists:countries,id'],
-                'cityId' => [$this->remoteOk ? 'nullable' : 'required', 'exists:cities,id'],
+                'cityId' => ['nullable', 'exists:cities,id'],
             ],
             4 => [
                 'avatarUpload' => ['nullable', 'image', 'max:2048'],
@@ -260,6 +260,11 @@ new class extends Component
     private function validationMessages(): array
     {
         return [
+            'countryId.required' => __('Избери земја.'),
+            'countryId.exists' => __('Избери валидна земја.'),
+            'cityId.exists' => __('Избери валиден град.'),
+            'headline.required' => __('Внеси краток опис.'),
+            'headline.max' => __('Краткиот опис може да има највеќе 100 карактери.'),
             'skillIds.min' => __('Избери барем 3 вештини вкупно.'),
             'portfolioItems.min' => __('Додади барем 1 линк кон твоја работа.'),
             'newPortfolioUrl.required' => __('Внеси линк.'),
@@ -485,7 +490,7 @@ new class extends Component
                 </div>
             @endif
 
-            <label for="headline">{{ __('Кратка реченица (headline)') }}</label>
+            <label for="headline">{{ __('Краток опис (headline)') }}</label>
             <input type="text" id="headline" wire:model="headline" maxlength="100" placeholder="{{ __('Видеограф · Свадби, реклами, настани') }}">
             @error('headline') <div class="field-error">{{ $message }}</div> @enderror
 

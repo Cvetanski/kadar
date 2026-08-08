@@ -33,7 +33,7 @@
 
                     <div class="kf-card" style="margin-bottom:20px;">
                         <div class="kf-field">
-                            <label for="headline">{{ __('Кратка реченица (headline)') }}</label>
+                            <label for="headline">{{ __('Краток опис (headline)') }}</label>
                             <input type="text" id="headline" name="headline" maxlength="100"
                                 value="{{ old('headline', $creatorProfile->headline) }}"
                                 placeholder="{{ __('Видеограф · Свадби, реклами, настани') }}">
