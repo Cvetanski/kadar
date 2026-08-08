@@ -21,9 +21,9 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
 
 <div>
     @if ($paginator->hasPages())
-        <nav role="navigation" aria-label="Pagination Navigation" class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <nav role="navigation" aria-label="Pagination Navigation" class="flex flex-col items-center gap-3">
             <div>
-                <p class="text-sm text-gray-700 leading-5 dark:text-gray-400">
+                <p class="text-sm text-gray-700 leading-5 text-center dark:text-gray-400">
                     <span>{!! __('Showing') !!}</span>
                     <span class="font-medium">{{ $paginator->firstItem() }}</span>
                     <span>{!! __('to') !!}</span>
@@ -35,7 +35,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
             </div>
 
             <div>
-                <span class="relative z-0 inline-flex flex-wrap rtl:flex-row-reverse rounded-md shadow-sm">
+                <span class="relative z-0 inline-flex flex-wrap justify-center rtl:flex-row-reverse rounded-md shadow-sm">
                     <span>
                         {{-- Previous Page Link --}}
                         @if ($paginator->onFirstPage())
