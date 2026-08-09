@@ -69,6 +69,13 @@
 
                     <div class="kf-card" style="margin-bottom:20px;">
                         <div class="kf-field">
+                            <label for="name">{{ __('Име') }}</label>
+                            <input type="text" id="name" name="name" maxlength="255"
+                                value="{{ old('name', $creatorUser->name) }}">
+                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        </div>
+
+                        <div class="kf-field">
                             <label for="headline">{{ __('Краток опис (headline)') }}</label>
                             <input type="text" id="headline" name="headline" maxlength="100"
                                 value="{{ old('headline', $creatorProfile->headline) }}"

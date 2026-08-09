@@ -64,6 +64,7 @@ class CreatorProfileController extends Controller
 
         $validated = $request->validate([
             'avatar' => ['nullable', 'image', 'max:9216'],
+            'name' => ['required', 'string', 'max:255'],
             'headline' => ['required', 'string', 'max:100'],
             'bio' => ['nullable', 'string', 'max:2000'],
             'hourly_rate' => ['nullable', 'numeric', 'min:0', 'max:9999'],
@@ -94,11 +95,13 @@ class CreatorProfileController extends Controller
         $creatorProfile->categories()->sync($validated['category_ids'] ?? []);
         $creatorProfile->skills()->sync($validated['skill_ids'] ?? []);
 
+        $userUpdate = ['name' => $validated['name']];
+
         if ($request->hasFile('avatar')) {
-            $request->user()->update([
-                'avatar_url' => $avatarUploadService->store($request->file('avatar')),
-            ]);
+            $userUpdate['avatar_url'] = $avatarUploadService->store($request->file('avatar'));
         }
+
+        $request->user()->update($userUpdate);
 
         return redirect()->route('creators.show', $creatorProfile)->with('status', __('Профилот е ажуриран.'));
     }

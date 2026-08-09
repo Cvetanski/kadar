@@ -61,6 +61,7 @@ class AdminCreatorProfileEditTest extends TestCase
         $country = Country::first();
 
         $response = $this->actingAs($admin)->patch("/admin/creators/{$creator->id}", [
+            'name' => $creator->name,
             'headline' => 'Видеограф за настани',
             'category_ids' => [$category->id],
             'skill_ids' => $skills->all(),
@@ -85,6 +86,7 @@ class AdminCreatorProfileEditTest extends TestCase
         $category = Category::first();
 
         $this->actingAs($admin)->patch("/admin/creators/{$creator->id}", [
+            'name' => $creator->name,
             'headline' => 'Видеограф',
             'category_ids' => [$category->id],
             'verified' => '1',
@@ -109,6 +111,7 @@ class AdminCreatorProfileEditTest extends TestCase
         $profile->categories()->attach($category);
 
         $this->actingAs($admin)->patch("/admin/creators/{$creator->id}", [
+            'name' => $creator->name,
             'headline' => 'Old headline',
             'category_ids' => [$category->id],
         ]);

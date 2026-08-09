@@ -100,7 +100,7 @@ new class extends Component
 };
 ?>
 
-<div @if ($collapsible) class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6" @else class="kf-card" style="margin-bottom:20px;" @endif>
+<div class="kf-card" @unless ($collapsible) style="margin-bottom:20px;" @endunless>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
         <p @if ($collapsible) class="text-lg font-medium text-gray-900" style="margin:0;" @else class="kf-card-title" style="margin:0;" @endif>
             {{ __('Портфолио') }}
@@ -108,7 +108,8 @@ new class extends Component
 
         @if ($collapsible)
             <button type="button" wire:click="toggleEditing"
-                class="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition {{ $editing ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-blue-50 text-blue-700 hover:bg-blue-100' }}">
+                class="inline-flex items-center gap-1.5 rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition"
+                wire:loading.attr="disabled" wire:target="toggleEditing">
                 {{ $editing ? __('Готово') : '✏️ '.__('Уреди портфолио') }}
             </button>
         @endif
@@ -118,7 +119,7 @@ new class extends Component
         @if ($this->items->isEmpty())
             <p class="text-sm text-gray-500">{{ __('Сеуште нема додадено ставки') }}</p>
         @else
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                 @foreach ($this->items as $item)
                     <div wire:key="portfolio-preview-{{ $item->id }}">
                         @if ($item->title)

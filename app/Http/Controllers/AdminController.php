@@ -115,6 +115,7 @@ class AdminController extends Controller
 
         $validated = $request->validate([
             'avatar' => ['nullable', 'image', 'max:9216'],
+            'name' => ['required', 'string', 'max:255'],
             'headline' => ['required', 'string', 'max:100'],
             'bio' => ['nullable', 'string', 'max:2000'],
             'hourly_rate' => ['nullable', 'numeric', 'min:0', 'max:9999'],
@@ -158,6 +159,7 @@ class AdminController extends Controller
         $creatorProfile->skills()->sync($validated['skill_ids'] ?? []);
 
         $user->update([
+            'name' => $validated['name'],
             'country_id' => $validated['country_id'] ?? null,
             'city_id' => $validated['city_id'] ?? null,
         ]);

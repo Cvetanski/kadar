@@ -46,12 +46,12 @@
     </script>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 text-green-700 text-sm rounded-md p-4">{{ session('status') }}</div>
             @endif
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="kf-card">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                     <div class="flex gap-4">
                         <x-avatar :user="$creatorProfile->user" size="w-20 h-20" textSize="text-2xl" />
@@ -139,9 +139,9 @@
             @if ($isOwnProfile)
                 <livewire:portfolio-manager :creator-profile="$creatorProfile" :collapsible="true" />
             @elseif ($creatorProfile->portfolioItems->isNotEmpty())
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <div class="kf-card">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('Портфолио') }}</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                         @foreach ($creatorProfile->portfolioItems as $item)
                             <div>
                                 @if ($item->title)
@@ -154,7 +154,7 @@
                 </div>
             @endif
 
-            <div id="reviews" class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div id="reviews" class="kf-card">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-medium text-gray-900">{{ __('Ревјуа') }}</h3>
                     <x-star-rating :rating="$reviews->isNotEmpty() ? $averageRating : null" :count="$reviews->count()" size="text-base" />

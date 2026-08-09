@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             @include('partials.creator-fancy-styles')
             <div class="kf-wrap">
 
@@ -32,6 +32,13 @@
                     </div>
 
                     <div class="kf-card" style="margin-bottom:20px;">
+                        <div class="kf-field">
+                            <label for="name">{{ __('Име') }}</label>
+                            <input type="text" id="name" name="name" maxlength="255"
+                                value="{{ old('name', Auth::user()->name) }}">
+                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        </div>
+
                         <div class="kf-field">
                             <label for="headline">{{ __('Краток опис (headline)') }}</label>
                             <input type="text" id="headline" name="headline" maxlength="100"
