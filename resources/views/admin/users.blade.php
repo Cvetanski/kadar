@@ -94,6 +94,12 @@
                                         <a href="{{ route('creators.show', $user->creatorProfile) }}">
                                             <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>
                                         </a>
+                                    @endif
+
+                                    @if ($role === 'creator')
+                                        <a href="{{ route('admin.creators.edit', $user) }}">
+                                            <x-secondary-button type="button">{{ __('Уреди профил') }}</x-secondary-button>
+                                        </a>
                                     @elseif ($role === 'client')
                                         <a href="{{ route('clients.show', $user) }}">
                                             <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>

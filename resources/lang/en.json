@@ -562,5 +562,8 @@
     "Како функционира CreatorSpot": "How CreatorSpot works",
     "Помош": "Help",
     "👋 Прв пат тука? Погледни како работи CreatorSpot": "👋 First time here? See how CreatorSpot works",
-    "Погледни како да го искористиш максимумот од CreatorSpot.": "Watch how to get the most out of CreatorSpot."
+    "Погледни како да го искористиш максимумот од CreatorSpot.": "Watch how to get the most out of CreatorSpot.",
+    "Ги уредуваш податоците наместо корисникот, како администратор. Промените се веднаш видливи на профилот.": "You're editing this on the user's behalf, as an admin. Changes are visible on the profile right away.",
+    "Не може да е верифициран додека онбордингот не е завршен.": "Can't be verified until onboarding is completed.",
+    ":name е ажуриран.": ":name has been updated."
 }

@@ -102,6 +102,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/verifications/{creatorProfile}', [AdminController::class, 'verify'])->name('admin.verifications.verify');
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
     Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
+    Route::get('/admin/creators/{user}/edit', [AdminController::class, 'editCreatorProfile'])->name('admin.creators.edit');
+    Route::patch('/admin/creators/{user}', [AdminController::class, 'updateCreatorProfile'])->name('admin.creators.update');
     Route::get('/admin/contact-messages', [AdminController::class, 'contactMessages'])->name('admin.contact-messages');
     Route::patch('/admin/contact-messages/{contactMessage}', [AdminController::class, 'updateContactMessageStatus'])->name('admin.contact-messages.update');
 });
