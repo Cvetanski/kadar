@@ -119,4 +119,52 @@ class PortfolioManagerTest extends TestCase
         Livewire::actingAs($client)->test('portfolio-manager', ['creatorProfile' => $profile])
             ->assertForbidden();
     }
+
+    public function test_non_collapsible_mode_starts_already_in_editing_mode(): void
+    {
+        $profile = $this->profile();
+
+        Livewire::actingAs($profile->user)->test('portfolio-manager', ['creatorProfile' => $profile])
+            ->assertSet('editing', true);
+    }
+
+    public function test_collapsible_mode_starts_in_preview_and_can_toggle_to_editing(): void
+    {
+        $profile = $this->profile();
+
+        Livewire::actingAs($profile->user)->test('portfolio-manager', ['creatorProfile' => $profile, 'collapsible' => true])
+            ->assertSet('editing', false)
+            ->call('toggleEditing')
+            ->assertSet('editing', true)
+            ->call('toggleEditing')
+            ->assertSet('editing', false);
+    }
+
+    public function test_own_profile_page_shows_the_portfolio_manager_with_edit_toggle(): void
+    {
+        $profile = $this->profile();
+
+        $response = $this->actingAs($profile->user)->get(route('creators.show', $profile));
+
+        $response->assertOk();
+        $response->assertSeeLivewire('portfolio-manager');
+        $response->assertSee(__('Уреди портфолио'));
+    }
+
+    public function test_visiting_someone_elses_profile_shows_plain_read_only_portfolio(): void
+    {
+        $profile = $this->profile();
+        $profile->portfolioItems()->create([
+            'title' => 'Their work',
+            'media_type' => 'video',
+            'media_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        ]);
+        $visitor = User::factory()->create(['role' => 'client']);
+
+        $response = $this->actingAs($visitor)->get(route('creators.show', $profile));
+
+        $response->assertOk();
+        $response->assertDontSeeLivewire('portfolio-manager');
+        $response->assertSee('Their work');
+    }
 }

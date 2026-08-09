@@ -136,7 +136,9 @@
                 @endif
             </div>
 
-            @if ($creatorProfile->portfolioItems->isNotEmpty())
+            @if ($isOwnProfile)
+                <livewire:portfolio-manager :creator-profile="$creatorProfile" :collapsible="true" />
+            @elseif ($creatorProfile->portfolioItems->isNotEmpty())
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('Портфолио') }}</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
