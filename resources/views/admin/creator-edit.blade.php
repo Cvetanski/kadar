@@ -169,6 +169,8 @@
                         @endforeach
                     </div>
 
+                    <livewire:portfolio-manager :creator-profile="$creatorProfile" />
+
                     <div class="kf-card" style="margin-bottom:20px;">
                         <p class="kf-card-title" style="margin-bottom:16px;">{{ __('Социјални мрежи') }}</p>
 

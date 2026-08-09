@@ -139,14 +139,13 @@
             @if ($creatorProfile->portfolioItems->isNotEmpty())
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('Портфолио') }}</h3>
-                    <div class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         @foreach ($creatorProfile->portfolioItems as $item)
-                            <div class="border border-gray-200 rounded-md p-3">
-                                <p class="font-medium text-gray-900">{{ $item->title ?: __('Без наслов') }}</p>
-                                <p class="text-sm text-gray-500">
-                                    {{ $item->media_type === 'video' ? __('Видео') : __('Слика') }} —
-                                    <a href="{{ $item->media_url }}" target="_blank" class="underline break-all">{{ $item->media_url }}</a>
-                                </p>
+                            <div>
+                                @if ($item->title)
+                                    <p class="text-sm font-medium text-gray-900 mb-2">{{ $item->title }}</p>
+                                @endif
+                                <x-portfolio-preview :item="$item" />
                             </div>
                         @endforeach
                     </div>

@@ -6,6 +6,8 @@ use App\Models\Country;
 use App\Models\Skill;
 use App\Services\AvatarUploadService;
 use App\Services\GeoIpService;
+use App\Services\VimeoOembedService;
+use App\Support\PortfolioSource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
@@ -197,10 +199,17 @@ new class extends Component
             'newPortfolioType' => ['required', 'in:video,image'],
         ], $this->validationMessages());
 
+        $thumbnailUrl = null;
+
+        if (PortfolioSource::type($this->newPortfolioUrl) === 'vimeo') {
+            $thumbnailUrl = app(VimeoOembedService::class)->thumbnailFor($this->newPortfolioUrl);
+        }
+
         $this->portfolioItems[] = [
             'title' => $this->newPortfolioTitle !== '' ? $this->newPortfolioTitle : __('Без наслов'),
             'media_type' => $this->newPortfolioType,
             'media_url' => $this->newPortfolioUrl,
+            'thumbnail_url' => $thumbnailUrl,
         ];
 
         $this->newPortfolioTitle = '';
@@ -344,6 +353,7 @@ new class extends Component
                     'title' => $item['title'],
                     'media_type' => $item['media_type'],
                     'media_url' => $item['media_url'],
+                    'thumbnail_url' => $item['thumbnail_url'] ?? null,
                     'sort_order' => $index,
                 ]);
             }
