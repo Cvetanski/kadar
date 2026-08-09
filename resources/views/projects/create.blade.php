@@ -16,8 +16,8 @@
                     x-data="{
                         remoteOk: {{ old('remote_ok') ? 'true' : 'false' }},
                         budgetNegotiable: {{ old('budget_negotiable') ? 'true' : 'false' }},
-                        countryId: {{ old('country_id', 'null') }},
-                        cityId: {{ old('city_id', 'null') }},
+                        countryId: {{ \Illuminate\Support\Js::from(old('country_id') !== null && old('country_id') !== '' ? (int) old('country_id') : null) }},
+                        cityId: {{ \Illuminate\Support\Js::from(old('city_id') !== null && old('city_id') !== '' ? (int) old('city_id') : null) }},
                         citiesByCountry: {{ \Illuminate\Support\Js::from($citiesByCountry) }},
                         get cities() { return this.countryId ? (this.citiesByCountry[this.countryId] || []) : []; },
                         categoryIds: {{ \Illuminate\Support\Js::from(array_map('strval', old('category_ids', []))) }},
@@ -163,7 +163,7 @@
                                 class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
                                 <option value="">{{ __('Избери земја') }}</option>
                                 @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>{{ $country->name }}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('country_id')" class="mt-2" />

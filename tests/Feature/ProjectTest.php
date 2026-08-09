@@ -178,4 +178,52 @@ class ProjectTest extends TestCase
 
         $response->assertForbidden();
     }
+
+    public function test_missing_category_shows_a_friendly_message_not_a_raw_validation_key(): void
+    {
+        $client = User::factory()->create(['role' => 'client']);
+
+        $response = $this->actingAs($client)->post('/projects', [
+            'title' => 'Test project',
+            'description' => 'Test description',
+        ]);
+
+        $response->assertSessionHasErrors('category_ids');
+        $this->assertSame(
+            'Избери барем 1 категорија.',
+            session('errors')->get('category_ids')[0]
+        );
+    }
+
+    /**
+     * Regression test: the create-project form's Alpine x-data block used to
+     * interpolate old('country_id')/old('city_id') directly into the JS
+     * object literal. A <select> always submits its field (even as an empty
+     * string), so old('country_id', 'null') returned '' instead of the
+     * fallback — producing invalid JS like "countryId: ," that crashed
+     * Alpine for the entire form on every re-render after a failed submit
+     * with no country selected. This is exactly the scenario a client hits
+     * when they submit without picking a category AND without picking a
+     * country in the same attempt.
+     */
+    public function test_create_form_survives_a_failed_submission_with_no_category_and_no_country(): void
+    {
+        $client = User::factory()->create(['role' => 'client']);
+
+        $failedSubmit = $this->actingAs($client)->post('/projects', [
+            'title' => 'Test project',
+            'description' => 'Test description',
+        ]);
+
+        $failedSubmit->assertSessionHasErrors(['category_ids', 'country_id']);
+
+        $response = $this->actingAs($client)->get('/projects/create');
+
+        $response->assertOk();
+        $response->assertDontSee('countryId: ,', false);
+        $response->assertDontSee('cityId: ,', false);
+        $response->assertDontSee('validation.required', false);
+        $response->assertSee('countryId: null,', false);
+        $response->assertSee('cityId: null,', false);
+    }
 }
