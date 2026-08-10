@@ -83,6 +83,57 @@ class AdminUserManagementTest extends TestCase
         $this->assertModelExists($admin);
     }
 
+    public function test_admin_can_convert_a_client_to_a_creator(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+        $client = User::factory()->create(['role' => 'client']);
+
+        $response = $this->actingAs($admin)->post("/admin/users/{$client->id}/convert-to-creator");
+
+        $response->assertRedirect(route('admin.users', ['role' => 'creator']));
+        $response->assertSessionHas('status');
+
+        $client->refresh();
+        $this->assertSame('creator', $client->role);
+        $this->assertNotNull($client->creatorProfile);
+        $this->assertNull($client->creatorProfile->onboarding_completed_at);
+    }
+
+    public function test_converting_a_client_to_creator_keeps_their_existing_projects(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+        $client = User::factory()->create(['role' => 'client']);
+        $project = Project::create([
+            'client_id' => $client->id,
+            'title' => 'Test project',
+            'description' => 'Test description',
+            'status' => 'open',
+        ]);
+
+        $this->actingAs($admin)->post("/admin/users/{$client->id}/convert-to-creator");
+
+        $this->assertModelExists($project);
+        $this->assertSame($client->id, $project->fresh()->client_id);
+    }
+
+    public function test_non_admin_cannot_convert_a_client_to_a_creator(): void
+    {
+        $someone = User::factory()->create(['role' => 'client']);
+        $client = User::factory()->create(['role' => 'client']);
+
+        $this->actingAs($someone)->post("/admin/users/{$client->id}/convert-to-creator")->assertForbidden();
+
+        $this->assertSame('client', $client->fresh()->role);
+    }
+
+    public function test_admin_cannot_convert_a_creator_to_a_creator(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+        $creator = User::factory()->create(['role' => 'creator']);
+
+        $this->actingAs($admin)->post("/admin/users/{$creator->id}/convert-to-creator")->assertNotFound();
+    }
+
     public function test_non_admin_cannot_send_onboarding_reminders(): void
     {
         $client = User::factory()->create(['role' => 'client']);

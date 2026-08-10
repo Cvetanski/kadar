@@ -139,12 +139,40 @@
                                         <a href="{{ route('clients.show', $user) }}">
                                             <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>
                                         </a>
+                                        <x-secondary-button type="button" x-data x-on:click="$dispatch('open-modal', 'confirm-convert-to-creator-{{ $user->id }}')">
+                                            {{ __('Префрли во креативец') }}
+                                        </x-secondary-button>
                                     @endif
 
                                     <x-danger-button type="button" x-data x-on:click="$dispatch('open-modal', 'confirm-delete-user-{{ $user->id }}')">
                                         {{ __('Избриши') }}
                                     </x-danger-button>
                                 </div>
+
+                                @if ($role === 'client')
+                                    <x-modal name="confirm-convert-to-creator-{{ $user->id }}" focusable>
+                                        <div class="p-6">
+                                            <h2 class="text-lg font-medium text-gray-900">
+                                                {{ __('Префрли го :name во креативец?', ['name' => $user->name]) }}
+                                            </h2>
+
+                                            <p class="mt-1 text-sm text-gray-600">
+                                                {{ __('Корисникот ќе стане креативец и ќе треба да го помине онбордингот. Огласите што ги објавил како клиент остануваат недопрени.') }}
+                                            </p>
+
+                                            <div class="mt-6 flex justify-end gap-3">
+                                                <x-secondary-button type="button" x-on:click="$dispatch('close')">
+                                                    {{ __('Откажи') }}
+                                                </x-secondary-button>
+
+                                                <form method="POST" action="{{ route('admin.users.convert-to-creator', $user) }}">
+                                                    @csrf
+                                                    <x-primary-button type="submit">{{ __('Да, префрли') }}</x-primary-button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </x-modal>
+                                @endif
 
                                 <x-modal name="confirm-delete-user-{{ $user->id }}" focusable>
                                     <div class="p-6">

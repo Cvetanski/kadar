@@ -79,6 +79,17 @@ class AdminController extends Controller
         return back()->with('status', __(':count потсетници се испратени.', ['count' => $count]));
     }
 
+    public function convertClientToCreator(User $user): RedirectResponse
+    {
+        abort_unless($user->role === 'client', 404);
+
+        $user->update(['role' => 'creator']);
+        CreatorProfile::firstOrCreate(['user_id' => $user->id]);
+
+        return redirect()->route('admin.users', ['role' => 'creator'])
+            ->with('status', __(':name е префрлен во креативец.', ['name' => $user->name]));
+    }
+
     public function destroyUser(User $user): RedirectResponse
     {
         if ($user->id === Auth::id()) {
