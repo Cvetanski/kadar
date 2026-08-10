@@ -47,6 +47,8 @@
 
     <div class="py-12">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            @include('partials.creator-fancy-styles')
+
             @if (session('status'))
                 <div class="bg-green-50 text-green-700 text-sm rounded-md p-4">{{ session('status') }}</div>
             @endif
@@ -115,7 +117,6 @@
                 @endif
 
                 @if ($creatorProfile->instagram_url || $creatorProfile->facebook_url || $creatorProfile->website_url)
-                    @include('partials.creator-fancy-styles')
                     <div class="kf-social-links mt-6">
                         @if ($creatorProfile->instagram_url)
                             <a href="{{ $creatorProfile->instagram_url }}" target="_blank" class="kf-social-link">
