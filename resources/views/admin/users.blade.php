@@ -76,9 +76,11 @@
                             @foreach ($pending as $profile)
                                 <div class="flex items-center justify-between border border-gray-200 rounded-md p-4">
                                     <div class="flex items-center gap-3">
-                                        <x-avatar :user="$profile->user" size="w-10 h-10" textSize="text-sm" />
+                                        <a href="{{ route('creators.show', $profile) }}">
+                                            <x-avatar :user="$profile->user" size="w-10 h-10" textSize="text-sm" />
+                                        </a>
                                         <div>
-                                            <p class="font-medium text-gray-900">{{ $profile->user->name }}</p>
+                                            <a href="{{ route('creators.show', $profile) }}" class="font-medium text-gray-900 hover:underline">{{ $profile->user->name }}</a>
                                             <p class="text-sm text-gray-500">{{ $profile->headline }} · {{ $profile->user->email }}</p>
                                             <p class="text-xs text-gray-400 mt-1">
                                                 {{ __('Onboarding завршен:') }} {{ $profile->onboarding_completed_at->format('d.m.Y H:i') }}

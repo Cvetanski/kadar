@@ -239,4 +239,17 @@ class AdminUserManagementTest extends TestCase
 
         $this->actingAs($client)->get('/admin/users?role=verified')->assertForbidden();
     }
+
+    public function test_pending_verification_tab_links_avatar_and_name_to_the_public_profile(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+
+        $pending = User::factory()->create(['role' => 'creator']);
+        $profile = CreatorProfile::create(['user_id' => $pending->id, 'onboarding_completed_at' => now(), 'verified' => false]);
+
+        $response = $this->actingAs($admin)->get('/admin/users?role=pending_verification');
+
+        $response->assertOk();
+        $response->assertSee(route('creators.show', $profile), false);
+    }
 }
