@@ -49,6 +49,10 @@
 
   .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;
     box-shadow:var(--shadow-lg);padding:36px 32px;}
+  @media(max-width:640px){
+    .shell{padding:24px 12px 60px;}
+    .card{padding:24px 18px;}
+  }
   .step-title{font-size:21px;font-weight:800;letter-spacing:-0.01em;margin-bottom:6px;}
   .step-sub{font-size:14px;color:var(--text-dim);margin-bottom:28px;}
 
@@ -97,6 +101,7 @@
   option{background:#fff;color:var(--text);}
   textarea{resize:vertical;min-height:90px;}
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:640px){.two-col{grid-template-columns:1fr;}}
   .checkbox-row{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:14px;color:var(--text-dim);}
   .checkbox-row input{width:auto;}
 
@@ -123,6 +128,10 @@
   .add-row label{margin-top:0;}
   .btn-add{background:var(--blue-soft);color:var(--blue-dark);border:none;border-radius:10px;
     padding:11px 16px;font-weight:700;font-size:13.5px;cursor:pointer;height:fit-content;}
+  @media(max-width:640px){
+    .add-row{grid-template-columns:1fr;}
+    .btn-add{width:100%;padding:13px 16px;}
+  }
   .portfolio-list{margin-top:20px;display:flex;flex-direction:column;gap:8px;}
   .portfolio-item{display:flex;justify-content:space-between;align-items:center;background:var(--bg-soft);
     border-radius:10px;padding:10px 14px;font-size:13.5px;}
