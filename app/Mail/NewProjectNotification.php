@@ -22,6 +22,7 @@ class NewProjectNotification extends Mailable
     {
         return new Content(
             view: 'emails.new-project-notification',
+            text: 'emails.new-project-notification-text',
             with: ['project' => $this->project],
         );
     }

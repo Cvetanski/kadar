@@ -22,6 +22,7 @@ class NewMessageNotification extends Mailable
     {
         return new Content(
             view: 'emails.new-message-notification',
+            text: 'emails.new-message-notification-text',
             with: ['chatMessage' => $this->chatMessage],
         );
     }

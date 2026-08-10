@@ -22,6 +22,7 @@ class OnboardingReminder extends Mailable
     {
         return new Content(
             view: 'emails.onboarding-reminder',
+            text: 'emails.onboarding-reminder-text',
             with: ['recipient' => $this->recipient],
         );
     }
