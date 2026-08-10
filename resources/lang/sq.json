@@ -577,5 +577,18 @@
     "Ти испрати нова порака на CreatorSpot.": "Ke një mesazh të ri në CreatorSpot.",
     "Го добиваш ова затоа што имаш нова порака на CreatorSpot. Известувањата можеш да ги исклучиш во твоите поставки.": "Po e merr këtë sepse ke një mesazh të ri në CreatorSpot. Mund t'i çaktivizosh njoftimet në cilësimet e tua.",
     "Нова порака од :name": "Mesazh i ri nga :name",
-    "Одговори →": "Përgjigju →"
+    "Одговори →": "Përgjigju →",
+    "Уште еден чекор до верификуван профил на CreatorSpot": "Edhe një hap drejt një profili të verifikuar në CreatorSpot",
+    "Уште еден чекор": "Edhe një hap",
+    "Здраво :name,": "Përshëndetje :name,",
+    "Забележавме дека сѐ уште не си го завршил онбордингот на CreatorSpot. Останува уште само еден чекор да станеш верифициран креативец и да почнеш да добиваш огласи од клиенти.": "Vumë re se ende nuk e ke përfunduar regjistrimin në CreatorSpot. Ka mbetur vetëm një hap për t'u bërë krijues i verifikuar dhe për të filluar të marrësh projekte nga klientët.",
+    "Не трае повеќе од неколку минути — доврши го твојот профил сега.": "Zgjat vetëm pak minuta — përfundoje profilin tënd tani.",
+    "Продолжи со онбордингот →": "Vazhdo regjistrimin →",
+    "Го добиваш ова затоа што имаш незавршен онбординг на CreatorSpot. Известувањата можеш да ги исклучиш во твоите поставки.": "Po e merr këtë sepse ke regjistrim të papërfunduar në CreatorSpot. Mund t'i çaktivizosh njoftimet në cilësimet e tua.",
+    ":count потсетници се испратени.": ":count kujtesa u dërguan.",
+    ":count креативци немаат завршено онбординг.": ":count krijues nuk e kanë përfunduar regjistrimin.",
+    "Испрати потсетник": "Dërgo kujtesë",
+    "Испрати потсетник до :count креативци?": "T'u dërgohet kujtesë :count krijuesve?",
+    "Секој креативец што сѐ уште нема завршено онбординг ќе добие email со потсетник да го доврши профилот.": "Çdo krijues që ende nuk e ka përfunduar regjistrimin do të marrë një email që e kujton të përfundojë profilin.",
+    "Да, испрати": "Po, dërgo"
 }

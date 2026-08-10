@@ -29,6 +29,41 @@
                     </a>
                 </div>
 
+                @if ($role === 'creator')
+                    <div class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-md p-4 mb-6">
+                        <p class="text-sm text-gray-600">
+                            {{ __(':count креативци немаат завршено онбординг.', ['count' => $incompleteOnboardingCount]) }}
+                        </p>
+
+                        <x-primary-button type="button" x-data x-on:click="$dispatch('open-modal', 'confirm-remind-onboarding')">
+                            {{ __('Испрати потсетник') }}
+                        </x-primary-button>
+                    </div>
+
+                    <x-modal name="confirm-remind-onboarding" focusable>
+                        <div class="p-6">
+                            <h2 class="text-lg font-medium text-gray-900">
+                                {{ __('Испрати потсетник до :count креативци?', ['count' => $incompleteOnboardingCount]) }}
+                            </h2>
+
+                            <p class="mt-1 text-sm text-gray-600">
+                                {{ __('Секој креативец што сѐ уште нема завршено онбординг ќе добие email со потсетник да го доврши профилот.') }}
+                            </p>
+
+                            <div class="mt-6 flex justify-end gap-3">
+                                <x-secondary-button type="button" x-on:click="$dispatch('close')">
+                                    {{ __('Откажи') }}
+                                </x-secondary-button>
+
+                                <form method="POST" action="{{ route('admin.creators.remind-onboarding') }}">
+                                    @csrf
+                                    <x-primary-button type="submit">{{ __('Да, испрати') }}</x-primary-button>
+                                </form>
+                            </div>
+                        </div>
+                    </x-modal>
+                @endif
+
                 @if ($role === 'pending_verification')
                     @if ($pending->isEmpty())
                         <p class="text-sm text-gray-500">{{ __('Нема креативци што чекаат верификација.') }}</p>

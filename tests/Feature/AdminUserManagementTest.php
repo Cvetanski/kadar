@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Mail\OnboardingReminder;
 use App\Models\CreatorProfile;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class AdminUserManagementTest extends TestCase
@@ -79,5 +81,47 @@ class AdminUserManagementTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHas('error');
         $this->assertModelExists($admin);
+    }
+
+    public function test_non_admin_cannot_send_onboarding_reminders(): void
+    {
+        $client = User::factory()->create(['role' => 'client']);
+
+        $this->actingAs($client)->post('/admin/creators/remind-onboarding')->assertForbidden();
+    }
+
+    public function test_admin_reminding_onboarding_emails_only_creators_with_incomplete_onboarding(): void
+    {
+        Mail::fake();
+
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+
+        $incomplete = User::factory()->create(['role' => 'creator']);
+        CreatorProfile::create(['user_id' => $incomplete->id]);
+
+        $complete = User::factory()->create(['role' => 'creator']);
+        CreatorProfile::create(['user_id' => $complete->id, 'onboarding_completed_at' => now()]);
+
+        $response = $this->actingAs($admin)->post('/admin/creators/remind-onboarding');
+
+        $response->assertRedirect();
+        $response->assertSessionHas('status');
+
+        Mail::assertSent(OnboardingReminder::class, fn ($mail) => $mail->hasTo($incomplete->email));
+        Mail::assertNotSent(OnboardingReminder::class, fn ($mail) => $mail->hasTo($complete->email));
+    }
+
+    public function test_onboarding_reminder_is_not_sent_to_creators_who_disabled_email_notifications(): void
+    {
+        Mail::fake();
+
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+
+        $incomplete = User::factory()->create(['role' => 'creator', 'email_notifications_enabled' => false]);
+        CreatorProfile::create(['user_id' => $incomplete->id]);
+
+        $this->actingAs($admin)->post('/admin/creators/remind-onboarding');
+
+        Mail::assertNothingSent();
     }
 }

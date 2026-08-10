@@ -577,5 +577,18 @@
     "Ти испрати нова порака на CreatorSpot.": "You have a new message on CreatorSpot.",
     "Го добиваш ова затоа што имаш нова порака на CreatorSpot. Известувањата можеш да ги исклучиш во твоите поставки.": "You're getting this because you have a new message on CreatorSpot. You can turn off notifications in your settings.",
     "Нова порака од :name": "New message from :name",
-    "Одговори →": "Reply →"
+    "Одговори →": "Reply →",
+    "Уште еден чекор до верификуван профил на CreatorSpot": "One more step to a verified CreatorSpot profile",
+    "Уште еден чекор": "One more step",
+    "Здраво :name,": "Hi :name,",
+    "Забележавме дека сѐ уште не си го завршил онбордингот на CreatorSpot. Останува уште само еден чекор да станеш верифициран креативец и да почнеш да добиваш огласи од клиенти.": "We noticed you haven't finished onboarding on CreatorSpot yet. There's just one step left to become a verified creator and start receiving projects from clients.",
+    "Не трае повеќе од неколку минути — доврши го твојот профил сега.": "It only takes a few minutes — finish your profile now.",
+    "Продолжи со онбордингот →": "Continue onboarding →",
+    "Го добиваш ова затоа што имаш незавршен онбординг на CreatorSpot. Известувањата можеш да ги исклучиш во твоите поставки.": "You're getting this because you have unfinished onboarding on CreatorSpot. You can turn off notifications in your settings.",
+    ":count потсетници се испратени.": ":count reminders sent.",
+    ":count креативци немаат завршено онбординг.": ":count creators haven't finished onboarding.",
+    "Испрати потсетник": "Send reminder",
+    "Испрати потсетник до :count креативци?": "Send a reminder to :count creators?",
+    "Секој креативец што сѐ уште нема завршено онбординг ќе добие email со потсетник да го доврши профилот.": "Every creator who hasn't finished onboarding yet will get an email reminding them to complete their profile.",
+    "Да, испрати": "Yes, send"
 }

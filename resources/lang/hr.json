@@ -577,5 +577,18 @@
     "Ти испрати нова порака на CreatorSpot.": "Imaš novu poruku na CreatorSpotu.",
     "Го добиваш ова затоа што имаш нова порака на CreatorSpot. Известувањата можеш да ги исклучиш во твоите поставки.": "Ovo primaš jer imaš novu poruku na CreatorSpotu. Obavijesti možeš isključiti u svojim postavkama.",
     "Нова порака од :name": "Nova poruka od :name",
-    "Одговори →": "Odgovori →"
+    "Одговори →": "Odgovori →",
+    "Уште еден чекор до верификуван профил на CreatorSpot": "Još jedan korak do verificiranog CreatorSpot profila",
+    "Уште еден чекор": "Još jedan korak",
+    "Здраво :name,": "Bok :name,",
+    "Забележавме дека сѐ уште не си го завршил онбордингот на CreatorSpot. Останува уште само еден чекор да станеш верифициран креативец и да почнеш да добиваш огласи од клиенти.": "Primijetili smo da još nisi završio onboarding na CreatorSpotu. Ostao je još samo jedan korak da postaneš verificirani kreativac i počneš primati projekte od klijenata.",
+    "Не трае повеќе од неколку минути — доврши го твојот профил сега.": "Traje samo par minuta — dovrši svoj profil sada.",
+    "Продолжи со онбордингот →": "Nastavi onboarding →",
+    "Го добиваш ова затоа што имаш незавршен онбординг на CreatorSpot. Известувањата можеш да ги исклучиш во твоите поставки.": "Ovo primaš jer imaš nedovršen onboarding na CreatorSpotu. Obavijesti možeš isključiti u svojim postavkama.",
+    ":count потсетници се испратени.": ":count podsjetnika poslano.",
+    ":count креативци немаат завршено онбординг.": ":count kreativaca nema završen onboarding.",
+    "Испрати потсетник": "Pošalji podsjetnik",
+    "Испрати потсетник до :count креативци?": "Pošalji podsjetnik za :count kreativaca?",
+    "Секој креативец што сѐ уште нема завршено онбординг ќе добие email со потсетник да го доврши профилот.": "Svaki kreativac koji još nije završio onboarding dobit će email s podsjetnikom da dovrši profil.",
+    "Да, испрати": "Da, pošalji"
 }

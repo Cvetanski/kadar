@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\CreatorProfile;
 use App\Models\User;
 use App\Services\AvatarUploadService;
+use App\Services\OnboardingReminderNotifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +68,15 @@ class AdminController extends Controller
             'pendingVerificationCount' => CreatorProfile::whereNotNull('onboarding_completed_at')
                 ->where('verified', false)
                 ->count(),
+            'incompleteOnboardingCount' => CreatorProfile::whereNull('onboarding_completed_at')->count(),
         ]);
+    }
+
+    public function remindIncompleteOnboarding(OnboardingReminderNotifier $notifier): RedirectResponse
+    {
+        $count = $notifier->notifyAll();
+
+        return back()->with('status', __(':count потсетници се испратени.', ['count' => $count]));
     }
 
     public function destroyUser(User $user): RedirectResponse
