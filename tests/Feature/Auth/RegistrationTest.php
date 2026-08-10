@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Mail\WelcomeEmail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -19,6 +21,8 @@ class RegistrationTest extends TestCase
 
     public function test_client_can_register_and_is_redirected_to_welcome_step(): void
     {
+        Mail::fake();
+
         $response = $this->post('/register', [
             'name' => 'Test Client',
             'email' => 'client@example.com',
@@ -34,6 +38,8 @@ class RegistrationTest extends TestCase
         $this->assertSame('client', $user->role);
         $this->assertNull($user->creatorProfile);
 
+        Mail::assertSent(WelcomeEmail::class, fn ($mail) => $mail->hasTo($user->email));
+
         // The welcome step is optional — dashboard is accessible even without completing it.
         $dashboard = $this->get('/dashboard');
         $dashboard->assertStatus(200);
@@ -41,6 +47,8 @@ class RegistrationTest extends TestCase
 
     public function test_creator_can_register_and_is_redirected_to_onboarding(): void
     {
+        Mail::fake();
+
         $response = $this->post('/register', [
             'name' => 'Test Creator',
             'email' => 'creator@example.com',
@@ -56,6 +64,8 @@ class RegistrationTest extends TestCase
         $this->assertSame('creator', $user->role);
         $this->assertNotNull($user->creatorProfile);
         $this->assertNull($user->creatorProfile->onboarding_completed_at);
+
+        Mail::assertSent(WelcomeEmail::class, fn ($mail) => $mail->hasTo($user->email));
 
         // Creator without completed onboarding is bounced from dashboard back to onboarding.
         $dashboard = $this->get('/dashboard');

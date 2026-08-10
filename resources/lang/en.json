@@ -590,5 +590,12 @@
     "Испрати потсетник": "Send reminder",
     "Испрати потсетник до :count креативци?": "Send a reminder to :count creators?",
     "Секој креативец што сѐ уште нема завршено онбординг ќе добие email со потсетник да го доврши профилот.": "Every creator who hasn't finished onboarding yet will get an email reminding them to complete their profile.",
-    "Да, испрати": "Yes, send"
+    "Да, испрати": "Yes, send",
+    "Добредојде на CreatorSpot!": "Welcome to CreatorSpot!",
+    "Добредојде": "Welcome",
+    "Здраво :name!": "Hi :name!",
+    "Твојата сметка на CreatorSpot е успешно креирана. Следен чекор — заврши го твојот профил за клиентите да можат да те најдат и да ти испраќаат понуди.": "Your CreatorSpot account has been created. Next step — finish your profile so clients can find you and send you offers.",
+    "Твојата сметка на CreatorSpot е успешно креирана. Пронајди го совршениот креативец за твојот следен проект — фотографи, видеографи, дизајнери и многу повеќе.": "Your CreatorSpot account has been created. Find the perfect creator for your next project — photographers, videographers, designers, and more.",
+    "Пронајди креативец →": "Find a creator →",
+    "Го добиваш ова затоа што создаде сметка на CreatorSpot со оваа email адреса.": "You're getting this because an account was created on CreatorSpot with this email address."
 }
