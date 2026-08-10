@@ -17,8 +17,8 @@ class CountrySeeder extends Seeder
             [
                 'code' => 'MK',
                 'name' => [
-                    'mk' => 'Северна Македонија',
-                    'sr' => 'Северна Македонија',
+                    'mk' => 'Македонија',
+                    'sr' => 'Македонија',
                     'hr' => 'Sjeverna Makedonija',
                     'sq' => 'Maqedonia e Veriut',
                     'bg' => 'Северна Македония',
