@@ -73,6 +73,7 @@ class SkillSeeder extends Seeder
                 'enterier-dizajn' => ['mk' => 'Ентериер Дизајн', 'sr' => 'Дизајн ентеријера', 'hr' => 'Dizajn interijera', 'sq' => 'Dizajn i brendshëm', 'bg' => 'Дизайн на интериор', 'el' => 'Σχεδιασμός εσωτερικών χώρων', 'en' => 'Interior design'],
                 'ilustracija' => ['mk' => 'Илустрација', 'sr' => 'Илустрација', 'hr' => 'Ilustracija', 'sq' => 'Ilustrim', 'bg' => 'Илюстрация', 'el' => 'Εικονογράφηση', 'en' => 'Illustration'],
                 'grafiki-za-socijalni-mrezi' => ['mk' => 'Графики за социјални мрежи', 'sr' => 'Графике за друштвене мреже', 'hr' => 'Grafike za društvene mreže', 'sq' => 'Grafika për rrjete sociale', 'bg' => 'Графики за социални мрежи', 'el' => 'Γραφικά για social media', 'en' => 'Social media graphics'],
+                'grafichki-dizajn' => ['mk' => 'Графички дизајн', 'sr' => 'Графички дизајн', 'hr' => 'Grafički dizajn', 'sq' => 'Dizajn grafik', 'bg' => 'Графичен дизайн', 'el' => 'Γραφιστικός σχεδιασμός', 'en' => 'Graphic design'],
             ],
             'content-creator' => [
                 'ugc-reklami' => ['mk' => 'UGC реклами', 'sr' => 'UGC рекламе', 'hr' => 'UGC reklame', 'sq' => 'Reklama UGC', 'bg' => 'UGC реклами', 'el' => 'Διαφημίσεις UGC', 'en' => 'UGC ads'],
