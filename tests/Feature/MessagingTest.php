@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Mail\NewMessageNotification;
 use App\Models\Conversation;
 use App\Models\CreatorProfile;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -101,6 +103,46 @@ class MessagingTest extends TestCase
         $this->actingAs($creatorProfile->user)->get("/messages/{$conversation->id}");
 
         $this->assertNotNull($message->fresh()->read_at);
+    }
+
+    public function test_sending_a_message_emails_the_other_participant(): void
+    {
+        Mail::fake();
+
+        $client = User::factory()->create(['role' => 'client']);
+        $creatorProfile = $this->creatorProfile();
+
+        $this->actingAs($client)->post("/creators/{$creatorProfile->id}/message");
+        $conversation = Conversation::firstOrFail();
+
+        $this->actingAs($client)->post("/messages/{$conversation->id}", [
+            'body' => 'Здраво, те интересира ли соработка?',
+        ]);
+
+        Mail::assertQueued(NewMessageNotification::class, function ($mail) use ($creatorProfile) {
+            return $mail->hasTo($creatorProfile->user->email);
+        });
+        Mail::assertNotQueued(NewMessageNotification::class, function ($mail) use ($client) {
+            return $mail->hasTo($client->email);
+        });
+    }
+
+    public function test_message_notification_is_not_sent_when_recipient_disabled_email_notifications(): void
+    {
+        Mail::fake();
+
+        $client = User::factory()->create(['role' => 'client']);
+        $creatorProfile = $this->creatorProfile();
+        $creatorProfile->user->update(['email_notifications_enabled' => false]);
+
+        $this->actingAs($client)->post("/creators/{$creatorProfile->id}/message");
+        $conversation = Conversation::firstOrFail();
+
+        $this->actingAs($client)->post("/messages/{$conversation->id}", [
+            'body' => 'Здраво, те интересира ли соработка?',
+        ]);
+
+        Mail::assertNothingQueued();
     }
 
     public function test_non_participant_cannot_view_or_reply_to_conversation(): void

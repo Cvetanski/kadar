@@ -6,6 +6,7 @@ use App\Models\Conversation;
 use App\Models\CreatorProfile;
 use App\Models\Project;
 use App\Models\User;
+use App\Services\NewMessageNotifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -55,7 +56,7 @@ class MessageController extends Controller
         return view('messages.index', ['conversation' => $conversation]);
     }
 
-    public function store(Request $request, Conversation $conversation): RedirectResponse
+    public function store(Request $request, Conversation $conversation, NewMessageNotifier $notifier): RedirectResponse
     {
         $user = $request->user();
 
@@ -65,12 +66,14 @@ class MessageController extends Controller
             'body' => ['required', 'string', 'max:2000'],
         ]);
 
-        $conversation->messages()->create([
+        $message = $conversation->messages()->create([
             'sender_id' => $user->id,
             'body' => $validated['body'],
         ]);
 
         $conversation->touch();
+
+        $notifier->notify($message);
 
         return redirect()->route('messages.show', $conversation);
     }

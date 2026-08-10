@@ -572,5 +572,10 @@
     "Дали сигурно сакаш да го избришеш ова?": "Je i sigurt që dëshiron ta fshish këtë?",
     "Готово": "U krye",
     "Како да го поставиш профилот": "Si ta konfigurosh profilin tënd",
-    "Како да ангажираш креативец": "Si të angazhosh një krijues"
+    "Како да ангажираш креативец": "Si të angazhosh një krijues",
+    "Нова порака": "Mesazh i ri",
+    "Ти испрати нова порака на CreatorSpot.": "Ke një mesazh të ri në CreatorSpot.",
+    "Го добиваш ова затоа што имаш нова порака на CreatorSpot. Известувањата можеш да ги исклучиш во твоите поставки.": "Po e merr këtë sepse ke një mesazh të ri në CreatorSpot. Mund t'i çaktivizosh njoftimet në cilësimet e tua.",
+    "Нова порака од :name": "Mesazh i ri nga :name",
+    "Одговори →": "Përgjigju →"
 }
