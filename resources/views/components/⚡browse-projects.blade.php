@@ -400,7 +400,7 @@ new class extends Component
             @if ($this->projects->isEmpty())
                 @if ($this->creatorProfile)
                     <div class="br-empty">
-                        <span style="color:#14171F;font-weight:600;">{{ __('🚀 CreatorSpot штотуку почна во твојот регион. Твојот профил е меѓу првите — секој нов проект во твојата категорија прво стигнува до рани членови како тебе.') }}</span>
+                        <span style="color:#14171F;font-weight:600;">{{ __('🚀 CreatorSpot штотуку започнува да расте во твојот регион. Како еден од првите креатори на платформата, имаш можност да го поставиш својот профил навреме и да бидеш меѓу првите професионалци што ќе ги видат клиентите.') }}</span>
                         @unless ($this->creatorProfile->onboarding_completed_at)
                             <div style="display:flex;justify-content:center;margin-top:18px;">
                                 <a href="{{ route('onboarding') }}" class="kf-btn" style="text-decoration:none;">{{ __('Дополни го профилот') }}</a>

@@ -417,7 +417,7 @@ class OnboardingTest extends TestCase
 
         $response = $this->actingAs($creator)->get('/dashboard');
 
-        $response->assertSee('CreatorSpot штотуку почна');
+        $response->assertSee('CreatorSpot штотуку започнува');
         $response->assertSee(route('onboarding'), false);
     }
 
@@ -428,7 +428,7 @@ class OnboardingTest extends TestCase
 
         $response = $this->actingAs($creator)->get('/dashboard');
 
-        $response->assertSee('CreatorSpot штотуку почна');
+        $response->assertSee('CreatorSpot штотуку започнува');
         $response->assertSee('Прегледај ги сите категории');
         $response->assertDontSee('Дополни го профилот');
     }

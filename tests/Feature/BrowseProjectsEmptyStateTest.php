@@ -33,7 +33,7 @@ class BrowseProjectsEmptyStateTest extends TestCase
 
         Livewire::actingAs($user)
             ->test('browse-projects')
-            ->assertSee('CreatorSpot штотуку почна')
+            ->assertSee('CreatorSpot штотуку започнува')
             ->assertDontSee('Дополни го профилот')
             ->assertDontSee('Нема отворени огласи што одговараат на филтрите.');
     }
@@ -48,7 +48,7 @@ class BrowseProjectsEmptyStateTest extends TestCase
 
         Livewire::actingAs($user)
             ->test('browse-projects')
-            ->assertSee('CreatorSpot штотуку почна')
+            ->assertSee('CreatorSpot штотуку започнува')
             ->assertSee(route('onboarding'), false);
     }
 
@@ -72,6 +72,6 @@ class BrowseProjectsEmptyStateTest extends TestCase
         Livewire::actingAs($client)
             ->test('browse-projects')
             ->assertSee('Нема отворени огласи што одговараат на филтрите.')
-            ->assertDontSee('CreatorSpot штотуку почна');
+            ->assertDontSee('CreatorSpot штотуку започнува');
     }
 }
