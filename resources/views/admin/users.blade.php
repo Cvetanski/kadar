@@ -99,9 +99,19 @@
                         @foreach ($users as $user)
                             <div class="flex items-center justify-between border border-gray-200 rounded-md p-4">
                                 <div class="flex items-center gap-3">
-                                    <x-avatar :user="$user" size="w-10 h-10" textSize="text-sm" />
+                                    @if ($role === 'creator' && $user->creatorProfile)
+                                        <a href="{{ route('creators.show', $user->creatorProfile) }}">
+                                            <x-avatar :user="$user" size="w-10 h-10" textSize="text-sm" />
+                                        </a>
+                                    @else
+                                        <x-avatar :user="$user" size="w-10 h-10" textSize="text-sm" />
+                                    @endif
                                     <div>
-                                        <p class="font-medium text-gray-900">{{ $user->name }}</p>
+                                        @if ($role === 'creator' && $user->creatorProfile)
+                                            <a href="{{ route('creators.show', $user->creatorProfile) }}" class="font-medium text-gray-900 hover:underline">{{ $user->name }}</a>
+                                        @else
+                                            <p class="font-medium text-gray-900">{{ $user->name }}</p>
+                                        @endif
                                         <p class="text-sm text-gray-500">{{ $user->email }}</p>
                                         <p class="text-xs text-gray-400 mt-1">
                                             {{ __('Регистриран:') }} {{ $user->created_at->format('d.m.Y') }}
@@ -125,12 +135,6 @@
                                 </div>
 
                                 <div class="flex items-center gap-2">
-                                    @if ($role === 'creator' && $user->creatorProfile)
-                                        <a href="{{ route('creators.show', $user->creatorProfile) }}">
-                                            <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>
-                                        </a>
-                                    @endif
-
                                     @if ($role === 'creator')
                                         <a href="{{ route('admin.creators.edit', $user) }}">
                                             <x-secondary-button type="button">{{ __('Уреди профил') }}</x-secondary-button>
