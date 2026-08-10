@@ -175,4 +175,68 @@ class AdminUserManagementTest extends TestCase
 
         Mail::assertNothingSent();
     }
+
+    public function test_verified_tab_shows_only_verified_creators(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+
+        $verified = User::factory()->create(['role' => 'creator', 'name' => 'Верификуван Креативец']);
+        CreatorProfile::create(['user_id' => $verified->id, 'onboarding_completed_at' => now(), 'verified' => true]);
+
+        $pending = User::factory()->create(['role' => 'creator', 'name' => 'Невериф Креативец']);
+        CreatorProfile::create(['user_id' => $pending->id, 'onboarding_completed_at' => now(), 'verified' => false]);
+
+        $response = $this->actingAs($admin)->get('/admin/users?role=verified');
+
+        $response->assertOk();
+        $response->assertSee('Верификуван Креативец');
+        $response->assertDontSee('Невериф Креативец');
+    }
+
+    public function test_verified_tab_links_avatar_and_name_to_the_public_profile(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+
+        $verified = User::factory()->create(['role' => 'creator']);
+        $profile = CreatorProfile::create(['user_id' => $verified->id, 'onboarding_completed_at' => now(), 'verified' => true]);
+
+        $response = $this->actingAs($admin)->get('/admin/users?role=verified');
+
+        $response->assertOk();
+        $response->assertSee(route('creators.show', $profile), false);
+    }
+
+    public function test_verified_tab_has_a_send_message_button(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+
+        $verified = User::factory()->create(['role' => 'creator']);
+        $profile = CreatorProfile::create(['user_id' => $verified->id, 'onboarding_completed_at' => now(), 'verified' => true]);
+
+        $response = $this->actingAs($admin)->get('/admin/users?role=verified');
+
+        $response->assertOk();
+        $response->assertSee(route('messages.start', $profile), false);
+    }
+
+    public function test_sending_a_message_from_the_verified_tab_starts_a_conversation(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+
+        $verified = User::factory()->create(['role' => 'creator']);
+        $profile = CreatorProfile::create(['user_id' => $verified->id, 'onboarding_completed_at' => now(), 'verified' => true]);
+
+        $response = $this->actingAs($admin)->post(route('messages.start', $profile));
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('conversation_participants', ['user_id' => $verified->id]);
+        $this->assertDatabaseHas('conversation_participants', ['user_id' => $admin->id]);
+    }
+
+    public function test_non_admin_cannot_view_the_verified_tab(): void
+    {
+        $client = User::factory()->create(['role' => 'client']);
+
+        $this->actingAs($client)->get('/admin/users?role=verified')->assertForbidden();
+    }
 }

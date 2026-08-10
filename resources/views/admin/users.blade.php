@@ -27,6 +27,10 @@
                         class="px-4 py-2 text-sm font-medium border-b-2 {{ $role === 'pending_verification' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
                         {{ __('Корисници за верификација') }} ({{ $pendingVerificationCount }})
                     </a>
+                    <a href="{{ route('admin.users', ['role' => 'verified']) }}"
+                        class="px-4 py-2 text-sm font-medium border-b-2 {{ $role === 'verified' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                        {{ __('Верифицирани корисници') }} ({{ $verifiedCount }})
+                    </a>
                 </div>
 
                 @if ($role === 'creator')
@@ -95,11 +99,12 @@
                 @elseif ($users->isEmpty())
                     <p class="text-sm text-gray-500">{{ __('Нема регистрирани корисници во оваа категорија.') }}</p>
                 @else
+                    @php $isCreatorLike = in_array($role, ['creator', 'verified'], true); @endphp
                     <div class="space-y-3">
                         @foreach ($users as $user)
                             <div class="flex items-center justify-between border border-gray-200 rounded-md p-4">
                                 <div class="flex items-center gap-3">
-                                    @if ($role === 'creator' && $user->creatorProfile)
+                                    @if ($isCreatorLike && $user->creatorProfile)
                                         <a href="{{ route('creators.show', $user->creatorProfile) }}">
                                             <x-avatar :user="$user" size="w-10 h-10" textSize="text-sm" />
                                         </a>
@@ -107,7 +112,7 @@
                                         <x-avatar :user="$user" size="w-10 h-10" textSize="text-sm" />
                                     @endif
                                     <div>
-                                        @if ($role === 'creator' && $user->creatorProfile)
+                                        @if ($isCreatorLike && $user->creatorProfile)
                                             <a href="{{ route('creators.show', $user->creatorProfile) }}" class="font-medium text-gray-900 hover:underline">{{ $user->name }}</a>
                                         @else
                                             <p class="font-medium text-gray-900">{{ $user->name }}</p>
@@ -116,7 +121,7 @@
                                         <p class="text-xs text-gray-400 mt-1">
                                             {{ __('Регистриран:') }} {{ $user->created_at->format('d.m.Y') }}
 
-                                            @if ($role === 'creator')
+                                            @if ($isCreatorLike)
                                                 @if ($user->creatorProfile?->onboarding_completed_at)
                                                     · {{ __('Онбординг завршен') }}
                                                     @if ($user->creatorProfile->verified)
@@ -135,10 +140,17 @@
                                 </div>
 
                                 <div class="flex items-center gap-2">
-                                    @if ($role === 'creator')
+                                    @if ($isCreatorLike)
                                         <a href="{{ route('admin.creators.edit', $user) }}">
                                             <x-secondary-button type="button">{{ __('Уреди профил') }}</x-secondary-button>
                                         </a>
+
+                                        @if ($user->creatorProfile)
+                                            <form method="POST" action="{{ route('messages.start', $user->creatorProfile) }}">
+                                                @csrf
+                                                <x-secondary-button type="submit">{{ __('Прати порака') }}</x-secondary-button>
+                                            </form>
+                                        @endif
                                     @elseif ($role === 'client')
                                         <a href="{{ route('clients.show', $user) }}">
                                             <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>

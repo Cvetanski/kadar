@@ -602,5 +602,6 @@
     "Префрли го :name во креативец?": "Të shndërrohet :name në krijues?",
     "Корисникот ќе стане креативец и ќе треба да го помине онбордингот. Огласите што ги објавил како клиент остануваат недопрени.": "Përdoruesi do të bëhet krijues dhe do të duhet të përfundojë regjistrimin. Projektet që i ka postuar si klient mbeten të paprekura.",
     "Да, префрли": "Po, shndërro",
-    ":name е префрлен во креативец.": ":name u shndërrua në krijues."
+    ":name е префрлен во креативец.": ":name u shndërrua në krijues.",
+    "Верифицирани корисници": "Përdorues të verifikuar"
 }

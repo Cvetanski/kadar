@@ -39,7 +39,7 @@ class AdminController extends Controller
     public function users(Request $request): View
     {
         $role = $request->input('role', 'creator');
-        $role = in_array($role, ['creator', 'client', 'pending_verification'], true) ? $role : 'creator';
+        $role = in_array($role, ['creator', 'client', 'pending_verification', 'verified'], true) ? $role : 'creator';
 
         $users = null;
         $pending = null;
@@ -50,6 +50,13 @@ class AdminController extends Controller
                 ->with('user')
                 ->orderBy('onboarding_completed_at')
                 ->get();
+        } elseif ($role === 'verified') {
+            $users = User::where('role', 'creator')
+                ->whereHas('creatorProfile', fn ($q) => $q->where('verified', true))
+                ->with('creatorProfile')
+                ->latest()
+                ->paginate(20)
+                ->withQueryString();
         } else {
             $users = User::where('role', $role)
                 ->when($role === 'creator', fn ($q) => $q->with('creatorProfile'))
@@ -68,6 +75,7 @@ class AdminController extends Controller
             'pendingVerificationCount' => CreatorProfile::whereNotNull('onboarding_completed_at')
                 ->where('verified', false)
                 ->count(),
+            'verifiedCount' => CreatorProfile::where('verified', true)->count(),
             'incompleteOnboardingCount' => CreatorProfile::whereNull('onboarding_completed_at')->count(),
         ]);
     }

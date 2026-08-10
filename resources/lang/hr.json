@@ -602,5 +602,6 @@
     "Префрли го :name во креативец?": "Pretvoriti :name u kreativca?",
     "Корисникот ќе стане креативец и ќе треба да го помине онбордингот. Огласите што ги објавил како клиент остануваат недопрени.": "Korisnik će postati kreativac i morat će proći onboarding. Projekti koje je objavio kao klijent ostaju netaknuti.",
     "Да, префрли": "Da, pretvori",
-    ":name е префрлен во креативец.": ":name je pretvoren u kreativca."
+    ":name е префрлен во креативец.": ":name je pretvoren u kreativca.",
+    "Верифицирани корисници": "Verificirani korisnici"
 }

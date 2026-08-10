@@ -602,5 +602,6 @@
     "Префрли го :name во креативец?": "Convert :name to a creator?",
     "Корисникот ќе стане креативец и ќе треба да го помине онбордингот. Огласите што ги објавил како клиент остануваат недопрени.": "The user will become a creator and will need to complete onboarding. Projects they posted as a client remain untouched.",
     "Да, префрли": "Yes, convert",
-    ":name е префрлен во креативец.": ":name has been converted to a creator."
+    ":name е префрлен во креативец.": ":name has been converted to a creator.",
+    "Верифицирани корисници": "Verified users"
 }
