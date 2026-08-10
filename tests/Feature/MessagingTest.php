@@ -119,10 +119,10 @@ class MessagingTest extends TestCase
             'body' => 'Здраво, те интересира ли соработка?',
         ]);
 
-        Mail::assertQueued(NewMessageNotification::class, function ($mail) use ($creatorProfile) {
+        Mail::assertSent(NewMessageNotification::class, function ($mail) use ($creatorProfile) {
             return $mail->hasTo($creatorProfile->user->email);
         });
-        Mail::assertNotQueued(NewMessageNotification::class, function ($mail) use ($client) {
+        Mail::assertNotSent(NewMessageNotification::class, function ($mail) use ($client) {
             return $mail->hasTo($client->email);
         });
     }
@@ -142,7 +142,27 @@ class MessagingTest extends TestCase
             'body' => 'Здраво, те интересира ли соработка?',
         ]);
 
-        Mail::assertNothingQueued();
+        Mail::assertNothingSent();
+    }
+
+    public function test_replying_via_the_message_inbox_livewire_component_emails_the_other_participant(): void
+    {
+        Mail::fake();
+
+        $client = User::factory()->create(['role' => 'client']);
+        $creatorProfile = $this->creatorProfile();
+
+        $this->actingAs($client)->post("/creators/{$creatorProfile->id}/message");
+        $conversation = Conversation::firstOrFail();
+
+        Livewire::actingAs($client)
+            ->test('message-inbox', ['selectedConversationId' => $conversation->id])
+            ->set('newMessageBody', 'Здраво, те интересира ли соработка?')
+            ->call('sendMessage');
+
+        Mail::assertSent(NewMessageNotification::class, function ($mail) use ($creatorProfile) {
+            return $mail->hasTo($creatorProfile->user->email);
+        });
     }
 
     public function test_non_participant_cannot_view_or_reply_to_conversation(): void

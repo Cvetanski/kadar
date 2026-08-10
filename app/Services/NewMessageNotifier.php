@@ -21,7 +21,7 @@ class NewMessageNotifier
             ->each(function ($recipient) use ($message) {
                 Mail::to($recipient->email)
                     ->locale($recipient->locale ?? 'mk')
-                    ->queue(new NewMessageNotification($message));
+                    ->send(new NewMessageNotification($message));
             });
     }
 }

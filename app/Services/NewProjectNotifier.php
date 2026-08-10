@@ -29,7 +29,7 @@ class NewProjectNotifier
                 foreach ($creatorProfiles as $creatorProfile) {
                     Mail::to($creatorProfile->user->email)
                         ->locale($creatorProfile->user->locale ?? 'mk')
-                        ->queue(new NewProjectNotification($project));
+                        ->send(new NewProjectNotification($project));
                 }
             });
     }

@@ -2,6 +2,7 @@
 
 use App\Models\Conversation;
 use App\Models\Proposal;
+use App\Services\NewMessageNotifier;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -125,12 +126,14 @@ new class extends Component
 
         abort_unless($conversation, 404);
 
-        $conversation->messages()->create([
+        $message = $conversation->messages()->create([
             'sender_id' => Auth::id(),
             'body' => $this->newMessageBody,
         ]);
 
         $conversation->touch();
+
+        app(NewMessageNotifier::class)->notify($message);
 
         $this->newMessageBody = '';
         $this->composeInstanceKey++;
