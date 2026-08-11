@@ -108,6 +108,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::patch('/admin/creators/{user}', [AdminController::class, 'updateCreatorProfile'])->name('admin.creators.update');
     Route::get('/admin/contact-messages', [AdminController::class, 'contactMessages'])->name('admin.contact-messages');
     Route::patch('/admin/contact-messages/{contactMessage}', [AdminController::class, 'updateContactMessageStatus'])->name('admin.contact-messages.update');
+    Route::get('/admin/activity', [AdminController::class, 'activity'])->name('admin.activity');
+    Route::get('/admin/activity/{conversation}', [AdminController::class, 'activityShow'])->name('admin.activity.show');
 });
 
 require __DIR__.'/auth.php';

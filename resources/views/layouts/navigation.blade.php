@@ -41,6 +41,9 @@
                         <x-nav-link :href="route('admin.contact-messages')" :active="request()->routeIs('admin.contact-messages')">
                             {{ __('Контакт пораки') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('admin.activity')" :active="request()->routeIs('admin.activity')">
+                            {{ __('Активност') }}
+                        </x-nav-link>
                     @endif
 
                     <x-nav-link :href="route('messages.index')" :active="request()->routeIs('messages.*')">
@@ -150,6 +153,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.contact-messages')" :active="request()->routeIs('admin.contact-messages')">
                     {{ __('Контакт пораки') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.activity')" :active="request()->routeIs('admin.activity')">
+                    {{ __('Активност') }}
                 </x-responsive-nav-link>
             @endif
 

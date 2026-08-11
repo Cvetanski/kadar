@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\ContactMessage;
+use App\Models\Conversation;
 use App\Models\Country;
 use App\Models\CreatorProfile;
+use App\Models\Message;
 use App\Models\User;
 use App\Services\AvatarUploadService;
 use App\Services\CreatorVerifiedNotifier;
@@ -237,5 +239,47 @@ class AdminController extends Controller
         $contactMessage->update(['status' => $validated['status']]);
 
         return back()->with('status', __('Статусот е ажуриран.'));
+    }
+
+    public function activity(Request $request): View
+    {
+        $filter = $request->input('filter', 'all');
+        $filter = in_array($filter, ['all', 'project', 'direct'], true) ? $filter : 'all';
+
+        $recentConversations = Conversation::query()
+            ->when($filter === 'project', fn ($q) => $q->whereNotNull('project_id'))
+            ->when($filter === 'direct', fn ($q) => $q->whereNull('project_id'))
+            ->with(['participants', 'project'])
+            ->withCount('messages')
+            ->orderByDesc('updated_at')
+            ->limit(50)
+            ->get();
+
+        $totalConversations = Conversation::count();
+        $messagesTotal = Message::count();
+
+        return view('admin.activity', [
+            'filter' => $filter,
+            'recentConversations' => $recentConversations,
+            'totalConversations' => $totalConversations,
+            'projectConversationsCount' => Conversation::whereNotNull('project_id')->count(),
+            'directConversationsCount' => Conversation::whereNull('project_id')->count(),
+            'messagesToday' => Message::whereDate('created_at', today())->count(),
+            'messagesThisWeek' => Message::where('created_at', '>=', now()->startOfWeek())->count(),
+            'messagesTotal' => $messagesTotal,
+            'avgMessagesPerConversation' => $totalConversations > 0
+                ? round($messagesTotal / $totalConversations, 1)
+                : 0,
+        ]);
+    }
+
+    public function activityShow(Conversation $conversation): View
+    {
+        $conversation->load(['participants', 'project']);
+
+        return view('admin.activity-show', [
+            'conversation' => $conversation,
+            'messages' => $conversation->messages()->with('sender')->orderBy('created_at')->get(),
+        ]);
     }
 }
