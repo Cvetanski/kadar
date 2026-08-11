@@ -22,6 +22,17 @@ new class extends Component
 
     public bool $editing = false;
 
+    /**
+     * Bumped after every reorder so the item list's wire:key changes,
+     * forcing Livewire to fully tear down and rebuild that DOM subtree
+     * instead of morphing it in place. SortableJS moves the actual DOM
+     * nodes itself during a drag, which leaves the subsequent morph with
+     * a structure it didn't expect — without this, embeds can render blank
+     * until a manual refresh, and the sortable container can stop
+     * responding to drags after a reorder.
+     */
+    public int $renderKey = 0;
+
     public string $newTitle = '';
 
     public string $newType = 'video';
@@ -53,7 +64,7 @@ new class extends Component
     #[Computed]
     public function items()
     {
-        return $this->creatorProfile->portfolioItems()->orderBy('sort_order')->get();
+        return $this->creatorProfile->portfolioItems()->get();
     }
 
     public function addItem(): void
@@ -97,6 +108,31 @@ new class extends Component
 
         unset($this->items);
     }
+
+    public function reorder($itemId, $position): void
+    {
+        $this->authorizeManaging($this->creatorProfile);
+
+        $itemId = (int) $itemId;
+        $position = (int) $position;
+
+        $items = $this->creatorProfile->portfolioItems()->get();
+        $moved = $items->firstWhere('id', $itemId);
+
+        abort_unless($moved, 404);
+
+        $items = $items->reject(fn ($item) => $item->id === $itemId)->values();
+        $items->splice($position, 0, [$moved]);
+
+        foreach ($items as $index => $item) {
+            if ($item->sort_order !== $index) {
+                $item->update(['sort_order' => $index]);
+            }
+        }
+
+        $this->renderKey++;
+        unset($this->items);
+    }
 };
 ?>
 
@@ -119,12 +155,15 @@ new class extends Component
         @if ($this->items->isEmpty())
             <p class="text-sm text-gray-500">{{ __('Сеуште нема додадено ставки') }}</p>
         @else
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            <div wire:key="portfolio-preview-list-{{ $renderKey }}" wire:sort="reorder" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                 @foreach ($this->items as $item)
-                    <div wire:key="portfolio-preview-{{ $item->id }}">
-                        @if ($item->title)
-                            <p class="text-sm font-medium text-gray-900 mb-2">{{ $item->title }}</p>
-                        @endif
+                    <div wire:key="portfolio-preview-{{ $item->id }}-{{ $renderKey }}" wire:sort:item="{{ $item->id }}">
+                        <div wire:sort:handle style="display:flex;align-items:center;gap:6px;margin-bottom:8px;cursor:grab;user-select:none;">
+                            <span style="color:#9AA0AB;font-size:13px;line-height:1;">⠿</span>
+                            @if ($item->title)
+                                <p class="text-sm font-medium text-gray-900" style="margin:0;">{{ $item->title }}</p>
+                            @endif
+                        </div>
                         <x-portfolio-preview :item="$item" />
                     </div>
                 @endforeach
@@ -132,12 +171,15 @@ new class extends Component
         @endif
     @else
         @if ($this->items->isNotEmpty())
-            <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+            <div wire:key="portfolio-edit-list-{{ $renderKey }}" wire:sort="reorder" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
                 @foreach ($this->items as $item)
-                    <div wire:key="portfolio-item-{{ $item->id }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #E8EBF0;border-radius:10px;padding:10px 14px;">
-                        <div style="min-width:0;">
-                            <p style="font-weight:700;font-size:13.5px;color:#14171F;margin:0;">{{ $item->title }}</p>
-                            <p style="font-size:12px;color:#9AA0AB;margin:2px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $item->media_url }}</p>
+                    <div wire:key="portfolio-item-{{ $item->id }}-{{ $renderKey }}" wire:sort:item="{{ $item->id }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #E8EBF0;border-radius:10px;padding:10px 14px;cursor:grab;user-select:none;">
+                        <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                            <span style="color:#9AA0AB;font-size:13px;line-height:1;flex-shrink:0;">⠿</span>
+                            <div style="min-width:0;">
+                                <p style="font-weight:700;font-size:13.5px;color:#14171F;margin:0;">{{ $item->title }}</p>
+                                <p style="font-size:12px;color:#9AA0AB;margin:2px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $item->media_url }}</p>
+                            </div>
                         </div>
                         <button type="button" wire:click="removeItem({{ $item->id }})" wire:confirm="{{ __('Дали сигурно сакаш да го избришеш ова?') }}"
                             style="flex-shrink:0;color:#DC2626;font-size:13px;font-weight:700;background:none;border:none;cursor:pointer;">

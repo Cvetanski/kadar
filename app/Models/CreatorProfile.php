@@ -62,7 +62,7 @@ class CreatorProfile extends Model
 
     public function portfolioItems(): HasMany
     {
-        return $this->hasMany(PortfolioItem::class);
+        return $this->hasMany(PortfolioItem::class)->orderBy('sort_order');
     }
 
     public function proposals(): HasMany

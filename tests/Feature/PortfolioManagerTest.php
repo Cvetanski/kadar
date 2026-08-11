@@ -89,6 +89,64 @@ class PortfolioManagerTest extends TestCase
         $this->assertModelMissing($item);
     }
 
+    public function test_owner_can_reorder_portfolio_items(): void
+    {
+        $profile = $this->profile();
+        $first = $profile->portfolioItems()->create(['media_type' => 'video', 'media_url' => 'https://example.com/1', 'sort_order' => 0]);
+        $second = $profile->portfolioItems()->create(['media_type' => 'video', 'media_url' => 'https://example.com/2', 'sort_order' => 1]);
+        $third = $profile->portfolioItems()->create(['media_type' => 'video', 'media_url' => 'https://example.com/3', 'sort_order' => 2]);
+
+        Livewire::actingAs($profile->user)->test('portfolio-manager', ['creatorProfile' => $profile])
+            ->call('reorder', $first->id, 2);
+
+        $this->assertSame(2, $first->fresh()->sort_order);
+        $this->assertSame(0, $second->fresh()->sort_order);
+        $this->assertSame(1, $third->fresh()->sort_order);
+    }
+
+    public function test_reordering_items_that_all_share_the_default_sort_order_still_reorders_them(): void
+    {
+        // Items created before sort_order was tracked (or via the onboarding
+        // wizard) may all sit at the column's default of 0.
+        $profile = $this->profile();
+        $first = $profile->portfolioItems()->create(['title' => 'First', 'media_type' => 'video', 'media_url' => 'https://example.com/1']);
+        $second = $profile->portfolioItems()->create(['title' => 'Second', 'media_type' => 'video', 'media_url' => 'https://example.com/2']);
+
+        Livewire::actingAs($profile->user)->test('portfolio-manager', ['creatorProfile' => $profile])
+            ->call('reorder', $first->id, 1);
+
+        $this->assertSame(1, $first->fresh()->sort_order);
+        $this->assertSame(0, $second->fresh()->sort_order);
+    }
+
+    public function test_reordered_items_render_in_their_new_order_on_the_public_profile(): void
+    {
+        $profile = $this->profile();
+        $first = $profile->portfolioItems()->create(['title' => 'First', 'media_type' => 'video', 'media_url' => 'https://example.com/1', 'sort_order' => 0]);
+        $profile->portfolioItems()->create(['title' => 'Second', 'media_type' => 'video', 'media_url' => 'https://example.com/2', 'sort_order' => 1]);
+
+        Livewire::actingAs($profile->user)->test('portfolio-manager', ['creatorProfile' => $profile])
+            ->call('reorder', $first->id, 1);
+
+        $visitor = User::factory()->create(['role' => 'client']);
+        $response = $this->actingAs($visitor)->get(route('creators.show', $profile));
+
+        $html = $response->getContent();
+        $this->assertGreaterThan(strpos($html, 'Second'), strpos($html, 'First'));
+    }
+
+    public function test_another_creator_cannot_reorder_someone_elses_portfolio(): void
+    {
+        $profile = $this->profile();
+        $item = $profile->portfolioItems()->create(['media_type' => 'video', 'media_url' => 'https://example.com/1', 'sort_order' => 0]);
+        $otherCreator = User::factory()->create(['role' => 'creator']);
+
+        Livewire::actingAs($otherCreator)->test('portfolio-manager', ['creatorProfile' => $profile])
+            ->assertForbidden();
+
+        $this->assertSame(0, $item->fresh()->sort_order);
+    }
+
     public function test_another_creator_cannot_manage_someone_elses_portfolio(): void
     {
         $profile = $this->profile();
