@@ -198,6 +198,67 @@ class MessagingTest extends TestCase
         $this->assertSame(0, Livewire::actingAs($client)->test('unread-badge')->instance()->count);
     }
 
+    public function test_unread_badge_dispatches_a_sound_event_when_the_unread_count_increases(): void
+    {
+        $client = User::factory()->create(['role' => 'client']);
+        $creatorProfile = $this->creatorProfile();
+
+        $this->actingAs($client)->post("/creators/{$creatorProfile->id}/message");
+        $conversation = Conversation::firstOrFail();
+
+        $badge = Livewire::actingAs($client)->test('unread-badge');
+
+        $conversation->messages()->create([
+            'sender_id' => $creatorProfile->user_id,
+            'body' => 'Здраво',
+        ]);
+
+        $badge->call('poll')->assertDispatched('new-message-received');
+    }
+
+    public function test_unread_badge_does_not_dispatch_a_sound_event_when_the_count_is_unchanged(): void
+    {
+        $client = User::factory()->create(['role' => 'client']);
+
+        Livewire::actingAs($client)->test('unread-badge')
+            ->call('poll')
+            ->assertNotDispatched('new-message-received');
+    }
+
+    public function test_message_inbox_dispatches_a_sound_event_when_a_new_message_arrives_in_the_open_conversation(): void
+    {
+        $client = User::factory()->create(['role' => 'client']);
+        $creatorProfile = $this->creatorProfile();
+
+        $this->actingAs($client)->post("/creators/{$creatorProfile->id}/message");
+        $conversation = Conversation::firstOrFail();
+
+        $component = Livewire::actingAs($client)->test('message-inbox', ['selectedConversationId' => $conversation->id]);
+
+        $conversation->messages()->create([
+            'sender_id' => $creatorProfile->user_id,
+            'body' => 'Здраво',
+        ]);
+
+        $component->call('poll')->assertDispatched('new-message-received');
+    }
+
+    public function test_message_inbox_does_not_dispatch_a_sound_event_for_the_users_own_message(): void
+    {
+        $client = User::factory()->create(['role' => 'client']);
+        $creatorProfile = $this->creatorProfile();
+
+        $this->actingAs($client)->post("/creators/{$creatorProfile->id}/message");
+        $conversation = Conversation::firstOrFail();
+
+        $component = Livewire::actingAs($client)->test('message-inbox', ['selectedConversationId' => $conversation->id]);
+
+        $component->set('newMessageBody', 'Здраво')
+            ->call('sendMessage')
+            ->call('poll')
+            ->assertNotDispatched('new-message-received');
+    }
+
     public function test_submitting_a_proposal_starts_a_conversation_with_the_pitch_as_first_message(): void
     {
         $client = User::factory()->create(['role' => 'client']);

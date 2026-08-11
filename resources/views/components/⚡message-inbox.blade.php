@@ -19,6 +19,8 @@ new class extends Component
 
     public int $composeInstanceKey = 0;
 
+    public ?int $lastSeenMessageId = null;
+
     public function mount(?int $selectedConversationId = null): void
     {
         if (! $selectedConversationId) {
@@ -29,6 +31,7 @@ new class extends Component
 
         if ($conversation && $conversation->participants->contains('id', Auth::id())) {
             $this->selectedConversationId = $selectedConversationId;
+            $this->lastSeenMessageId = $conversation->messages()->latest('id')->value('id');
             $this->markAsRead($conversation);
         }
     }
@@ -105,6 +108,7 @@ new class extends Component
         abort_unless($conversation->participants->contains('id', Auth::id()), 403);
 
         $this->selectedConversationId = $conversationId;
+        $this->lastSeenMessageId = $conversation->messages()->latest('id')->value('id');
         $this->newMessageBody = '';
         $this->markAsRead($conversation);
         $this->forgetComputed();
@@ -133,6 +137,8 @@ new class extends Component
 
         $conversation->touch();
 
+        $this->lastSeenMessageId = $message->id;
+
         app(NewMessageNotifier::class)->notify($message);
 
         $this->newMessageBody = '';
@@ -147,6 +153,19 @@ new class extends Component
             $conversation = Conversation::find($this->selectedConversationId);
 
             if ($conversation) {
+                $latestMessage = $conversation->messages()->latest('id')->first();
+
+                if ($latestMessage
+                    && $latestMessage->sender_id !== Auth::id()
+                    && ($this->lastSeenMessageId === null || $latestMessage->id > $this->lastSeenMessageId)
+                ) {
+                    $this->dispatch('new-message-received');
+                }
+
+                if ($latestMessage) {
+                    $this->lastSeenMessageId = $latestMessage->id;
+                }
+
                 $this->markAsRead($conversation);
             }
         }
@@ -225,7 +244,7 @@ new class extends Component
 };
 ?>
 
-<div wire:poll.2s="poll">
+<div wire:poll.2s.keep-alive="poll">
     <div class="msg-shell">
         <div class="msg-sidebar {{ $this->selectedConversationId ? 'has-selected' : '' }}">
             <div class="msg-sidebar-search">
