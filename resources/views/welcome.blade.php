@@ -301,7 +301,7 @@
     <div class="hero-scrim"></div>
 
     <div class="hero-content">
-      <h1>Find the <span class="blue">right creative</span> for your next project.</h1>
+      <h1>{{ __('Најди го') }} <span class="blue">{{ __('вистинскиот креативец') }}</span> {{ __('за твојот следен проект.') }}</h1>
       <p class="hero-sub hero-sub-full">{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери, содржина креатори и едитори директно со клиенти.') }}</p>
       <p class="hero-sub hero-sub-short">{{ __('CreatorSpot поврзува креативци со клиенти.') }}</p>
 
