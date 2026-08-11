@@ -1,6 +1,7 @@
 @props([
     'title' => null,
     'description' => null,
+    'keywords' => null,
     'image' => null,
     'type' => 'website',
 ])
@@ -20,6 +21,9 @@
 
         <title>{{ $pageTitle }}</title>
         <meta name="description" content="{{ $description }}">
+        @if ($keywords)
+            <meta name="keywords" content="{{ $keywords }}">
+        @endif
         <link rel="canonical" href="{{ url()->current() }}">
 
         <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">

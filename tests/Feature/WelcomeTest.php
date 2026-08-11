@@ -47,7 +47,7 @@ class WelcomeTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('CreatorSpot');
-        $response->assertSee('вистински талент', false);
+        $response->assertSee('right creative', false);
     }
 
     public function test_guest_sees_register_and_login_buttons(): void

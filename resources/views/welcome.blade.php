@@ -6,6 +6,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>CreatorSpot — Where creators and clients meet</title>
 <meta name="description" content="{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот. Опиши го проектот, добиј понуди за неколку часа.') }}">
+<meta name="keywords" content="креативци Македонија, креативци Скопје, графички дизајнер Македонија, фотограф Македонија, видеограф Скопје, видео продукција Македонија, content creator Македонија, SEO/GEO/AEO Specialist, маркетер, freelance designer Macedonia, hire photographer Macedonia, hire videographer Macedonia, creative professionals Macedonia, freelance jobs Macedonia, freelance projects Macedonia, creative jobs Macedonia, find clients Macedonia, content creator jobs Macedonia, digital marketers jobs Macedonia">
 <link rel="canonical" href="{{ url()->current() }}">
 
 <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
@@ -32,7 +33,12 @@
     "@type": "Organization",
     "name": "CreatorSpot",
     "url": "{{ route('welcome') }}",
-    "description": {!! json_encode(__('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.')) !!}
+    "description": {!! json_encode(__('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.')) !!},
+    "areaServed": {
+        "@type": "Country",
+        "name": "Macedonia"
+    },
+    "keywords": "креативци Македонија, креативци Скопје, фотограф Македонија, видеограф Скопје, графички дизајнер Македонија, freelance designer Macedonia, hire photographer Macedonia, hire videographer Macedonia, freelance jobs Macedonia, creative jobs Macedonia"
 }
 </script>
 <script type="application/ld+json">
@@ -295,7 +301,7 @@
     <div class="hero-scrim"></div>
 
     <div class="hero-content">
-      <h1>{{ __('Секој проект заслужува') }}<br><span class="blue">{{ __('вистински талент.') }}</span></h1>
+      <h1>Find the <span class="blue">right creative</span> for your next project.</h1>
       <p class="hero-sub hero-sub-full">{{ __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери, содржина креатори и едитори директно со клиенти.') }}</p>
       <p class="hero-sub hero-sub-short">{{ __('CreatorSpot поврзува креативци со клиенти.') }}</p>
 

@@ -7,9 +7,12 @@
     $seoDescription = $seoFilterCategory
         ? __('Пронајди верификувани').' '.mb_strtolower($seoFilterCategory->name).' '.__('креативци подготвени за твојот следен проект.')
         : __('Пребарувај и филтрирај верификувани креативци — видеографи, фотографи, дизајнери, дигитални маркетери и едитори.');
+    $seoKeywords = $seoFilterCategory
+        ? mb_strtolower($seoFilterCategory->name).' Македонија, '.mb_strtolower($seoFilterCategory->name).' Скопје, hire '.mb_strtolower($seoFilterCategory->name).' Macedonia, freelance designer Macedonia, creative professionals Macedonia'
+        : 'креативци Македонија, креативци Скопје, графички дизајнер Македонија, фотограф Македонија, видеограф Скопје, видео продукција Македонија, content creator Македонија, маркетер, freelance designer Macedonia, hire photographer Macedonia, hire videographer Macedonia, creative professionals Macedonia';
 @endphp
 
-<x-app-layout :title="$seoTitle" :description="$seoDescription">
+<x-app-layout :title="$seoTitle" :description="$seoDescription" :keywords="$seoKeywords">
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Најди Креативци') }}</h2>

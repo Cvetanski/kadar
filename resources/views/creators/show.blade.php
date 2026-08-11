@@ -7,9 +7,18 @@
     $seoDescription = $creatorProfile->bio
         ? \Illuminate\Support\Str::limit(strip_tags($creatorProfile->bio), 155)
         : ($creatorProfile->headline ?: $seoTitle);
+    $seoRoleLower = mb_strtolower($seoRole);
+    $seoKeywords = collect([
+        $seoRoleLower.' Македонија',
+        $seoRoleLower.' Скопје',
+        'hire '.$seoRoleLower.' Macedonia',
+        'freelance '.$seoRoleLower.' Macedonia',
+        'креативци Македонија',
+        'creative professionals Macedonia',
+    ])->implode(', ');
 @endphp
 
-<x-app-layout :title="$seoTitle" :description="$seoDescription" :image="$creatorProfile->user->avatar_url" type="profile">
+<x-app-layout :title="$seoTitle" :description="$seoDescription" :keywords="$seoKeywords" :image="$creatorProfile->user->avatar_url" type="profile">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ $creatorProfile->user->name }}</h2>
     </x-slot>
