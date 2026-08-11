@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Mail\CreatorVerified;
 use App\Models\CreatorProfile;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class AdminVerificationTest extends TestCase
@@ -74,6 +76,40 @@ class AdminVerificationTest extends TestCase
 
         $this->actingAs($client)->post("/admin/verifications/{$profile->id}")->assertForbidden();
         $this->assertFalse($profile->fresh()->verified);
+    }
+
+    public function test_verifying_a_creator_emails_them(): void
+    {
+        Mail::fake();
+
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+        $user = User::factory()->create(['role' => 'creator']);
+        $profile = CreatorProfile::create([
+            'user_id' => $user->id,
+            'onboarding_completed_at' => now(),
+            'verified' => false,
+        ]);
+
+        $this->actingAs($admin)->post("/admin/verifications/{$profile->id}");
+
+        Mail::assertSent(CreatorVerified::class, fn ($mail) => $mail->hasTo($user->email));
+    }
+
+    public function test_verifying_a_creator_does_not_email_them_if_they_disabled_email_notifications(): void
+    {
+        Mail::fake();
+
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+        $user = User::factory()->create(['role' => 'creator', 'email_notifications_enabled' => false]);
+        $profile = CreatorProfile::create([
+            'user_id' => $user->id,
+            'onboarding_completed_at' => now(),
+            'verified' => false,
+        ]);
+
+        $this->actingAs($admin)->post("/admin/verifications/{$profile->id}");
+
+        Mail::assertNothingSent();
     }
 
     public function test_non_admin_cannot_access_users_page(): void

@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Models\CreatorProfile;
 use App\Models\User;
 use App\Services\AvatarUploadService;
+use App\Services\CreatorVerifiedNotifier;
 use App\Services\OnboardingReminderNotifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,11 +28,13 @@ class AdminController extends Controller
         return view('admin.verifications', ['pending' => $pending]);
     }
 
-    public function verify(CreatorProfile $creatorProfile): RedirectResponse
+    public function verify(CreatorProfile $creatorProfile, CreatorVerifiedNotifier $notifier): RedirectResponse
     {
         abort_unless($creatorProfile->onboarding_completed_at !== null, 403);
 
         $creatorProfile->update(['verified' => true]);
+
+        $notifier->notify($creatorProfile);
 
         return back()->with('status', __('Креативецот е верификуван.'));
     }
