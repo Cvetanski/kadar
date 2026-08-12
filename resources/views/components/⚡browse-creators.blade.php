@@ -436,10 +436,10 @@ new class extends Component
                             @endphp
                             <div class="br-gate-banner">
                                 <span class="br-gate-banner-text">
-                                    🔒 {{ __('Отвори проект за да ги видиш сите :count креативци', ['count' => $this->creators->total()]) }}
+                                    🔒 {{ __('Креирај бесплатен оглас за да ги видиш сите :count креативци', ['count' => $this->creators->total()]) }}
                                 </span>
                                 <a href="{{ Auth::check() ? route('projects.create') : route('register', ['role' => 'client']) }}" class="br-gate-btn">
-                                    {{ __('Отвори проект') }}
+                                    {{ __('Креирај Оглас') }}
                                 </a>
                             </div>
                         @endif
