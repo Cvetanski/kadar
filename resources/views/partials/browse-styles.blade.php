@@ -83,6 +83,21 @@
 
     .br-row-person{display:flex;gap:12px;align-items:flex-start;margin-bottom:4px;}
     .br-row-person-info{min-width:0;flex:1;}
+
+    .br-gate-banner{
+        display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+        background:#EAF2FE;border:1px solid #B8D3F7;border-radius:14px;padding:16px 20px;
+    }
+    .br-gate-banner-text{font-size:13.5px;font-weight:700;color:#0958B5;}
+    .br-gate-btn{
+        flex-shrink:0;text-align:center;background:linear-gradient(135deg,#2D82E8,#0958B5);color:#fff;border:none;
+        border-radius:10px;padding:10px 18px;font-weight:700;font-size:13px;font-family:'Inter',sans-serif;
+        text-decoration:none;white-space:nowrap;transition:transform .15s ease;
+    }
+    .br-gate-btn:hover{transform:translateY(-1px);color:#fff;}
+    .br-row-locked{cursor:default;}
+    .br-row-locked:hover{border-color:#E8EBF0;box-shadow:none;}
+    .br-identity-blur{filter:blur(5px);pointer-events:none;user-select:none;}
     .br-verified{display:inline-flex;align-items:center;gap:4px;vertical-align:middle;margin-left:4px;
         font-size:11px;font-weight:700;color:#0095F6;white-space:nowrap;}
     .br-verified svg{width:15px;height:15px;flex-shrink:0;}

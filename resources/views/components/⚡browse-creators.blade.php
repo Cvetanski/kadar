@@ -270,6 +270,28 @@ new class extends Component
             ->get();
     }
 
+    /**
+     * Guests and clients without an open project only get full details on
+     * the first FULL_RESULTS_LIMIT results; everything past that is blurred
+     * to nudge them toward opening a project. Creators and clients with an
+     * open project always see the full list.
+     */
+    public const FULL_RESULTS_LIMIT = 4;
+
+    #[Computed]
+    public function isGated(): bool
+    {
+        if (Auth::check() && Auth::user()->role !== 'client') {
+            return false;
+        }
+
+        if (Auth::check() && Auth::user()->role === 'client') {
+            return $this->clientOpenProjects->isEmpty();
+        }
+
+        return true;
+    }
+
     #[Computed]
     public function invitedProjectIdsForSelected()
     {
@@ -402,33 +424,71 @@ new class extends Component
             @else
                 <div class="br-rows">
                     @foreach ($this->creators as $creator)
-                        <button type="button" wire:key="creator-row-{{ $creator->id }}" wire:click="selectCreator({{ $creator->id }})"
-                            class="br-row {{ $selectedCreatorId === $creator->id ? 'is-active' : '' }}">
-                            <div class="br-row-person">
-                                <x-avatar :user="$creator->user" size="w-11 h-11" textSize="text-sm" />
-                                <div class="br-row-person-info">
-                                    <p class="br-row-title">
-                                        {{ $creator->user->name }}
-                                        @if ($creator->verified)
-                                            <span class="br-verified">
-                                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12"/><path d="M7.5 12.5l3 3 6-6.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-                                                {{ __('Верифициран') }}
-                                            </span>
-                                        @endif
-                                    </p>
-                                    <p class="br-row-cats">{{ $creator->headline }}</p>
+                        @php
+                            $gateBannerShown ??= false;
+                            $globalIndex = ($this->creators->currentPage() - 1) * $this->creators->perPage() + $loop->iteration;
+                            $isLocked = $this->isGated && $globalIndex > $this::FULL_RESULTS_LIMIT;
+                        @endphp
+
+                        @if ($isLocked && ! $gateBannerShown)
+                            @php
+                                $gateBannerShown = true;
+                            @endphp
+                            <div class="br-gate-banner">
+                                <span class="br-gate-banner-text">
+                                    🔒 {{ __('Отвори проект за да ги видиш сите :count креативци', ['count' => $this->creators->total()]) }}
+                                </span>
+                                <a href="{{ Auth::check() ? route('projects.create') : route('register', ['role' => 'client']) }}" class="br-gate-btn">
+                                    {{ __('Отвори проект') }}
+                                </a>
+                            </div>
+                        @endif
+
+                        @if ($isLocked)
+                            <div wire:key="creator-row-{{ $creator->id }}" class="br-row br-row-locked">
+                                <div class="br-row-person br-identity-blur">
+                                    <x-avatar :user="$creator->user" size="w-11 h-11" textSize="text-sm" />
+                                    <div class="br-row-person-info">
+                                        <p class="br-row-title">{{ $creator->user->name }}</p>
+                                        <p class="br-row-cats">{{ $creator->headline }}</p>
+                                    </div>
+                                </div>
+                                <p class="br-row-cats-bold">{{ $creator->categories->pluck('name')->join(', ') }}</p>
+                                <div class="br-row-foot">
+                                    <x-star-rating :rating="$creator->reviews_avg_rating" :count="$creator->reviews_count" size="text-xs" />
+                                    <span class="br-row-location">📍 {{ $creator->remote_ok ? __('Remote') : ($creator->user->city?->name ?? $creator->user->country?->name ?? '—') }}</span>
+                                    <span class="br-budget" style="margin-left:auto;">{{ $creator->hourly_rate ? $creator->hourly_rate.' EUR/ч' : '—' }}</span>
                                 </div>
                             </div>
-                            <p class="br-row-cats-bold">{{ $creator->categories->pluck('name')->join(', ') }}</p>
-                            @if ($creator->bio)
-                                <p class="br-row-desc">{{ \Illuminate\Support\Str::limit($creator->bio, 110) }}</p>
-                            @endif
-                            <div class="br-row-foot">
-                                <x-star-rating :rating="$creator->reviews_avg_rating" :count="$creator->reviews_count" size="text-xs" />
-                                <span class="br-row-location">📍 {{ $creator->remote_ok ? __('Remote') : ($creator->user->city?->name ?? $creator->user->country?->name ?? '—') }}</span>
-                                <span class="br-budget" style="margin-left:auto;">{{ $creator->hourly_rate ? $creator->hourly_rate.' EUR/ч' : '—' }}</span>
-                            </div>
-                        </button>
+                        @else
+                            <button type="button" wire:key="creator-row-{{ $creator->id }}" wire:click="selectCreator({{ $creator->id }})"
+                                class="br-row {{ $selectedCreatorId === $creator->id ? 'is-active' : '' }}">
+                                <div class="br-row-person">
+                                    <x-avatar :user="$creator->user" size="w-11 h-11" textSize="text-sm" />
+                                    <div class="br-row-person-info">
+                                        <p class="br-row-title">
+                                            {{ $creator->user->name }}
+                                            @if ($creator->verified)
+                                                <span class="br-verified">
+                                                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12"/><path d="M7.5 12.5l3 3 6-6.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                                                    {{ __('Верифициран') }}
+                                                </span>
+                                            @endif
+                                        </p>
+                                        <p class="br-row-cats">{{ $creator->headline }}</p>
+                                    </div>
+                                </div>
+                                <p class="br-row-cats-bold">{{ $creator->categories->pluck('name')->join(', ') }}</p>
+                                @if ($creator->bio)
+                                    <p class="br-row-desc">{{ \Illuminate\Support\Str::limit($creator->bio, 110) }}</p>
+                                @endif
+                                <div class="br-row-foot">
+                                    <x-star-rating :rating="$creator->reviews_avg_rating" :count="$creator->reviews_count" size="text-xs" />
+                                    <span class="br-row-location">📍 {{ $creator->remote_ok ? __('Remote') : ($creator->user->city?->name ?? $creator->user->country?->name ?? '—') }}</span>
+                                    <span class="br-budget" style="margin-left:auto;">{{ $creator->hourly_rate ? $creator->hourly_rate.' EUR/ч' : '—' }}</span>
+                                </div>
+                            </button>
+                        @endif
                     @endforeach
                 </div>
 
