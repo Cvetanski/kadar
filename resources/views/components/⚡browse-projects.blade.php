@@ -505,11 +505,11 @@ new class extends Component
                     </button>
                 </div>
 
-                <form method="POST" action="{{ route('messages.startWithClient', $project->client) }}">
+                {{-- <form method="POST" action="{{ route('messages.startWithClient', $project->client) }}">
                     @csrf
                     <input type="hidden" name="project_id" value="{{ $project->id }}">
                     <button type="submit" class="br-btn-secondary">{{ __('Испрати порака на клиент') }}</button>
-                </form>
+                </form> --}}
 
                 <div class="br-client">
                     <x-avatar :user="$project->client" size="w-10 h-10" textSize="text-sm" />
