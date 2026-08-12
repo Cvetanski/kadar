@@ -292,6 +292,11 @@
 
 <x-public-nav />
 
+@php
+    $heroClientSearchAction = Auth::check() ? route('creators.index') : route('register', ['role' => 'client']);
+    $heroCreatorSearchAction = Auth::check() ? route('projects.browse') : route('register', ['role' => 'creator']);
+@endphp
+
 <div class="hero-wrap">
   <div class="hero-frame">
     <picture>
@@ -310,7 +315,7 @@
         <button type="button" id="roleCreatorBtn" onclick="setHeroRole('creator')">{{ __('Сум креативец') }}</button>
       </div>
 
-      <form class="search-bar" id="heroSearchForm" action="{{ route('creators.index') }}" method="GET">
+      <form class="search-bar" id="heroSearchForm" action="{{ $heroClientSearchAction }}" method="GET">
         <input type="text" name="search" id="heroSearchInput" placeholder="{{ __('Опиши што ти треба...') }}">
         <button type="submit" aria-label="{{ __('Барај') }}">🔍 <span class="search-btn-label">{{ __('Барај') }}</span></button>
       </form>
@@ -481,7 +486,7 @@
 
     var form = document.getElementById('heroSearchForm');
     var input = document.getElementById('heroSearchInput');
-    form.action = isCreator ? @json(route('projects.browse')) : @json(route('creators.index'));
+    form.action = isCreator ? @json($heroCreatorSearchAction) : @json($heroClientSearchAction);
     input.placeholder = isCreator
       ? @json(__('Пребарај огласи по наслов или опис...'))
       : @json(__('Опиши што ти треба...'));
