@@ -18,6 +18,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectInvitationController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProjectController;
@@ -86,6 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/creators/{creatorProfile}', [CreatorProfileController::class, 'update'])->name('creators.update');
     Route::post('/creators/{creatorProfile}/message', [MessageController::class, 'startWithCreator'])->name('messages.start');
     Route::post('/creators/{creatorProfile}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    Route::post('/creators/{creatorProfile}/invitations', [ProjectInvitationController::class, 'store'])->name('invitations.store');
 
     Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/{conversation}', [MessageController::class, 'show'])->name('messages.show');

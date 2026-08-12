@@ -62,6 +62,10 @@
                 <div class="bg-green-50 text-green-700 text-sm rounded-md p-4">{{ session('status') }}</div>
             @endif
 
+            @if (session('error'))
+                <div class="bg-red-50 text-red-700 text-sm rounded-md p-4">{{ session('error') }}</div>
+            @endif
+
             <div class="kf-card">
                 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                     <div class="flex gap-4">
@@ -91,10 +95,18 @@
                                     {{ $isFavorited ? __('Зачувано ✓') : __('Зачувај') }}
                                 </x-secondary-button>
                             </form>
-                            <form method="POST" action="{{ route('messages.start', $creatorProfile) }}">
-                                @csrf
-                                <x-primary-button type="submit">{{ __('Прати порака') }}</x-primary-button>
-                            </form>
+
+                            @if ($clientOpenProjects !== null)
+                                @if ($clientOpenProjects->isEmpty())
+                                    <x-primary-button type="button" x-data x-on:click="$dispatch('open-modal', 'no-open-project')">
+                                        {{ __('Покани на проект') }}
+                                    </x-primary-button>
+                                @else
+                                    <x-primary-button type="button" x-data x-on:click="$dispatch('open-modal', 'invite-to-project')">
+                                        {{ __('Покани на проект') }}
+                                    </x-primary-button>
+                                @endif
+                            @endif
                         </div>
                     @endif
                 </div>
@@ -145,6 +157,72 @@
                     </div>
                 @endif
             </div>
+
+            @if ($clientOpenProjects !== null)
+                <x-modal name="no-open-project" focusable>
+                    <div class="p-6">
+                        <h2 class="text-lg font-medium text-gray-900">
+                            {{ __('За да поканиш, прво отвори оглас') }}
+                        </h2>
+
+                        <p class="mt-1 text-sm text-gray-600">
+                            {{ __('За да го/ја поканиш :name директно на проект, прво ти треба отворен оглас — тоа трае само неколку минути. Штом го отвориш, можеш веднаш да го/ja поканиш.', ['name' => $creatorProfile->user->name]) }}
+                        </p>
+
+                        <div class="mt-6 flex justify-end gap-3">
+                            <x-secondary-button type="button" x-on:click="$dispatch('close')">
+                                {{ __('Откажи') }}
+                            </x-secondary-button>
+
+                            <a href="{{ route('projects.create') }}">
+                                <x-primary-button type="button">{{ __('Отвори оглас →') }}</x-primary-button>
+                            </a>
+                        </div>
+                    </div>
+                </x-modal>
+
+                @if ($clientOpenProjects->isNotEmpty())
+                    <x-modal name="invite-to-project" focusable>
+                        <div class="p-6">
+                            <h2 class="text-lg font-medium text-gray-900">
+                                {{ __('Покани го/ја :name на проект', ['name' => $creatorProfile->user->name]) }}
+                            </h2>
+
+                            <form method="POST" action="{{ route('invitations.store', $creatorProfile) }}" class="mt-4 space-y-4">
+                                @csrf
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('Избери оглас') }}</label>
+                                    <select name="project_id" required class="w-full text-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                        @foreach ($clientOpenProjects as $project)
+                                            <option value="{{ $project->id }}" @if (in_array($project->id, $invitedProjectIds, true)) disabled @endif>
+                                                {{ $project->title }}
+                                                @if (in_array($project->id, $invitedProjectIds, true))
+                                                    ({{ __('Веќе поканет') }})
+                                                @endif
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('Порака (опционално)') }}</label>
+                                    <textarea name="message" rows="3" maxlength="1000" placeholder="{{ __('Здраво, ми се допаѓа твоето портфолио и мислам дека си одличен избор за овој проект...') }}"
+                                        class="w-full text-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
+                                </div>
+
+                                <div class="flex justify-end gap-3">
+                                    <x-secondary-button type="button" x-on:click="$dispatch('close')">
+                                        {{ __('Откажи') }}
+                                    </x-secondary-button>
+
+                                    <x-primary-button type="submit">{{ __('Испрати покана') }}</x-primary-button>
+                                </div>
+                            </form>
+                        </div>
+                    </x-modal>
+                @endif
+            @endif
 
             @if ($isOwnProfile)
                 <livewire:portfolio-manager :creator-profile="$creatorProfile" :collapsible="true" />

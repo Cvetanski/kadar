@@ -157,6 +157,12 @@
                                         <a href="{{ route('clients.show', $user) }}">
                                             <x-secondary-button type="button">{{ __('Профил') }}</x-secondary-button>
                                         </a>
+
+                                        <form method="POST" action="{{ route('messages.startWithClient', $user) }}">
+                                            @csrf
+                                            <x-secondary-button type="submit">{{ __('Прати порака') }}</x-secondary-button>
+                                        </form>
+
                                         <x-secondary-button type="button" x-data x-on:click="$dispatch('open-modal', 'confirm-convert-to-creator-{{ $user->id }}')">
                                             {{ __('Префрли во креативец') }}
                                         </x-secondary-button>

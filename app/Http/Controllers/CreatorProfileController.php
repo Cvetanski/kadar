@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\CreatorProfile;
+use App\Models\Project;
+use App\Models\ProjectInvitation;
 use App\Models\Review;
 use App\Services\AvatarUploadService;
 use Illuminate\Http\RedirectResponse;
@@ -32,12 +34,30 @@ class CreatorProfileController extends Controller
             ->latest()
             ->get();
 
+        $clientOpenProjects = null;
+        $invitedProjectIds = [];
+
+        if ($user && $user->role === 'client' && ! $isOwnProfile) {
+            $clientOpenProjects = Project::where('client_id', $user->id)
+                ->where('status', 'open')
+                ->orderByDesc('created_at')
+                ->get();
+
+            $invitedProjectIds = ProjectInvitation::where('client_id', $user->id)
+                ->where('creator_profile_id', $creatorProfile->id)
+                ->whereIn('project_id', $clientOpenProjects->pluck('id'))
+                ->pluck('project_id')
+                ->all();
+        }
+
         return view('creators.show', [
             'creatorProfile' => $creatorProfile,
             'isOwnProfile' => $isOwnProfile,
             'isFavorited' => $isFavorited,
             'reviews' => $reviews,
             'averageRating' => $reviews->isNotEmpty() ? $reviews->avg('rating') : 0,
+            'clientOpenProjects' => $clientOpenProjects,
+            'invitedProjectIds' => $invitedProjectIds,
         ]);
     }
 

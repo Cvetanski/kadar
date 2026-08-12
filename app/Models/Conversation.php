@@ -32,24 +32,23 @@ class Conversation extends Model
         return $this->hasOne(Message::class)->latestOfMany();
     }
 
+    /**
+     * A pair of users gets one ongoing conversation per project (and one more
+     * for $projectId === null, for direct/general contact outside any
+     * specific project) — so inviting the same creator to a second project
+     * opens its own thread instead of dropping new messages into whatever
+     * project the last conversation happened to be about.
+     */
     public static function findOrCreateBetween(User $a, User $b, ?int $projectId = null): self
     {
-        // A pair of users only ever has one ongoing conversation, regardless of
-        // which project (if any) it was originally started from — otherwise
-        // actions like "message this creator" from different pages (a project's
-        // proposal list, a creator's profile, an application) would each spawn
-        // their own duplicate thread between the same two people.
-        $conversation = static::whereHas('participants', fn ($q) => $q->where('users.id', $a->id))
+        $conversation = static::where('project_id', $projectId)
+            ->whereHas('participants', fn ($q) => $q->where('users.id', $a->id))
             ->whereHas('participants', fn ($q) => $q->where('users.id', $b->id))
             ->withCount('participants')
             ->get()
             ->firstWhere('participants_count', 2);
 
         if ($conversation) {
-            if ($projectId !== null && $conversation->project_id !== $projectId) {
-                $conversation->update(['project_id' => $projectId]);
-            }
-
             return $conversation;
         }
 

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\CreatorProfile;
+use App\Models\Project;
 use App\Models\User;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\CitySeeder;
@@ -78,14 +79,20 @@ class CreatorSearchTest extends TestCase
         $response->assertDontSee('Photo Person');
     }
 
-    public function test_creator_profile_shows_message_and_favorite_buttons_to_other_users(): void
+    public function test_creator_profile_shows_invite_and_favorite_buttons_to_other_users(): void
     {
         $client = User::factory()->create(['role' => 'client']);
+        Project::create([
+            'client_id' => $client->id,
+            'title' => 'Test project',
+            'description' => 'Test description',
+            'status' => 'open',
+        ]);
         $creatorProfile = $this->onboardedCreator('Some Creator');
 
         $response = $this->actingAs($client)->get("/creators/{$creatorProfile->id}");
 
-        $response->assertSee('Прати порака');
+        $response->assertSee('Покани на проект');
         $response->assertSee('Зачувај');
     }
 

@@ -40,6 +40,14 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            @if (session('status'))
+                <div class="bg-green-50 text-green-700 text-sm rounded-md p-4 mb-6">{{ session('status') }}</div>
+            @endif
+
+            @if (session('error'))
+                <div class="bg-red-50 text-red-700 text-sm rounded-md p-4 mb-6">{{ session('error') }}</div>
+            @endif
+
             <div class="br-wrap">
                 <livewire:browse-creators />
             </div>

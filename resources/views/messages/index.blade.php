@@ -62,6 +62,16 @@
       .msg-date-sep{text-align:center;font-size:11.5px;color:#9AA0AB;font-weight:600;margin:8px 0;text-transform:uppercase;letter-spacing:0.03em;}
       .msg-system{align-self:center;background:#E7F8F1;color:#17A673;font-size:12.5px;font-weight:600;
         padding:8px 16px;border-radius:999px;text-align:center;max-width:85%;margin:6px 0;}
+
+      .msg-invitation-card{align-self:center;max-width:85%;width:100%;background:#EAF2FE;
+        border:1px solid #BFDBFE;border-radius:14px;padding:16px 20px;margin:6px 0;text-align:center;}
+      .msg-invitation-badge{display:inline-block;background:linear-gradient(135deg,#2D82E8,#0958B5);
+        color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em;padding:5px 12px;border-radius:999px;
+        margin-bottom:10px;}
+      .msg-invitation-title{font-weight:800;font-size:14.5px;color:#14171F;margin:0 0 4px;}
+      .msg-invitation-meta{font-size:12.5px;color:#666B76;margin:0;}
+      .msg-invitation-time{font-size:10.5px;color:#9AA0AB;margin:8px 0 0;}
+
       .msg-row{display:flex;gap:8px;align-items:flex-end;}
       .msg-row.mine{justify-content:flex-end;}
       .msg-bubble{max-width:70%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.5;}

@@ -42,7 +42,7 @@ new class extends Component
         $userId = Auth::id();
 
         $conversations = Auth::user()->conversations()
-            ->with(['participants', 'latestMessage'])
+            ->with(['participants', 'latestMessage', 'project'])
             ->orderByDesc('updated_at')
             ->get();
 
@@ -265,7 +265,12 @@ new class extends Component
                             <x-avatar :user="$other" size="w-10 h-10" textSize="text-sm" />
                         @endif
                         <div class="min-w-0 flex-1" style="text-align:left;">
-                            <p class="msg-list-name">{{ $other?->name ?? __('Непознат корисник') }}</p>
+                            <p class="msg-list-name">
+                                {{ $other?->name ?? __('Непознат корисник') }}
+                                @if ($conversation->project)
+                                    <span style="font-weight:400;color:#9AA0AB;">· {{ \Illuminate\Support\Str::limit($conversation->project->title, 24) }}</span>
+                                @endif
+                            </p>
                             <p class="msg-list-preview">{{ $last?->body ?? __('Нема пораки сѐ уште.') }}</p>
                         </div>
                         <div class="msg-list-meta">
@@ -349,7 +354,26 @@ new class extends Component
                                 {{ $chatMessage->created_at->isToday() ? __('Денес') : ($chatMessage->created_at->isYesterday() ? __('Вчера') : $chatMessage->created_at->format('d.m.Y')) }}
                             </div>
                         @endif
-                        @if ($chatMessage->type === 'system')
+                        @if ($chatMessage->type === 'invitation')
+                            @php $invitationProject = $this->selectedConversation->project; @endphp
+                            <div class="msg-invitation-card" wire:key="message-{{ $chatMessage->id }}">
+                                <span class="msg-invitation-badge">📋 {{ __('Покана за проект') }}</span>
+                                @if ($invitationProject)
+                                    <p class="msg-invitation-title">„{{ $invitationProject->title }}“</p>
+                                    <p class="msg-invitation-meta">
+                                        @if ($invitationProject->budget_min || $invitationProject->budget_max)
+                                            {{ $invitationProject->budget_min ?? '?' }}–{{ $invitationProject->budget_max ?? '?' }} EUR
+                                        @else
+                                            {{ __('Цена по договор') }}
+                                        @endif
+                                        · {{ $invitationProject->remote_ok ? __('Remote') : ($invitationProject->city?->name ?? $invitationProject->country?->name ?? '—') }}
+                                    </p>
+                                @else
+                                    <p class="msg-invitation-title">{{ $chatMessage->body }}</p>
+                                @endif
+                                <p class="msg-invitation-time">{{ $chatMessage->created_at->format('H:i') }}</p>
+                            </div>
+                        @elseif ($chatMessage->type === 'system')
                             <div class="msg-system" wire:key="message-{{ $chatMessage->id }}">{{ $chatMessage->body }}</div>
                         @else
                             <div class="msg-row {{ $chatMessage->sender_id === auth()->id() ? 'mine' : 'theirs' }}" wire:key="message-{{ $chatMessage->id }}">

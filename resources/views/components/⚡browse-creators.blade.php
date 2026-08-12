@@ -4,6 +4,8 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\CreatorProfile;
+use App\Models\Project;
+use App\Models\ProjectInvitation;
 use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
@@ -252,7 +254,34 @@ new class extends Component
     public function selectCreator(int $creatorProfileId): void
     {
         $this->selectedCreatorId = $creatorProfileId;
-        unset($this->selectedCreator, $this->isSelectedFavorited);
+        unset($this->selectedCreator, $this->isSelectedFavorited, $this->invitedProjectIdsForSelected);
+    }
+
+    #[Computed]
+    public function clientOpenProjects()
+    {
+        if (! Auth::check() || Auth::user()->role !== 'client') {
+            return collect();
+        }
+
+        return Project::where('client_id', Auth::id())
+            ->where('status', 'open')
+            ->orderByDesc('created_at')
+            ->get();
+    }
+
+    #[Computed]
+    public function invitedProjectIdsForSelected()
+    {
+        if (! $this->selectedCreatorId || ! Auth::check() || Auth::user()->role !== 'client') {
+            return [];
+        }
+
+        return ProjectInvitation::where('client_id', Auth::id())
+            ->where('creator_profile_id', $this->selectedCreatorId)
+            ->whereIn('project_id', $this->clientOpenProjects->pluck('id'))
+            ->pluck('project_id')
+            ->all();
     }
 
     public function closeDetails(): void
@@ -470,10 +499,81 @@ new class extends Component
                     </button>
                 </div>
 
-                <form method="POST" action="{{ route('messages.start', $creator) }}">
-                    @csrf
-                    <button type="submit" class="br-btn-secondary">{{ __('Испрати порака') }}</button>
-                </form>
+                @if (Auth::check() && Auth::user()->role === 'client')
+                    @if ($this->clientOpenProjects->isEmpty())
+                        <button type="button" class="br-btn-secondary" x-data x-on:click="$dispatch('open-modal', 'no-open-project-browse')">
+                            {{ __('Покани на проект') }}
+                        </button>
+                    @else
+                        <button type="button" class="br-btn-secondary" x-data x-on:click="$dispatch('open-modal', 'invite-to-project-browse')">
+                            {{ __('Покани на проект') }}
+                        </button>
+                    @endif
+
+                    <x-modal name="no-open-project-browse" focusable>
+                        <div class="p-6">
+                            <h2 class="text-lg font-medium text-gray-900">
+                                {{ __('За да поканиш, прво отвори оглас') }}
+                            </h2>
+
+                            <p class="mt-1 text-sm text-gray-600">
+                                {{ __('За да го/ја поканиш :name директно на проект, прво ти треба отворен оглас — тоа трае само неколку минути. Штом го отвориш, можеш веднаш да го/ja поканиш.', ['name' => $creator->user->name]) }}
+                            </p>
+
+                            <div class="mt-6 flex justify-end gap-3">
+                                <x-secondary-button type="button" x-on:click="$dispatch('close')">
+                                    {{ __('Откажи') }}
+                                </x-secondary-button>
+
+                                <a href="{{ route('projects.create') }}">
+                                    <x-primary-button type="button">{{ __('Отвори оглас →') }}</x-primary-button>
+                                </a>
+                            </div>
+                        </div>
+                    </x-modal>
+
+                    @if ($this->clientOpenProjects->isNotEmpty())
+                        <x-modal name="invite-to-project-browse" focusable>
+                            <div class="p-6">
+                                <h2 class="text-lg font-medium text-gray-900">
+                                    {{ __('Покани го/ја :name на проект', ['name' => $creator->user->name]) }}
+                                </h2>
+
+                                <form method="POST" action="{{ route('invitations.store', $creator) }}" class="mt-4 space-y-4">
+                                    @csrf
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('Избери оглас') }}</label>
+                                        <select name="project_id" required class="w-full text-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                            @foreach ($this->clientOpenProjects as $project)
+                                                <option value="{{ $project->id }}" @if (in_array($project->id, $this->invitedProjectIdsForSelected, true)) disabled @endif>
+                                                    {{ $project->title }}
+                                                    @if (in_array($project->id, $this->invitedProjectIdsForSelected, true))
+                                                        ({{ __('Веќе поканет') }})
+                                                    @endif
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('Порака (опционално)') }}</label>
+                                        <textarea name="message" rows="3" maxlength="1000" placeholder="{{ __('Здраво, ми се допаѓа твоето портфолио и мислам дека си одличен избор за овој проект...') }}"
+                                            class="w-full text-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"></textarea>
+                                    </div>
+
+                                    <div class="flex justify-end gap-3">
+                                        <x-secondary-button type="button" x-on:click="$dispatch('close')">
+                                            {{ __('Откажи') }}
+                                        </x-secondary-button>
+
+                                        <x-primary-button type="submit">{{ __('Испрати покана') }}</x-primary-button>
+                                    </div>
+                                </form>
+                            </div>
+                        </x-modal>
+                    @endif
+                @endif
             @endif
         </section>
     </div>

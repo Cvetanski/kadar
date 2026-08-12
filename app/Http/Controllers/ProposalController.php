@@ -62,7 +62,7 @@ class ProposalController extends Controller
             throw $e;
         }
 
-        $this->startProposalConversation($project, $request->user(), $validated['message']);
+        $this->startProposalConversation($project, $request->user(), $validated['message'], $validated['price']);
 
         return redirect()->route('projects.show', $project)->with('status', __('Понудата е испратена.'));
     }
@@ -99,13 +99,13 @@ class ProposalController extends Controller
         return response()->json(['message' => $message]);
     }
 
-    private function startProposalConversation(Project $project, User $creator, string $message): void
+    private function startProposalConversation(Project $project, User $creator, string $message, float $price): void
     {
         $conversation = Conversation::findOrCreateBetween($creator, $project->client, $project->id);
 
         $conversation->messages()->create([
             'sender_id' => $creator->id,
-            'body' => $message,
+            'body' => $message."\n\n".__('Понудена цена').': '.$price.' EUR',
         ]);
 
         $conversation->touch();

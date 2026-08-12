@@ -285,11 +285,15 @@ class MessagingTest extends TestCase
 
         $message = $conversation->messages->first();
         $this->assertSame($creatorProfile->user_id, $message->sender_id);
-        $this->assertSame('Ме интересира овој проект.', $message->body);
+        $this->assertSame("Ме интересира овој проект.\n\nПонудена цена: 250 EUR", $message->body);
     }
 
-    public function test_messaging_a_creator_after_their_proposal_reuses_the_proposal_conversation(): void
+    public function test_messaging_a_creator_after_their_proposal_opens_a_separate_general_conversation(): void
     {
+        // Each project gets its own thread now, so generic contact (no
+        // project context) opens a conversation of its own rather than
+        // reusing whatever project-specific thread happens to already exist
+        // between the same two people.
         $client = User::factory()->create(['role' => 'client']);
         $category = \App\Models\Category::first() ?? \App\Models\Category::create(['name' => 'Video', 'slug' => 'video', 'icon' => '🎬']);
         $project = \App\Models\Project::create([
@@ -311,8 +315,9 @@ class MessagingTest extends TestCase
 
         $this->actingAs($client)->post("/creators/{$creatorProfile->id}/message");
 
-        $this->assertSame(1, Conversation::count());
-        $this->assertSame($projectConversation->id, Conversation::firstOrFail()->id);
+        $this->assertSame(2, Conversation::count());
+        $generalConversation = Conversation::whereNull('project_id')->firstOrFail();
+        $this->assertNotSame($projectConversation->id, $generalConversation->id);
     }
 
     public function test_client_can_accept_a_proposal_directly_from_the_chat(): void

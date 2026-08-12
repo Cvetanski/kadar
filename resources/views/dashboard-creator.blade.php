@@ -8,6 +8,10 @@
             @include('partials.creator-fancy-styles')
             <div class="kf-wrap">
 
+                @if (session('status'))
+                    <div class="bg-green-50 text-green-700 text-sm rounded-md p-4" style="margin-bottom:20px;">{{ session('status') }}</div>
+                @endif
+
                 <livewire:video-intro-banner />
 
                 @if ($profile && $profile->onboarding_completed_at && ! $profile->verified)
@@ -49,6 +53,7 @@
                         <div class="kf-label">{{ __('Статус на профил') }}</div>
                     </div>
                 </div>
+
 
                 <div class="kf-section">
                     <div class="kf-section-title">
