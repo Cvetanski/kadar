@@ -162,7 +162,7 @@ class ReviewTest extends TestCase
             'comment' => 'Одлична соработка!',
         ]);
 
-        $response = $this->actingAs($client)->get("/creators/{$creatorProfile->id}");
+        $response = $this->actingAs($client)->get(route('creators.show', $creatorProfile));
 
         $response->assertSee('Одлична соработка!');
         $response->assertSee($client->name);

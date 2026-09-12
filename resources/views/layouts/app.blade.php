@@ -10,6 +10,15 @@
     $description ??= __('CreatorSpot поврзува видеографи, фотографи, дизајнери, дигитални маркетери и едитори директно со клиенти низ Балканот.');
     $image ??= asset('images/shareImage.jpg');
     $pageTitle = $title ? "{$title} | CreatorSpot" : 'CreatorSpot — Where creators and clients meet';
+
+    // Livewire only auto-injects its JS (which bundles Alpine — see
+    // resources/js/app.js) when a <livewire:.../> component actually
+    // renders somewhere on the page. Pages with none (e.g. a guest
+    // viewing a creator profile, which has no Livewire component in its
+    // non-owner branch) silently never get Alpine, breaking every
+    // x-data/x-init driven embed (video players, Instagram/Facebook
+    // cards). Forcing injection here guarantees Alpine is always present.
+    \Livewire\Livewire::forceAssetInjection();
 @endphp
 
 <!DOCTYPE html>

@@ -90,7 +90,7 @@ class CreatorSearchTest extends TestCase
         ]);
         $creatorProfile = $this->onboardedCreator('Some Creator');
 
-        $response = $this->actingAs($client)->get("/creators/{$creatorProfile->id}");
+        $response = $this->actingAs($client)->get(route('creators.show', $creatorProfile));
 
         $response->assertSee('Покани на проект');
         $response->assertSee('Зачувај');
@@ -100,7 +100,7 @@ class CreatorSearchTest extends TestCase
     {
         $creatorProfile = $this->onboardedCreator('Self Creator');
 
-        $response = $this->actingAs($creatorProfile->user)->get("/creators/{$creatorProfile->id}");
+        $response = $this->actingAs($creatorProfile->user)->get(route('creators.show', $creatorProfile));
 
         $response->assertDontSee('Прати порака');
     }
@@ -113,8 +113,16 @@ class CreatorSearchTest extends TestCase
             ->assertOk()
             ->assertSee('Public Creator');
 
-        $this->get("/creators/{$creatorProfile->id}")
+        $this->get(route('creators.show', $creatorProfile))
             ->assertOk()
             ->assertSee('Public Creator');
+    }
+
+    public function test_old_numeric_creator_url_redirects_to_slug_url(): void
+    {
+        $creatorProfile = $this->onboardedCreator('Legacy Link Creator');
+
+        $this->get("/creators/{$creatorProfile->id}")
+            ->assertRedirect(route('creators.show', $creatorProfile));
     }
 }

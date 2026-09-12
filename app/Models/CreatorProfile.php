@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Str;
 
 class CreatorProfile extends Model
 {
     protected $fillable = [
         'user_id',
+        'slug',
         'headline',
         'bio',
         'hourly_rate',
@@ -43,6 +45,49 @@ class CreatorProfile extends Model
             'onboarding_completed_at' => 'datetime',
             'onboarding_skipped_at' => 'datetime',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (CreatorProfile $profile) {
+            if (! $profile->slug) {
+                $profile->slug = static::generateUniqueSlug($profile->user?->name ?? 'creator');
+            }
+        });
+    }
+
+    public static function generateUniqueSlug(string $name, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($name) ?: 'creator';
+        $slug = $base;
+        $suffix = 2;
+
+        while (
+            static::where('slug', $slug)
+                ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
+                ->exists()
+        ) {
+            $slug = "{$base}-{$suffix}";
+            $suffix++;
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Falls back to the numeric id for models created before slugs existed,
+     * so route() generation never produces a broken URL.
+     */
+    public function getRouteKey(): string
+    {
+        return $this->slug ?? (string) $this->id;
+    }
+
+    public function resolveRouteBinding($value, $field = null): ?self
+    {
+        return static::where('slug', $value)
+            ->when(ctype_digit((string) $value), fn ($query) => $query->orWhere('id', $value))
+            ->first();
     }
 
     public function user(): BelongsTo

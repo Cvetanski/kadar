@@ -21,8 +21,17 @@ class CreatorProfileController extends Controller
         ]);
     }
 
-    public function show(Request $request, CreatorProfile $creatorProfile): View
+    public function show(Request $request, string $creatorProfile): View|RedirectResponse
     {
+        $profile = CreatorProfile::where('slug', $creatorProfile)
+            ->when(ctype_digit($creatorProfile), fn ($query) => $query->orWhere('id', $creatorProfile))
+            ->firstOrFail();
+
+        if ($profile->slug && $profile->slug !== $creatorProfile) {
+            return redirect()->route('creators.show', $profile, 301);
+        }
+
+        $creatorProfile = $profile;
         $creatorProfile->load(['user', 'categories', 'skills', 'portfolioItems']);
 
         $user = $request->user();
