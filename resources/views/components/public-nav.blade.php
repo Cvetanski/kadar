@@ -63,6 +63,7 @@
       <a href="{{ route('welcome') }}#{{ \App\Support\AnchorSlugs::for('kategorii') }}">{{ __('Категории') }}</a>
       <a href="{{ route('welcome') }}#{{ \App\Support\AnchorSlugs::for('kreativci') }}">{{ __('Креативци') }}</a>
       <a href="{{ route('welcome') }}#{{ \App\Support\AnchorSlugs::for('kako') }}">{{ __('Како функционира') }}</a>
+      <a href="{{ route('pricing') }}">Pricing</a>
       {{-- "За нас" е привремено исклучено заедно со секцијата на landing page-от. --}}
     </div>
     <div class="nav-cta">
@@ -84,6 +85,7 @@
     <a href="{{ route('welcome') }}#{{ \App\Support\AnchorSlugs::for('kategorii') }}" onclick="closeMobileNav()">{{ __('Категории') }}</a>
     <a href="{{ route('welcome') }}#{{ \App\Support\AnchorSlugs::for('kreativci') }}" onclick="closeMobileNav()">{{ __('Креативци') }}</a>
     <a href="{{ route('welcome') }}#{{ \App\Support\AnchorSlugs::for('kako') }}" onclick="closeMobileNav()">{{ __('Како функционира') }}</a>
+    <a href="{{ route('pricing') }}" onclick="closeMobileNav()">Pricing</a>
     <div class="nav-mobile-actions">
       @auth
         <a href="{{ route('dashboard') }}" class="btn btn-primary">{{ __('Оди на контролна табла') }}</a>

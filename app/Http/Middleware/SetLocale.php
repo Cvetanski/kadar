@@ -18,7 +18,9 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
-        App::setLocale($this->resolveLocale($request));
+        // Повеќејазичност - исклучено привремено, само англиски за сега
+        // App::setLocale($this->resolveLocale($request));
+        App::setLocale('en');
 
         return $next($request);
     }

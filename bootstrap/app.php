@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EnsureCreatorOnboarded;
 use App\Http\Middleware\EnsureIsAdmin;
+use App\Http\Middleware\RequiresSubscription;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -21,6 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'onboarded' => EnsureCreatorOnboarded::class,
             'admin' => EnsureIsAdmin::class,
+            'subscribed' => RequiresSubscription::class,
+        ]);
+
+        // Paddle posts webhook events without a Laravel session/CSRF token.
+        $middleware->validateCsrfTokens(except: [
+            'webhooks/paddle',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

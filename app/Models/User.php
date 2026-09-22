@@ -32,6 +32,12 @@ class User extends Authenticatable
         'google_id',
         'role',
         'is_admin',
+        'is_legacy_free',
+        'subscribed_until',
+        'paddle_customer_id',
+        'paddle_subscription_id',
+        'paddle_status',
+        'paddle_price_id',
         'locale',
         'phone',
         'avatar_url',
@@ -62,9 +68,24 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'is_legacy_free' => 'boolean',
+            'subscribed_until' => 'datetime',
             'email_notifications_enabled' => 'boolean',
             'video_intro_dismissed' => 'boolean',
         ];
+    }
+
+    /**
+     * Legacy (pre-paywall) accounts and admins always pass; everyone else
+     * needs a currently-active paid subscription. subscribed_until stays
+     * null until real Paddle billing is wired up, so right now this is
+     * true only for legacy/admin accounts.
+     */
+    public function hasActiveSubscription(): bool
+    {
+        return $this->is_legacy_free
+            || $this->is_admin
+            || ($this->subscribed_until && $this->subscribed_until->isFuture());
     }
 
     private const AVATAR_GRADIENTS = [

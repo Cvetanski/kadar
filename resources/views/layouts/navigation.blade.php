@@ -50,6 +50,10 @@
                         {{ __('Пораки') }}
                         <livewire:unread-badge wire:key="unread-badge-nav-link" class="ms-1" />
                     </x-nav-link>
+
+                    <x-nav-link :href="route('pricing')" :active="request()->routeIs('pricing')">
+                        Pricing
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -90,6 +94,10 @@
 
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Поставки') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('billing')">
+                            Billing
                         </x-dropdown-link>
 
                         <x-dropdown-link :href="route('help')">
@@ -163,6 +171,10 @@
                 {{ __('Пораки') }} <livewire:unread-badge wire:key="unread-badge-mobile" class="ms-1" />
             </x-responsive-nav-link>
 
+            <x-responsive-nav-link :href="route('pricing')" :active="request()->routeIs('pricing')">
+                Pricing
+            </x-responsive-nav-link>
+
             <div class="px-4 mt-3">
                 <x-language-switcher short />
             </div>
@@ -191,6 +203,10 @@
 
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Поставки') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('billing')">
+                    Billing
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('help')">

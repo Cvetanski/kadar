@@ -160,14 +160,14 @@
       @enderror
 
       <label for="name">{{ __('Име и презиме или username') }}</label>
-      <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Марија Стојановска"
+      <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Jane Doe"
         class="{{ $errors->get('name') ? 'has-error' : '' }}" required autofocus autocomplete="name">
       @error('name')
         <div class="field-error">{{ $message }}</div>
       @enderror
 
       <label for="email">{{ __('Е-пошта') }}</label>
-      <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="име@пример.мк"
+      <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="name@example.com"
         class="{{ $errors->get('email') ? 'has-error' : '' }}" required autocomplete="username">
       @error('email')
         <div class="field-error">{{ $message }}</div>

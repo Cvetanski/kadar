@@ -16,6 +16,7 @@ use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MeetingRequestController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\PaddleWebhookController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectInvitationController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SavedProjectController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,8 +44,20 @@ Route::post('/contact', [ContactController::class, 'store'])
 Route::get('/creators', [CreatorProfileController::class, 'index'])->name('creators.index');
 Route::get('/creators/{creatorProfile}', [CreatorProfileController::class, 'show'])->name('creators.show');
 
+Route::get('/pricing', [SubscriptionController::class, 'pricing'])->name('pricing');
+Route::get('/checkout/{plan}', [SubscriptionController::class, 'checkout'])
+    ->middleware('auth')->name('checkout.show');
+Route::get('/subscribe', [SubscriptionController::class, 'upgrade'])
+    ->middleware('auth')->name('subscription.upgrade');
+Route::get('/billing', [SubscriptionController::class, 'billing'])
+    ->middleware('auth')->name('billing');
+Route::post('/billing/cancel', [SubscriptionController::class, 'cancel'])
+    ->middleware('auth')->name('billing.cancel');
+
+Route::post('/webhooks/paddle', [PaddleWebhookController::class, 'handle'])->name('webhooks.paddle');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified', 'onboarded'])->name('dashboard');
+    ->middleware(['auth', 'verified', 'onboarded', 'subscribed'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -60,7 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/welcome', [ClientWelcomeController::class, 'index'])->name('client-welcome');
     Route::post('/welcome', [ClientWelcomeController::class, 'store'])->name('client-welcome.store');
 
-    Route::get('/browse', [BrowseController::class, 'index'])->name('projects.browse');
+    Route::get('/browse', [BrowseController::class, 'index'])->middleware('subscribed')->name('projects.browse');
     Route::get('/saved-projects', [SavedProjectController::class, 'index'])->name('saved-projects.index');
 
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
@@ -89,9 +103,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/creators/{creatorProfile}/favorite', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
     Route::post('/creators/{creatorProfile}/invitations', [ProjectInvitationController::class, 'store'])->name('invitations.store');
 
-    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
-    Route::get('/messages/{conversation}', [MessageController::class, 'show'])->name('messages.show');
-    Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages', [MessageController::class, 'index'])->middleware('subscribed')->name('messages.index');
+    Route::get('/messages/{conversation}', [MessageController::class, 'show'])->middleware('subscribed')->name('messages.show');
+    Route::post('/messages/{conversation}', [MessageController::class, 'store'])->middleware('subscribed')->name('messages.store');
 
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 

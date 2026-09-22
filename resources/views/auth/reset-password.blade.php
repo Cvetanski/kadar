@@ -93,7 +93,7 @@
       <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
       <label for="email">{{ __('Е-пошта') }}</label>
-      <input type="email" id="email" name="email" value="{{ old('email', $request->email) }}" placeholder="име@пример.мк"
+      <input type="email" id="email" name="email" value="{{ old('email', $request->email) }}" placeholder="name@example.com"
         class="{{ $errors->get('email') ? 'has-error' : '' }}" required autofocus autocomplete="username">
       @error('email')
         <div class="field-error">{{ $message }}</div>

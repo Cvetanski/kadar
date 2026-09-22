@@ -46,4 +46,30 @@ return [
         'model' => env('ANTHROPIC_MODEL', 'claude-haiku-4-5-20251001'),
     ],
 
+    'paddle' => [
+        'api_key' => env('PADDLE_API_KEY'),
+        'client_side_token' => env('PADDLE_CLIENT_SIDE_TOKEN'),
+        'webhook_secret' => env('PADDLE_WEBHOOK_SECRET'),
+        'sandbox' => env('PADDLE_SANDBOX', false),
+
+        // Live and sandbox are separate Paddle environments with their own
+        // catalogs, so each needs its own set of price IDs — not secret,
+        // just identifiers. Which map is used is controlled by 'sandbox'
+        // above (PADDLE_SANDBOX), so the same code works in both.
+        'prices' => [
+            'creator_monthly' => 'pri_01m34b90f10mw2jd1r23vbnrcx',
+            'creator_annual' => 'pri_01m34b9qqevvexw688agfm8cxf',
+            'client_monthly' => 'pri_01m34b5dy1207mxa96ra27dj39',
+            'client_annual' => 'pri_01m34b74taf5x4gq0q8gv1r2bk',
+        ],
+
+        // Fill these in once the matching sandbox products/prices exist.
+        'sandbox_prices' => [
+            'creator_monthly' => env('PADDLE_SANDBOX_PRICE_CREATOR_MONTHLY'),
+            'creator_annual' => env('PADDLE_SANDBOX_PRICE_CREATOR_ANNUAL'),
+            'client_monthly' => env('PADDLE_SANDBOX_PRICE_CLIENT_MONTHLY'),
+            'client_annual' => env('PADDLE_SANDBOX_PRICE_CLIENT_ANNUAL'),
+        ],
+    ],
+
 ];

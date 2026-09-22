@@ -134,7 +134,7 @@
       @csrf
 
       <label for="email">{{ __('Е-пошта') }}</label>
-      <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="име@пример.мк"
+      <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="name@example.com"
         class="{{ $errors->get('email') ? 'has-error' : '' }}" required autofocus autocomplete="username">
       @error('email')
         <div class="field-error">{{ $message }}</div>
