@@ -319,6 +319,18 @@
                                 </div>
                             </form>
                         </div>
+                    @elseif ($needsOnboarding && $project->status === 'open')
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">Finish setting up your profile to apply</h3>
+                            <p class="text-sm text-gray-600 mb-4">Clients want to see who they're hiring. Complete your profile to start submitting proposals.</p>
+                            <a href="{{ route('onboarding') }}" class="inline-block text-sm font-bold text-white rounded-lg px-4 py-2 transition" style="background:linear-gradient(135deg,#2D82E8,#0958B5);">Complete your profile →</a>
+                        </div>
+                    @elseif ($dailyLimitReached && $project->status === 'open')
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">You've reached today's free proposal limit</h3>
+                            <p class="text-sm text-gray-600 mb-4">Free accounts can send up to {{ \App\Models\CreatorProfile::FREE_DAILY_PROPOSAL_LIMIT }} proposals per day. Your limit resets at midnight, or upgrade to Pro for unlimited proposals.</p>
+                            <a href="{{ route('pricing') }}" class="inline-block text-sm font-bold text-white rounded-lg px-4 py-2 transition" style="background:linear-gradient(135deg,#2D82E8,#0958B5);">Upgrade to Pro →</a>
+                        </div>
                     @elseif ($proposalLimitReached && $project->status === 'open')
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                             <h3 class="text-lg font-medium text-gray-900 mb-2">This project isn't accepting new proposals right now</h3>

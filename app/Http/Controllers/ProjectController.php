@@ -184,6 +184,8 @@ class ProjectController extends Controller
         $proposals = null;
         $existingProposal = null;
         $canApply = false;
+        $needsOnboarding = false;
+        $dailyLimitReached = false;
         $proposalLimitReached = $project->hasReachedFreeProposalLimit();
 
         if ($isOwner) {
@@ -196,10 +198,14 @@ class ProjectController extends Controller
                 ->where('creator_profile_id', $user->creatorProfile->id)
                 ->first();
 
+            $needsOnboarding = $user->creatorProfile->onboarding_completed_at === null;
+            $dailyLimitReached = $user->creatorProfile->hasReachedDailyProposalLimit();
+
             $canApply = $project->status === 'open'
                 && ! $existingProposal
                 && ! $proposalLimitReached
-                && $user->creatorProfile->onboarding_completed_at !== null;
+                && ! $needsOnboarding
+                && ! $dailyLimitReached;
         }
 
         $contract = $project->contracts()->whereIn('status', ['active', 'completed'])->latest()->first();
@@ -229,6 +235,8 @@ class ProjectController extends Controller
             'existingProposal' => $existingProposal,
             'canApply' => $canApply,
             'proposalLimitReached' => $proposalLimitReached,
+            'needsOnboarding' => $needsOnboarding,
+            'dailyLimitReached' => $dailyLimitReached,
             'contract' => $isContractParty ? $contract : null,
             'myReview' => $myReview,
         ]);
