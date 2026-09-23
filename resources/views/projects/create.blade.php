@@ -1,9 +1,3 @@
-@php
-    $citiesByCountry = $countries->mapWithKeys(fn ($country) => [
-        $country->id => $country->cities->map(fn ($city) => ['id' => $city->id, 'name' => $city->name])->values(),
-    ]);
-@endphp
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Креирај Оглас') }}</h2>
@@ -17,9 +11,6 @@
                         remoteOk: {{ old('remote_ok') ? 'true' : 'false' }},
                         budgetNegotiable: {{ old('budget_negotiable') ? 'true' : 'false' }},
                         countryId: {{ \Illuminate\Support\Js::from(old('country_id') !== null && old('country_id') !== '' ? (int) old('country_id') : null) }},
-                        cityId: {{ \Illuminate\Support\Js::from(old('city_id') !== null && old('city_id') !== '' ? (int) old('city_id') : null) }},
-                        citiesByCountry: {{ \Illuminate\Support\Js::from($citiesByCountry) }},
-                        get cities() { return this.countryId ? (this.citiesByCountry[this.countryId] || []) : []; },
                         categoryIds: {{ \Illuminate\Support\Js::from(array_map('strval', old('category_ids', []))) }},
                         improving: false,
                         improveError: '',
@@ -156,30 +147,16 @@
                         </label>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3" x-show="! remoteOk">
-                        <div>
-                            <x-input-label for="country_id" :value="__('Земја')" />
-                            <select id="country_id" name="country_id" x-model.number="countryId" @change="cityId = null"
-                                class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
-                                <option value="">{{ __('Избери земја') }}</option>
-                                @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>{{ $country->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-input-error :messages="$errors->get('country_id')" class="mt-2" />
-                        </div>
-
-                        <div x-show="cities.length > 0">
-                            <x-input-label for="city_id" :value="__('Град (опционо)')" />
-                            <select id="city_id" name="city_id" x-model.number="cityId"
-                                class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
-                                <option value="">{{ __('Избери град') }}</option>
-                                <template x-for="city in cities" :key="city.id">
-                                    <option :value="city.id" x-text="city.name"></option>
-                                </template>
-                            </select>
-                            <x-input-error :messages="$errors->get('city_id')" class="mt-2" />
-                        </div>
+                    <div class="mt-3" x-show="! remoteOk">
+                        <x-input-label for="country_id" :value="__('Земја')" />
+                        <select id="country_id" name="country_id" x-model.number="countryId"
+                            class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
+                            <option value="">{{ __('Избери земја') }}</option>
+                            @foreach ($countries as $country)
+                                <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>{{ $country->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error :messages="$errors->get('country_id')" class="mt-2" />
                     </div>
 
                     <div class="flex justify-end mt-6">

@@ -136,7 +136,7 @@ class AdminController extends Controller
                 ->filter(fn ($skills) => $skills->isNotEmpty()),
             'selectedCategoryIds' => $creatorProfile->categories->pluck('id')->all(),
             'selectedSkillIds' => $creatorProfile->skills->pluck('id')->all(),
-            'countries' => Country::with('cities')->orderBy('id')->get(),
+            'countries' => Country::orderedByName(),
         ]);
     }
 
@@ -163,7 +163,6 @@ class AdminController extends Controller
             'facebook_url' => ['nullable', 'url', 'max:255'],
             'website_url' => ['nullable', 'url', 'max:255'],
             'country_id' => ['nullable', 'exists:countries,id'],
-            'city_id' => ['nullable', 'exists:cities,id'],
             'onboarding_completed' => ['boolean'],
             'verified' => ['boolean'],
         ], [
@@ -194,7 +193,6 @@ class AdminController extends Controller
         $user->update([
             'name' => $validated['name'],
             'country_id' => $validated['country_id'] ?? null,
-            'city_id' => $validated['city_id'] ?? null,
         ]);
 
         if ($request->hasFile('avatar')) {

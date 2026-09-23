@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Category;
-use App\Models\City;
 use App\Models\Country;
 use App\Models\CreatorProfile;
 use App\Models\Project;
@@ -37,9 +36,6 @@ new class extends Component
     public ?int $countryId = null;
 
     #[Url(history: true)]
-    public ?int $cityId = null;
-
-    #[Url(history: true)]
     public ?string $budgetMin = null;
 
     #[Url(history: true)]
@@ -69,12 +65,6 @@ new class extends Component
 
     public function updatingCountryId(): void
     {
-        $this->cityId = null;
-        $this->resetPage();
-    }
-
-    public function updatingCityId(): void
-    {
         $this->resetPage();
     }
 
@@ -95,7 +85,7 @@ new class extends Component
 
     public function resetFilters(): void
     {
-        $this->reset(['search', 'categoryIds', 'skillIds', 'countryId', 'cityId', 'budgetMin', 'budgetMax', 'remoteOnly']);
+        $this->reset(['search', 'categoryIds', 'skillIds', 'countryId', 'budgetMin', 'budgetMax', 'remoteOnly']);
         $this->resetPage();
     }
 
@@ -160,17 +150,7 @@ new class extends Component
     #[Computed]
     public function countries()
     {
-        return Country::orderBy('id')->get();
-    }
-
-    #[Computed]
-    public function cities()
-    {
-        if (! $this->countryId) {
-            return collect();
-        }
-
-        return City::where('country_id', $this->countryId)->get()->sortBy('name');
+        return Country::orderedByName();
     }
 
     #[Computed]
@@ -194,10 +174,6 @@ new class extends Component
 
         if ($this->countryId) {
             $query->where('projects.country_id', $this->countryId);
-        }
-
-        if ($this->cityId) {
-            $query->where('projects.city_id', $this->cityId);
         }
 
         if ($this->budgetMin !== null && $this->budgetMin !== '') {
@@ -358,7 +334,7 @@ new class extends Component
         <aside class="br-filters {{ $showFilters ? 'is-open' : '' }}">
             <div class="br-filters-head">
                 <span>{{ __('Филтри') }}</span>
-                @if ($search !== '' || $categoryIds !== [] || $skillIds !== [] || $countryId || $cityId || $budgetMin || $budgetMax || $remoteOnly)
+                @if ($search !== '' || $categoryIds !== [] || $skillIds !== [] || $countryId || $budgetMin || $budgetMax || $remoteOnly)
                     <button type="button" class="br-reset" wire:click="resetFilters">{{ __('Ресетирај') }}</button>
                 @endif
             </div>
@@ -372,18 +348,6 @@ new class extends Component
                     @endforeach
                 </select>
             </div>
-
-            @if ($countryId)
-                <div class="br-filter-group">
-                    <label>{{ __('Град') }}</label>
-                    <select wire:model.live="cityId">
-                        <option value="">{{ __('Сите градови') }}</option>
-                        @foreach ($this->cities as $city)
-                            <option value="{{ $city->id }}">{{ $city->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            @endif
 
             <div class="br-filter-group">
                 <label>{{ __('Буџет (EUR)') }}</label>

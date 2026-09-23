@@ -1,9 +1,3 @@
-@php
-    $citiesByCountry = $countries->mapWithKeys(fn ($country) => [
-        $country->id => $country->cities->map(fn ($city) => ['id' => $city->id, 'name' => $city->name])->values(),
-    ]);
-@endphp
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Уреди проект') }}</h2>
@@ -17,9 +11,6 @@
                         remoteOk: {{ old('remote_ok', $project->remote_ok) ? 'true' : 'false' }},
                         budgetNegotiable: {{ old('budget_negotiable', (! $project->budget_min && ! $project->budget_max) ? '1' : '') ? 'true' : 'false' }},
                         countryId: {{ \Illuminate\Support\Js::from(old('country_id') !== null && old('country_id') !== '' ? (int) old('country_id') : ($project->country_id ?? null)) }},
-                        cityId: {{ \Illuminate\Support\Js::from(old('city_id') !== null && old('city_id') !== '' ? (int) old('city_id') : ($project->city_id ?? null)) }},
-                        citiesByCountry: {{ \Illuminate\Support\Js::from($citiesByCountry) }},
-                        get cities() { return this.countryId ? (this.citiesByCountry[this.countryId] || []) : []; },
                         categoryIds: {{ \Illuminate\Support\Js::from(array_map('strval', old('category_ids', $selectedCategoryIds))) }},
                         improving: false,
                         improveError: '',
@@ -161,7 +152,7 @@
 
                     <div class="mt-4" x-show="! remoteOk">
                         <x-input-label for="country_id" :value="__('Земја')" />
-                        <select id="country_id" name="country_id" x-model.number="countryId" @change="cityId = null"
+                        <select id="country_id" name="country_id" x-model.number="countryId"
                             class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
                             <option value="">{{ __('Избери земја') }}</option>
                             @foreach ($countries as $country)
@@ -169,18 +160,6 @@
                             @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('country_id')" class="mt-2" />
-                    </div>
-
-                    <div class="mt-4" x-show="! remoteOk && cities.length > 0">
-                        <x-input-label for="city_id" :value="__('Град (опционо)')" />
-                        <select id="city_id" name="city_id" x-model.number="cityId"
-                            class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
-                            <option value="">{{ __('Избери град') }}</option>
-                            <template x-for="city in cities" :key="city.id">
-                                <option :value="city.id" x-text="city.name" :selected="city.id === cityId"></option>
-                            </template>
-                        </select>
-                        <x-input-error :messages="$errors->get('city_id')" class="mt-2" />
                     </div>
 
                     <div class="flex justify-between items-center mt-6">

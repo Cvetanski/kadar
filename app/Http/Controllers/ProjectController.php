@@ -42,7 +42,7 @@ class ProjectController extends Controller
 
         return view('projects.create', [
             'categories' => Category::orderBy('slug')->get(),
-            'countries' => Country::with('cities')->get(),
+            'countries' => Country::orderedByName(),
             'skillsByCategory' => Category::orderBy('id')->with('skills')->get()
                 ->mapWithKeys(fn ($category) => [$category->id => $category->skills])
                 ->filter(fn ($skills) => $skills->isNotEmpty()),
@@ -67,7 +67,6 @@ class ProjectController extends Controller
             'budget_max' => $budgetNegotiable ? null : ($validated['budget_max'] ?? null),
             'deadline' => $validated['deadline'] ?? null,
             'country_id' => $validated['country_id'] ?? null,
-            'city_id' => $validated['city_id'] ?? null,
             'remote_ok' => $request->boolean('remote_ok'),
             'status' => 'open',
         ]);
@@ -113,7 +112,7 @@ class ProjectController extends Controller
         return view('projects.edit', [
             'project' => $project,
             'categories' => Category::orderBy('slug')->get(),
-            'countries' => Country::with('cities')->get(),
+            'countries' => Country::orderedByName(),
             'skillsByCategory' => Category::orderBy('id')->with('skills')->get()
                 ->mapWithKeys(fn ($category) => [$category->id => $category->skills])
                 ->filter(fn ($skills) => $skills->isNotEmpty()),
@@ -135,7 +134,6 @@ class ProjectController extends Controller
             'budget_max' => $budgetNegotiable ? null : ($validated['budget_max'] ?? null),
             'deadline' => $validated['deadline'] ?? null,
             'country_id' => $validated['country_id'] ?? null,
-            'city_id' => $validated['city_id'] ?? null,
             'remote_ok' => $request->boolean('remote_ok'),
         ]);
 

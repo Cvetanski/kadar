@@ -105,19 +105,6 @@
         <input type="file" name="avatar" id="avatar-input" accept="image/*" style="display:none" onchange="previewAvatar(event)">
         @error('avatar') <div class="field-error" style="text-align:center;">{{ $message }}</div> @enderror
 
-        <label for="city_id">{{ __('Град (опционално)') }}</label>
-        <select id="city_id" name="city_id">
-            <option value="">{{ __('Избери град') }}</option>
-            @foreach ($countries as $country)
-                <optgroup label="{{ $country->name }}">
-                    @foreach ($country->cities as $city)
-                        <option value="{{ $city->id }}">{{ $city->name }}</option>
-                    @endforeach
-                </optgroup>
-            @endforeach
-        </select>
-        @error('city_id') <div class="field-error">{{ $message }}</div> @enderror
-
         <button type="submit" class="btn-submit">{{ __('Продолжи кон почетна →') }}</button>
     </form>
     <a href="{{ route('dashboard') }}" class="skip-link">{{ __('Прескокни за сега') }}</a>

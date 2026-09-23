@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Category;
-use App\Models\City;
 use App\Models\Country;
 use App\Models\Skill;
 use App\Services\AvatarUploadService;
@@ -33,8 +32,6 @@ new class extends Component
 
     // Step 3 — location
     public ?int $countryId = null;
-
-    public ?int $cityId = null;
 
     public bool $remoteOk = false;
 
@@ -128,17 +125,7 @@ new class extends Component
     #[Computed]
     public function countries()
     {
-        return Country::orderBy('id')->get();
-    }
-
-    #[Computed]
-    public function cities()
-    {
-        if (! $this->countryId) {
-            return collect();
-        }
-
-        return City::where('country_id', $this->countryId)->orderBy('id')->get();
+        return Country::orderedByName();
     }
 
     public function categoryDescription(string $slug): string
@@ -173,11 +160,6 @@ new class extends Component
         } else {
             $this->skillIds[] = $skillId;
         }
-    }
-
-    public function updatedCountryId(): void
-    {
-        $this->cityId = null;
     }
 
     public function updatedAvatarUpload(): void
@@ -236,7 +218,6 @@ new class extends Component
             ],
             3 => [
                 'countryId' => ['required', 'exists:countries,id'],
-                'cityId' => ['nullable', 'exists:cities,id'],
             ],
             4 => [
                 'avatarUpload' => ['nullable', 'image', 'max:2048'],
@@ -271,7 +252,6 @@ new class extends Component
         return [
             'countryId.required' => __('Избери земја.'),
             'countryId.exists' => __('Избери валидна земја.'),
-            'cityId.exists' => __('Избери валиден град.'),
             'headline.required' => __('Внеси краток опис.'),
             'headline.max' => __('Краткиот опис може да има највеќе 100 карактери.'),
             'skillIds.min' => __('Избери барем 3 вештини вкупно.'),
@@ -336,7 +316,6 @@ new class extends Component
 
             $userUpdate = [
                 'country_id' => $this->countryId,
-                'city_id' => $this->remoteOk ? null : $this->cityId,
             ];
 
             if ($this->avatarUpload) {
@@ -461,15 +440,6 @@ new class extends Component
                 @endforeach
             </select>
             @error('countryId') <div class="field-error">{{ $message }}</div> @enderror
-
-            <label for="city">{{ __('Град') }}</label>
-            <select id="city" wire:model="cityId">
-                <option value="">{{ __('Избери град') }}</option>
-                @foreach ($this->cities as $city)
-                    <option value="{{ $city->id }}">{{ $city->name }}</option>
-                @endforeach
-            </select>
-            @error('cityId') <div class="field-error">{{ $message }}</div> @enderror
 
             <div class="checkbox-row">
                 <input type="checkbox" id="remote" wire:model="remoteOk">
@@ -598,7 +568,6 @@ new class extends Component
             <div class="review-block">
                 <div class="review-label">{{ __('Локација') }}</div>
                 <div class="review-value">
-                    {{ optional($this->cities->firstWhere('id', $cityId))->name ?? '—' }},
                     {{ optional($this->countries->firstWhere('id', $countryId))->name ?? '—' }}
                     @if ($remoteOk) · {{ __('Достапен за далечина') }} @endif
                 </div>

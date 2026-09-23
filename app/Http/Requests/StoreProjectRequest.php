@@ -35,7 +35,6 @@ class StoreProjectRequest extends FormRequest
             'budget_max' => ['nullable', 'numeric', 'min:0', 'gte:budget_min'],
             'deadline' => ['nullable', 'date', 'after_or_equal:today'],
             'country_id' => ['nullable', 'exists:countries,id', 'required_unless:remote_ok,1'],
-            'city_id' => ['nullable', 'exists:cities,id'],
             'remote_ok' => ['nullable', 'boolean'],
         ];
     }

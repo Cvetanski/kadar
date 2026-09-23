@@ -1,9 +1,3 @@
-@php
-    $citiesByCountry = $countries->mapWithKeys(fn ($country) => [
-        $country->id => $country->cities->map(fn ($city) => ['id' => $city->id, 'name' => $city->name])->values(),
-    ]);
-@endphp
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -25,9 +19,6 @@
                 <form method="POST" action="{{ route('admin.creators.update', $creatorUser) }}" enctype="multipart/form-data"
                     x-data="{
                         countryId: {{ \Illuminate\Support\Js::from(old('country_id') !== null && old('country_id') !== '' ? (int) old('country_id') : ($creatorUser->country_id ?? null)) }},
-                        cityId: {{ \Illuminate\Support\Js::from(old('city_id') !== null && old('city_id') !== '' ? (int) old('city_id') : ($creatorUser->city_id ?? null)) }},
-                        citiesByCountry: {{ \Illuminate\Support\Js::from($citiesByCountry) }},
-                        get cities() { return this.countryId ? (this.citiesByCountry[this.countryId] || []) : []; },
                     }"
                     class="kf-form">
                     @csrf
@@ -116,7 +107,7 @@
                         <div class="kf-two-col">
                             <div class="kf-field" style="margin-bottom:0;">
                                 <label for="country_id">{{ __('Земја') }}</label>
-                                <select id="country_id" name="country_id" x-model.number="countryId" @change="cityId = null"
+                                <select id="country_id" name="country_id" x-model.number="countryId"
                                     style="width:100%;padding:11px 14px;border:1px solid #E8EBF0;border-radius:10px;font-family:'Inter',sans-serif;font-size:14.5px;background:#F6F8FB;">
                                     <option value="">{{ __('Избери земја') }}</option>
                                     @foreach ($countries as $country)
@@ -124,18 +115,6 @@
                                     @endforeach
                                 </select>
                                 <x-input-error :messages="$errors->get('country_id')" class="mt-2" />
-                            </div>
-
-                            <div class="kf-field" style="margin-bottom:0;" x-show="cities.length > 0">
-                                <label for="city_id">{{ __('Град') }}</label>
-                                <select id="city_id" name="city_id" x-model.number="cityId"
-                                    style="width:100%;padding:11px 14px;border:1px solid #E8EBF0;border-radius:10px;font-family:'Inter',sans-serif;font-size:14.5px;background:#F6F8FB;">
-                                    <option value="">{{ __('Избери град') }}</option>
-                                    <template x-for="city in cities" :key="city.id">
-                                        <option :value="city.id" x-text="city.name"></option>
-                                    </template>
-                                </select>
-                                <x-input-error :messages="$errors->get('city_id')" class="mt-2" />
                             </div>
                         </div>
                     </div>
