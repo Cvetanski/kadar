@@ -15,4 +15,9 @@ class LegalController extends Controller
     {
         return view('legal.privacy');
     }
+
+    public function refundPolicy(): View
+    {
+        return view('legal.refund-policy');
+    }
 }

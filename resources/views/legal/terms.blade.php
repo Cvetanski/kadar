@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ __('Услови за користење') }} — CreatorSpot</title>
-<meta name="description" content="{{ __('Условите за користење на CreatorSpot — платформата што поврзува клиенти со независни креативци низ Балканот.') }}">
+<title>Terms of Use — CreatorSpot</title>
+<meta name="description" content="CreatorSpot's Terms of Use — the platform that connects clients with independent creatives worldwide.">
 <link rel="canonical" href="{{ url()->current() }}">
-<meta property="og:title" content="{{ __('Услови за користење') }} — CreatorSpot">
-<meta property="og:description" content="{{ __('Условите за користење на CreatorSpot — платформата што поврзува клиенти со независни креативци низ Балканот.') }}">
+<meta property="og:title" content="Terms of Use — CreatorSpot">
+<meta property="og:description" content="CreatorSpot's Terms of Use — the platform that connects clients with independent creatives worldwide.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url()->current() }}">
 <meta property="og:site_name" content="CreatorSpot">
-<meta property="og:locale" content="{{ \App\Support\LocaleOptions::ogLocale(app()->getLocale()) }}">
 <meta property="og:image" content="{{ asset('images/shareImage.jpg') }}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ __('Услови за користење') }} — CreatorSpot">
-<meta name="twitter:description" content="{{ __('Условите за користење на CreatorSpot — платформата што поврзува клиенти со независни креативци низ Балканот.') }}">
+<meta name="twitter:title" content="Terms of Use — CreatorSpot">
+<meta name="twitter:description" content="CreatorSpot's Terms of Use — the platform that connects clients with independent creatives worldwide.">
 <meta name="twitter:image" content="{{ asset('images/shareImage.jpg') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -72,57 +71,57 @@
 
 <div class="wrap">
   <div class="doc">
-    <a href="{{ route('welcome') }}" class="back">← {{ __('Назад кон почетна') }}</a>
+    <a href="{{ route('welcome') }}" class="back">← Back to home</a>
 
-    <h1>{{ __('Услови за користење') }}</h1>
-    <p class="updated">{{ __('Последно ажурирано:') }} 04.08.2026</p>
+    <h1>Terms of Use</h1>
+    <p class="updated">Last updated: 23.09.2026</p>
 
-    <h2>1. {{ __('Прифаќање на условите') }}</h2>
-    <p>{{ __('Со креирање профил или користење на CreatorSpot (платформата), се согласуваш со овие Услови за користење. Ако не се согласуваш, немој да ја користиш платформата.') }}</p>
+    <h2>1. Acceptance of Terms</h2>
+    <p>By creating an account or using CreatorSpot (the "platform"), you agree to these Terms of Use. If you don't agree, please don't use the platform.</p>
 
-    <h2>2. {{ __('Што е CreatorSpot') }}</h2>
-    <p>{{ __('CreatorSpot е онлајн платформа што поврзува клиенти со независни креативци (видеографи, фотографи, дизајнери, дигитални маркетери и едитори) низ Балканот. Платформата ги олеснува пронаоѓањето, договарањето и комуникацијата меѓу страните, но не е страна во договорот што клиентот и креативецот го склучуваат меѓу себе.') }}</p>
+    <h2>2. What CreatorSpot Is</h2>
+    <p>CreatorSpot is an online platform that connects clients with independent creatives (videographers, photographers, designers, digital marketers, and editors) worldwide. The platform makes it easier to find, negotiate with, and communicate with each other, but is not a party to any agreement the client and creative enter into between themselves.</p>
 
-    <h2>3. {{ __('Регистрација и сметка') }}</h2>
-    <p>{{ __('При регистрација си должен да дадеш точни и целосни податоци. Одговорен си за чувањето на пристапот до твојата сметка и за сите активности што се случуваат преку неа. Регистрацијата преку Google подлежи и на условите на Google.') }}</p>
+    <h2>3. Registration and Account</h2>
+    <p>When you register, you must provide accurate and complete information. You're responsible for keeping access to your account secure and for all activity that happens through it. Registering via Google is also subject to Google's own terms.</p>
 
-    <h2>4. {{ __('Обврски на клиентите') }}</h2>
+    <h2>4. Client Obligations</h2>
     <ul>
-      <li>{{ __('Да ги опишеш проектите точно и целосно.') }}</li>
-      <li>{{ __('Да комуницираш чесно и навремено со креативците.') }}</li>
-      <li>{{ __('Да ги почитуваш договорените услови (буџет, рок, испорака) со креативецот.') }}</li>
+      <li>Describe your projects accurately and completely.</li>
+      <li>Communicate honestly and promptly with creatives.</li>
+      <li>Honor the terms you agree on (budget, deadline, delivery) with the creative.</li>
     </ul>
 
-    <h2>5. {{ __('Обврски на креативците') }}</h2>
+    <h2>5. Creator Obligations</h2>
     <ul>
-      <li>{{ __('Да прикажуваш точно портфолио и вештини во профилот.') }}</li>
-      <li>{{ __('Да ги испорачуваш договорените услуги во договорениот рок и квалитет.') }}</li>
-      <li>{{ __('Да не објавуваш содржина што ги повредува правата на трети лица.') }}</li>
+      <li>Present an accurate portfolio and skill set on your profile.</li>
+      <li>Deliver agreed services on time and at the agreed quality.</li>
+      <li>Don't post content that infringes the rights of third parties.</li>
     </ul>
 
-    <h2>6. {{ __('Плаќања и договори') }}</h2>
-    <p>{{ __('Условите за плаќање (цена, динамика, начин на исплата) за проекти ги договараат клиентот и креативецот директно меѓу себе — платформата не обработува такви плаќања. Основните функции на платформата (пребарување, портфолио, огласи, пораки) се бесплатни, со ограничувања на одредени дејства (пр. број на понуди дневно за креативци, број на објавени огласи за клиенти). Опционална Pro претплата, наплатена преку нашиот платежен партнер Paddle.com (кој дејствува како Merchant of Record), ги отстранува тие ограничувања и додава дополнителни функции. Секоја страна презема сопствен ризик при склучување договор надвор од платформата.') }}</p>
+    <h2>6. Payments and Agreements</h2>
+    <p>Payment terms (price, schedule, payment method) for projects are agreed directly between the client and the creative — the platform does not process those payments. The platform's core features (search, portfolios, listings, messaging) are free, with limits on certain actions (e.g. number of proposals per day for creators, number of published projects for clients). An optional Pro subscription, billed through our payment partner Paddle.com (which acts as Merchant of Record), removes those limits and adds extra features. Each party bears its own risk when entering into an agreement outside the platform.</p>
 
-    <h2>7. {{ __('Рефундирање') }}</h2>
-    <p>{{ __('Претплатите се наплатуваат однапред за секој период на наплата (месечно или годишно) и автоматски се обновуваат додека не ги откажеш. Откажувањето спречува идни обновувања, но не резултира со автоматско рефундирање на веќе платениот период — задржуваш целосен пристап до крајот на тој период. Ако сметаш дека си наплатен погрешно (техничка грешка, двојна наплата), контактирај нè преку контакт формата во рок од 14 дена од наплатата и ќе го разгледаме секој случај поединечно.') }}</p>
+    <h2>7. Refunds</h2>
+    <p>Pro subscriptions are billed in advance for each billing period (monthly or annual) and renew automatically until cancelled. Cancelling prevents future renewals but does not result in an automatic refund for the period already paid for — you keep full access until the end of that period. See our <a href="{{ route('legal.refund') }}">Refund Policy</a> for full details, including how to request a refund for a billing error.</p>
 
-    <h2>8. {{ __('Верификација на профили') }}</h2>
-    <p>{{ __('Ознаката „Верифициран" значи дека администраторски тим рачно го прегледал профилот (завршен onboarding и поставена профилна слика). Верификацијата е сигнал на доверба, не гаранција за квалитетот на извршената работа.') }}</p>
+    <h2>8. Profile Verification</h2>
+    <p>The "Verified" badge means our admin team has manually reviewed the profile (completed onboarding and a profile photo set). Verification is a trust signal, not a guarantee of the quality of work performed.</p>
 
-    <h2>9. {{ __('Забранета употреба') }}</h2>
-    <p>{{ __('Забрането е користење на платформата за измама, вознемирување, објавување невистинити информации, заобиколување на платформата за да се избегнат нејзините правила, или каква било активност спротивна на законот.') }}</p>
+    <h2>9. Prohibited Use</h2>
+    <p>It is prohibited to use the platform for fraud, harassment, posting false information, circumventing the platform to avoid its rules, or any activity contrary to the law.</p>
 
-    <h2>10. {{ __('Ограничување на одговорност') }}</h2>
-    <p>{{ __('CreatorSpot ја обезбедува платформата „како што е" и не гарантира непрекинат или безгрешен пристап. Платформата не одговара за квалитетот на извршената работа, ниту за спорови меѓу клиенти и креативци настанати надвор од директната контрола на платформата.') }}</p>
+    <h2>10. Limitation of Liability</h2>
+    <p>CreatorSpot provides the platform "as is" and does not guarantee uninterrupted or error-free access. The platform is not responsible for the quality of work performed, nor for disputes between clients and creatives arising outside the platform's direct control.</p>
 
-    <h2>11. {{ __('Прекин на сметка') }}</h2>
-    <p>{{ __('Задржуваме право да суспендираме или избришеме сметка што ги прекршува овие услови, без претходна најава, доколку е потребно за заштита на другите корисници или платформата.') }}</p>
+    <h2>11. Account Termination</h2>
+    <p>We reserve the right to suspend or delete an account that violates these terms, without prior notice, if necessary to protect other users or the platform.</p>
 
-    <h2>12. {{ __('Измени на условите') }}</h2>
-    <p>{{ __('Можеме да ги ажурираме овие услови повремено. Продолженото користење на платформата по објавена измена значи дека ги прифаќаш новите услови.') }}</p>
+    <h2>12. Changes to These Terms</h2>
+    <p>We may update these terms from time to time. Continued use of the platform after a published change means you accept the new terms.</p>
 
-    <h2>13. {{ __('Контакт') }}</h2>
-    <p>{{ __('За прашања поврзани со овие услови, пиши ни преку') }} <a href="{{ route('contact.create') }}">{{ __('контакт формата') }}</a>.</p>
+    <h2>13. Contact</h2>
+    <p>For questions about these terms, reach out through our <a href="{{ route('contact.create') }}">contact form</a>.</p>
   </div>
 </div>
 

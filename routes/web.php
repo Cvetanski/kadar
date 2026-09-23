@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::get('/terms', [LegalController::class, 'terms'])->name('legal.terms');
 Route::get('/privacy', [LegalController::class, 'privacy'])->name('legal.privacy');
+Route::get('/refund-policy', [LegalController::class, 'refundPolicy'])->name('legal.refund');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');
 Route::post('/meeting-request', [MeetingRequestController::class, 'store'])
