@@ -9,6 +9,7 @@
             <div class="kf-wrap">
 
                 <livewire:video-intro-banner />
+                <livewire:plan-prompt />
 
                 <div class="kf-stats">
                     <div class="kf-stat kf-accent">

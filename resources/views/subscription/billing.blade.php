@@ -76,9 +76,10 @@
                 @else
                     <div class="bl-row">
                         <span class="bl-label">Plan</span>
-                        <span class="bl-value">No active subscription</span>
+                        <span class="bl-value">Free plan</span>
                     </div>
-                    <a href="{{ route('pricing') }}" class="bl-btn-primary">See plans</a>
+                    <p class="bl-note">You're on the Free plan. Upgrade to Pro to remove all limits.</p>
+                    <a href="{{ route('pricing') }}" class="bl-btn-primary">Upgrade Now →</a>
                 @endif
             </div>
         </div>

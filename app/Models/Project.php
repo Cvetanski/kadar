@@ -62,6 +62,22 @@ class Project extends Model
         return $this->hasMany(Proposal::class);
     }
 
+    /**
+     * Free-plan clients can only receive this many proposals per project;
+     * past that, creators can no longer apply until the client upgrades.
+     * Pro and legacy-free clients are unlimited.
+     */
+    public const FREE_PROPOSAL_LIMIT = 5;
+
+    public function hasReachedFreeProposalLimit(): bool
+    {
+        if ($this->client->hasActiveSubscription()) {
+            return false;
+        }
+
+        return $this->proposals()->count() >= self::FREE_PROPOSAL_LIMIT;
+    }
+
     public function contracts(): HasMany
     {
         return $this->hasMany(Contract::class);

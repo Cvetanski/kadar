@@ -176,7 +176,9 @@ new class extends Component
     #[Computed]
     public function projects()
     {
-        $query = Project::where('status', 'open')
+        $query = Project::where('projects.status', 'open')
+            ->leftJoin('users', 'users.id', '=', 'projects.client_id')
+            ->select('projects.*')
             ->with(['categories', 'country', 'city', 'client' => function ($q) {
                 $q->withCount('reviewsReceived')->withAvg('reviewsReceived', 'rating');
             }])
@@ -191,11 +193,11 @@ new class extends Component
         }
 
         if ($this->countryId) {
-            $query->where('country_id', $this->countryId);
+            $query->where('projects.country_id', $this->countryId);
         }
 
         if ($this->cityId) {
-            $query->where('city_id', $this->cityId);
+            $query->where('projects.city_id', $this->cityId);
         }
 
         if ($this->budgetMin !== null && $this->budgetMin !== '') {
@@ -219,7 +221,14 @@ new class extends Component
             $query->where(fn ($q) => $q->where('title', 'like', $needle)->orWhere('description', 'like', $needle));
         }
 
-        return $query->latest()->paginate(10);
+        // Pro (and legacy-free) clients get their projects ranked first —
+        // that's the paid perk. Newest still breaks ties within each tier.
+        $query->orderByRaw(
+            'CASE WHEN users.is_legacy_free = 1 OR users.is_admin = 1 OR (users.subscribed_until IS NOT NULL AND users.subscribed_until > ?) THEN 0 ELSE 1 END ASC',
+            [now()]
+        )->orderByDesc('projects.created_at');
+
+        return $query->paginate(10);
     }
 
     #[Computed]
@@ -505,11 +514,13 @@ new class extends Component
                     </button>
                 </div>
 
-                {{-- <form method="POST" action="{{ route('messages.startWithClient', $project->client) }}">
-                    @csrf
-                    <input type="hidden" name="project_id" value="{{ $project->id }}">
-                    <button type="submit" class="br-btn-secondary">{{ __('Испрати порака на клиент') }}</button>
-                </form> --}}
+                @if (Auth::user()?->hasActiveSubscription())
+                    <form method="POST" action="{{ route('messages.startWithClient', $project->client) }}">
+                        @csrf
+                        <input type="hidden" name="project_id" value="{{ $project->id }}">
+                        <button type="submit" class="br-btn-secondary">{{ __('Испрати порака на клиент') }}</button>
+                    </form>
+                @endif
 
                 <div class="br-client">
                     <x-avatar :user="$project->client" size="w-10 h-10" textSize="text-sm" />

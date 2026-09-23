@@ -178,6 +178,8 @@ new class extends Component
     public function creators()
     {
         $query = CreatorProfile::whereNotNull('onboarding_completed_at')
+            ->leftJoin('users', 'users.id', '=', 'creator_profiles.user_id')
+            ->select('creator_profiles.*')
             ->with(['user.country', 'user.city', 'categories'])
             ->withAvg('reviews', 'rating')
             ->withCount('reviews');
@@ -219,10 +221,18 @@ new class extends Component
             });
         }
 
+        // Pro (and legacy-free) creators are always ranked first, regardless
+        // of the chosen sort — that's the paid perk. The existing sort
+        // options apply as the secondary order within each tier.
+        $query->orderByRaw(
+            'CASE WHEN users.is_legacy_free = 1 OR users.is_admin = 1 OR (users.subscribed_until IS NOT NULL AND users.subscribed_until > ?) THEN 0 ELSE 1 END ASC',
+            [now()]
+        );
+
         if ($this->sortBy === 'rating') {
             $query->orderByDesc('reviews_avg_rating')->orderByDesc('reviews_count');
         } else {
-            $query->latest();
+            $query->orderByDesc('creator_profiles.created_at');
         }
 
         return $query->paginate(10);
@@ -271,12 +281,12 @@ new class extends Component
     }
 
     /**
-     * Guests and clients without an open project only get full details on
-     * the first FULL_RESULTS_LIMIT results; everything past that is blurred
-     * to nudge them toward opening a project. Creators and clients with an
-     * open project always see the full list.
+     * Guests and free-tier clients only get full details on the first
+     * FULL_RESULTS_LIMIT results; everything past that is blurred to nudge
+     * them toward Pro. Creators and Pro/legacy-free clients always see the
+     * full list.
      */
-    public const FULL_RESULTS_LIMIT = 4;
+    public const FULL_RESULTS_LIMIT = 10;
 
     #[Computed]
     public function isGated(): bool
@@ -286,7 +296,7 @@ new class extends Component
         }
 
         if (Auth::check() && Auth::user()->role === 'client') {
-            return $this->clientOpenProjects->isEmpty();
+            return ! Auth::user()->hasActiveSubscription();
         }
 
         return true;
@@ -436,10 +446,10 @@ new class extends Component
                             @endphp
                             <div class="br-gate-banner">
                                 <span class="br-gate-banner-text">
-                                    🔒 {{ __('Креирај бесплатен оглас за да ги видиш сите :count креативци', ['count' => $this->creators->total()]) }}
+                                    🔒 {{ __('Надогради на Pro за да ги видиш сите :count креативци', ['count' => $this->creators->total()]) }}
                                 </span>
-                                <a href="{{ Auth::check() ? route('projects.create') : route('register', ['role' => 'client']) }}" class="br-gate-btn">
-                                    {{ __('Креирај Оглас') }}
+                                <a href="{{ Auth::check() ? route('pricing') : route('register', ['role' => 'client']) }}" class="br-gate-btn">
+                                    {{ __('Надогради на Pro') }}
                                 </a>
                             </div>
                         @endif
@@ -473,6 +483,9 @@ new class extends Component
                                                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12"/><path d="M7.5 12.5l3 3 6-6.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
                                                     {{ __('Верифициран') }}
                                                 </span>
+                                            @endif
+                                            @if ($creator->user->hasActiveSubscription())
+                                                <span class="br-pro">PRO</span>
                                             @endif
                                         </p>
                                         <p class="br-row-cats">{{ $creator->headline }}</p>
@@ -512,6 +525,9 @@ new class extends Component
                                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12"/><path d="M7.5 12.5l3 3 6-6.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
                                     {{ __('Верифициран') }}
                                 </span>
+                            @endif
+                            @if ($creator->user->hasActiveSubscription())
+                                <span class="br-pro">PRO</span>
                             @endif
                         </h2>
                     </div>

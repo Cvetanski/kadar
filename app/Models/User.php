@@ -38,6 +38,7 @@ class User extends Authenticatable
         'paddle_subscription_id',
         'paddle_status',
         'paddle_price_id',
+        'lifetime_project_used',
         'locale',
         'phone',
         'avatar_url',
@@ -45,6 +46,7 @@ class User extends Authenticatable
         'city_id',
         'email_notifications_enabled',
         'video_intro_dismissed',
+        'plan_prompt_dismissed',
     ];
 
     /**
@@ -70,22 +72,38 @@ class User extends Authenticatable
             'is_admin' => 'boolean',
             'is_legacy_free' => 'boolean',
             'subscribed_until' => 'datetime',
+            'lifetime_project_used' => 'boolean',
             'email_notifications_enabled' => 'boolean',
             'video_intro_dismissed' => 'boolean',
+            'plan_prompt_dismissed' => 'boolean',
         ];
     }
 
     /**
      * Legacy (pre-paywall) accounts and admins always pass; everyone else
-     * needs a currently-active paid subscription. subscribed_until stays
-     * null until real Paddle billing is wired up, so right now this is
-     * true only for legacy/admin accounts.
+     * needs a currently-active paid Pro subscription.
      */
     public function hasActiveSubscription(): bool
     {
         return $this->is_legacy_free
             || $this->is_admin
             || ($this->subscribed_until && $this->subscribed_until->isFuture());
+    }
+
+    /**
+     * Free-tier clients get exactly one project, ever — not per day/month.
+     * Pro subscribers and legacy-free accounts are unlimited.
+     */
+    public function hasReachedLifetimeProjectLimit(): bool
+    {
+        return ! $this->hasActiveSubscription() && $this->lifetime_project_used;
+    }
+
+    public function recordProjectCreated(): void
+    {
+        if (! $this->lifetime_project_used) {
+            $this->update(['lifetime_project_used' => true]);
+        }
     }
 
     private const AVATAR_GRADIENTS = [

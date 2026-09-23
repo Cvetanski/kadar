@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProposalRequest;
 use App\Models\Conversation;
+use App\Models\CreatorProfile;
 use App\Models\Project;
 use App\Models\Proposal;
 use App\Models\User;
@@ -44,6 +45,14 @@ class ProposalController extends Controller
             return back()->withErrors(['project' => __('Веќе имаш поднесено понуда за овој проект.')]);
         }
 
+        if ($creatorProfile->hasReachedDailyProposalLimit()) {
+            return back()->withErrors(['project' => __('Го достигна дневниот лимит од :limit понуди на бесплатниот план. Надогради на Pro за неограничени понуди.', ['limit' => CreatorProfile::FREE_DAILY_PROPOSAL_LIMIT])]);
+        }
+
+        if ($project->hasReachedFreeProposalLimit()) {
+            return back()->withErrors(['project' => 'This project has reached its proposal limit on the client\'s free plan. It can no longer accept new proposals.']);
+        }
+
         $validated = $request->validated();
 
         try {
@@ -61,6 +70,8 @@ class ProposalController extends Controller
 
             throw $e;
         }
+
+        $creatorProfile->recordProposalSubmitted();
 
         $this->startProposalConversation($project, $request->user(), $validated['message'], $validated['price']);
 
@@ -83,6 +94,10 @@ class ProposalController extends Controller
 
         if ($alreadyApplied) {
             return response()->json(['message' => __('Веќе имаш поднесено понуда за овој проект.')], 422);
+        }
+
+        if ($project->hasReachedFreeProposalLimit()) {
+            return response()->json(['message' => 'This project has reached its proposal limit on the client\'s free plan. It can no longer accept new proposals.'], 422);
         }
 
         $project->loadMissing(['categories', 'skills']);

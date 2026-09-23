@@ -13,6 +13,7 @@
                 @endif
 
                 <livewire:video-intro-banner />
+                <livewire:plan-prompt />
 
                 @if ($profile && $profile->onboarding_completed_at && ! $profile->verified)
                     <div class="kf-card" style="margin-bottom:24px;border-color:#FDE68A;background:#FFFBEB;">

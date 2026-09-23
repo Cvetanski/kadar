@@ -36,6 +36,10 @@ class ProjectController extends Controller
     {
         $this->authorize('create', Project::class);
 
+        if ($request->user()->hasReachedLifetimeProjectLimit()) {
+            return view('projects.limit-reached');
+        }
+
         return view('projects.create', [
             'categories' => Category::orderBy('slug')->get(),
             'countries' => Country::with('cities')->get(),
@@ -47,6 +51,10 @@ class ProjectController extends Controller
 
     public function store(StoreProjectRequest $request, NewProjectNotifier $notifier): RedirectResponse
     {
+        if ($request->user()->hasReachedLifetimeProjectLimit()) {
+            return redirect()->route('projects.create');
+        }
+
         $validated = $request->validated();
 
         $budgetNegotiable = $request->boolean('budget_negotiable');
@@ -66,6 +74,8 @@ class ProjectController extends Controller
 
         $project->categories()->sync($validated['category_ids']);
         $project->skills()->sync($this->skillIdsForCategories($validated['skill_ids'] ?? [], $validated['category_ids']));
+
+        $request->user()->recordProjectCreated();
 
         $notifier->notify($project);
 
@@ -174,6 +184,7 @@ class ProjectController extends Controller
         $proposals = null;
         $existingProposal = null;
         $canApply = false;
+        $proposalLimitReached = $project->hasReachedFreeProposalLimit();
 
         if ($isOwner) {
             $proposals = $project->proposals()
@@ -187,6 +198,7 @@ class ProjectController extends Controller
 
             $canApply = $project->status === 'open'
                 && ! $existingProposal
+                && ! $proposalLimitReached
                 && $user->creatorProfile->onboarding_completed_at !== null;
         }
 
@@ -216,6 +228,7 @@ class ProjectController extends Controller
             'proposals' => $proposals,
             'existingProposal' => $existingProposal,
             'canApply' => $canApply,
+            'proposalLimitReached' => $proposalLimitReached,
             'contract' => $isContractParty ? $contract : null,
             'myReview' => $myReview,
         ]);

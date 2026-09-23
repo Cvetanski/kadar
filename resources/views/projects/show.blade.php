@@ -195,6 +195,14 @@
                                 @endif
                             </h3>
 
+                            @if ($proposalLimitReached && ! $contract)
+                                <div class="rounded-md bg-indigo-50 border border-indigo-100 p-4 mb-4">
+                                    <p class="text-sm text-indigo-900 font-medium">This project has reached the free plan's limit of {{ \App\Models\Project::FREE_PROPOSAL_LIMIT }} proposals.</p>
+                                    <p class="text-sm text-indigo-700 mt-1">Upgrade to Pro to keep receiving proposals for this project.</p>
+                                    <a href="{{ route('pricing') }}" class="inline-block mt-3 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-md px-4 py-2 transition">Upgrade to Pro →</a>
+                                </div>
+                            @endif
+
                             @if ($proposals->isEmpty())
                                 <p class="text-sm text-gray-500">{{ __('Сѐ уште нема пристигнато понуди.') }}</p>
                             @else
@@ -310,6 +318,11 @@
                                     <x-primary-button>{{ __('Испрати понуда') }}</x-primary-button>
                                 </div>
                             </form>
+                        </div>
+                    @elseif ($proposalLimitReached && $project->status === 'open')
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">This project isn't accepting new proposals right now</h3>
+                            <p class="text-sm text-gray-600">It has reached the client's free plan proposal limit. Check back later or explore other open projects.</p>
                         </div>
                     @endif
                 </div>

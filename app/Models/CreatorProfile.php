@@ -21,6 +21,8 @@ class CreatorProfile extends Model
         'experience_years',
         'remote_ok',
         'verified',
+        'daily_proposals_count',
+        'last_proposal_reset_date',
         'avg_response_hours',
         'languages',
         'equipment',
@@ -39,12 +41,48 @@ class CreatorProfile extends Model
             'experience_years' => 'integer',
             'remote_ok' => 'boolean',
             'verified' => 'boolean',
+            'daily_proposals_count' => 'integer',
+            'last_proposal_reset_date' => 'date',
             'avg_response_hours' => 'integer',
             'languages' => 'array',
             'equipment' => 'array',
             'onboarding_completed_at' => 'datetime',
             'onboarding_skipped_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Free-tier creators can submit this many proposals per day; Pro
+     * subscribers and legacy-free accounts (via hasActiveSubscription on
+     * the user) are unlimited.
+     */
+    public const FREE_DAILY_PROPOSAL_LIMIT = 2;
+
+    public function hasReachedDailyProposalLimit(): bool
+    {
+        if ($this->user->hasActiveSubscription()) {
+            return false;
+        }
+
+        $this->resetDailyProposalCountIfNewDay();
+
+        return $this->daily_proposals_count >= self::FREE_DAILY_PROPOSAL_LIMIT;
+    }
+
+    public function recordProposalSubmitted(): void
+    {
+        $this->resetDailyProposalCountIfNewDay();
+        $this->increment('daily_proposals_count');
+    }
+
+    private function resetDailyProposalCountIfNewDay(): void
+    {
+        if ($this->last_proposal_reset_date?->isToday() !== true) {
+            $this->update([
+                'daily_proposals_count' => 0,
+                'last_proposal_reset_date' => today(),
+            ]);
+        }
     }
 
     protected static function booted(): void

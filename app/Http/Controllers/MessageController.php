@@ -31,6 +31,7 @@ class MessageController extends Controller
 
         abort_if($user->id === $client->id, 403);
         abort_unless($client->role === 'client', 404);
+        abort_if($user->role === 'creator' && ! $user->hasActiveSubscription(), 403);
 
         $projectId = null;
         if ($request->filled('project_id')) {

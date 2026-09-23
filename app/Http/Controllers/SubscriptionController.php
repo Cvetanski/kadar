@@ -18,57 +18,79 @@ class SubscriptionController extends Controller
      */
     public const PLANS = [
         'creator' => [
-            'name' => 'Creator Plan',
+            'name' => 'Creator Pro Plan',
             'tagline' => 'For freelancers who want steady, real client work',
             'monthly' => 14,
             'annual' => 140,
             'features' => [
-                'Full access to browse every open project',
-                'Unlimited proposals — no monthly cap',
-                'Direct messaging with clients',
-                'Verified profile badge that builds trust',
-                'Priority placement in client search results',
-                'Portfolio showcase seen by every client',
-                'No hidden fees, no extra costs',
-                'Cancel anytime — no long-term contract',
+                'Unlimited proposals — no daily cap',
+                'More visibility to clients — priority placement in search',
+                'Contact clients directly — skip waiting for an invite',
+                'Job alerts for new matching projects',
+                'AI cover letter writer for your proposals',
+                'Pro badge on your profile',
+                'Priority support — get help faster when you need it',
+                'Cancel anytime',
             ],
         ],
         'client' => [
-            'name' => 'Client Plan',
+            'name' => 'Client Pro Plan',
             'tagline' => 'For clients who want to hire the right creator, fast',
             'monthly' => 14,
             'annual' => 140,
             'features' => [
-                'Unlimited creator search & filtering',
-                'Post unlimited projects',
-                'Direct messaging with creators',
-                'Invite creators straight to your projects',
-                'See verified reviews before you hire',
-                'No limit on active projects at once',
+                'Unlimited proposals on your projects — no 5-proposal cap',
+                'Unlimited project invitations — no daily cap',
+                'Priority placement for your projects in the creator feed',
+                'Advanced search filters',
                 'No hidden fees, no extra costs',
-                'Cancel anytime — no long-term contract',
+                'Cancel anytime',
             ],
         ],
     ];
 
-    public function pricing(): View
+    /**
+     * Display copy for the free tier's limits, shown alongside the Pro
+     * card on /pricing. Kept separate from PLANS since free has no price
+     * and no checkout route.
+     */
+    public const FREE_PLANS = [
+        'creator' => [
+            'name' => 'Free',
+            'tagline' => 'Get started and land your first clients',
+            'features' => [
+                '2 proposals per day',
+                'Full portfolio & profile',
+                'Unlimited browsing of open projects',
+                'Direct messaging once a client invites you',
+            ],
+        ],
+        'client' => [
+            'name' => 'Free',
+            'tagline' => 'Post a project and find the right creator',
+            'features' => [
+                '1 project (lifetime)',
+                'Up to 5 proposals per project',
+                'Browse the first 10 creators in search',
+                'Message creators who apply to your project',
+            ],
+        ],
+    ];
+
+    public function pricing(Request $request): View
     {
-        $plans = self::PLANS;
+        $lockedRole = Auth::user()?->role;
+        $lockedRole = in_array($lockedRole, ['client', 'creator'], true) ? $lockedRole : null;
 
-        $role = Auth::user()?->role;
-
-        if (in_array($role, ['client', 'creator'], true)) {
-            $plans = array_intersect_key($plans, [$role => true]);
-        }
+        $defaultRole = $lockedRole
+            ?? (in_array($request->query('role'), ['client', 'creator'], true) ? $request->query('role') : 'client');
 
         return view('subscription.pricing', [
-            'plans' => $plans,
+            'plans' => self::PLANS,
+            'freePlans' => self::FREE_PLANS,
+            'lockedRole' => $lockedRole,
+            'defaultRole' => $defaultRole,
         ]);
-    }
-
-    public function upgrade(): View
-    {
-        return view('subscription.upgrade');
     }
 
     public function checkout(string $plan): View

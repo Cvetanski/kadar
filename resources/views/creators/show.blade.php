@@ -76,6 +76,9 @@
                                 @if ($creatorProfile->verified)
                                     <span class="ms-1 text-xs font-semibold bg-blue-100 text-blue-700 px-2 py-1 rounded-full align-middle">{{ __('Верифициран') }}</span>
                                 @endif
+                                @if ($creatorProfile->user->hasActiveSubscription())
+                                    <span class="ms-1 text-xs font-bold text-white px-2 py-1 rounded-full align-middle" style="background:linear-gradient(135deg,#2D82E8,#0958B5);">PRO</span>
+                                @endif
                             </p>
                             <p class="text-sm text-gray-500 mt-1">
                                 {{ $creatorProfile->categories->pluck('name')->join(', ') }}

@@ -58,6 +58,12 @@
             </div>
 
             <div class="hidden lg:flex lg:items-center lg:ms-6 gap-2 shrink-0">
+                @unless (Auth::user()->hasActiveSubscription())
+                    <a href="{{ route('pricing') }}" class="inline-flex items-center text-sm font-bold text-white rounded-lg px-4 py-2 transition hover:opacity-90" style="background:linear-gradient(135deg,#2D82E8,#0958B5);">
+                        Upgrade Now
+                    </a>
+                @endunless
+
                 <a href="{{ route('messages.index') }}"
                     class="relative inline-flex items-center p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition ease-in-out duration-150">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -174,6 +180,14 @@
             <x-responsive-nav-link :href="route('pricing')" :active="request()->routeIs('pricing')">
                 Pricing
             </x-responsive-nav-link>
+
+            @unless (Auth::user()->hasActiveSubscription())
+                <div class="px-4 mt-2">
+                    <a href="{{ route('pricing') }}" class="inline-flex items-center text-sm font-bold text-white rounded-lg px-4 py-2 transition hover:opacity-90" style="background:linear-gradient(135deg,#2D82E8,#0958B5);">
+                        Upgrade Now
+                    </a>
+                </div>
+            @endunless
 
             <div class="px-4 mt-3">
                 <x-language-switcher short />

@@ -102,6 +102,9 @@
         font-size:11px;font-weight:700;color:#0095F6;white-space:nowrap;}
     .br-verified svg{width:15px;height:15px;flex-shrink:0;}
     .br-verified circle{fill:#0095F6;}
+    .br-pro{display:inline-flex;align-items:center;vertical-align:middle;margin-left:4px;
+        font-size:10.5px;font-weight:800;letter-spacing:.02em;color:#fff;background:linear-gradient(135deg,#2D82E8,#0958B5);
+        padding:2px 8px;border-radius:999px;white-space:nowrap;}
 
     .br-details{grid-area:details;background:#fff;border:1px solid #E8EBF0;border-radius:16px;padding:22px;
         position:sticky;top:16px;max-height:calc(100vh - 140px);overflow-y:auto;}
