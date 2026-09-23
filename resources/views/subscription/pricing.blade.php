@@ -3,14 +3,14 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Pricing</h2>
     </x-slot>
 
-    <div class="{{ $lockedRole ? 'py-6' : 'py-12' }}">
+    <div class="py-6">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <style>
-                .pr-intro{text-align:center;max-width:560px;margin:0 auto 24px;}
-                .pr-intro h1{font-size:30px;font-weight:800;color:#14171F;letter-spacing:-0.01em;margin-bottom:10px;}
-                .pr-intro p{font-size:15px;color:#666B76;line-height:1.6;}
+                .pr-intro{text-align:center;max-width:560px;margin:0 auto 14px;}
+                .pr-intro h1{font-size:26px;font-weight:800;color:#14171F;letter-spacing:-0.01em;margin-bottom:6px;}
+                .pr-intro p{font-size:14px;color:#666B76;line-height:1.5;}
 
-                .pr-toggle{display:flex;justify-content:center;margin-bottom:16px;}
+                .pr-toggle{display:flex;justify-content:center;margin-bottom:10px;}
                 .pr-toggle-track{display:inline-flex;background:#fff;border:1px solid #E8EBF0;border-radius:999px;padding:4px;gap:2px;
                     box-shadow:0 1px 2px rgba(20,23,31,.05);}
                 .pr-toggle-btn{
